@@ -1,0 +1,30 @@
+{
+  "name": "php_sistemas2",
+  "version": "1.0.0",
+  "description": "HTMl, PhP and XML exercises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run open",
+    "open": "concurrently \"http-server -a localhost -p 1234\" \"open http://localhost:1234/\" \"sass --watch css/index.scss:css/index.css\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritaalamino/php_sistemas2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ritaalamino/php_sistemas2/issues"
+  },
+  "homepage": "https://github.com/ritaalamino/php_sistemas2#readme",
+  "dependencies": {
+    "http-server": "^0.12.3",
+    "sass": "^1.29.0",
+    "scss": "^0.2.4"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
