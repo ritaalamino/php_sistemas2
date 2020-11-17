@@ -14,13 +14,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ritaalamino/php_sistemas2/issues"
   },
   "homepage": "https://github.com/ritaalamino/php_sistemas2#readme",
   "dependencies": {
     "http-server": "^0.12.3",
+    "php-server": "^0.2.1",
     "sass": "^1.29.0",
     "scss": "^0.2.4"
   },
