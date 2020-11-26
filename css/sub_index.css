@@ -53,7 +53,7 @@ nav .menuItems {
   display: flex;
 }
 nav .menuItems li {
-  margin: 50px;
+  margin: 20px;
 }
 nav .menuItems li a {
   text-decoration: none;
