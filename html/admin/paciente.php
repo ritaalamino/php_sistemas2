@@ -8,16 +8,16 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <link href="css/formulario.css" rel="stylesheet" media="all">
+    <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Seguros</title>
+    <title>Clínica PW</title>
 </head>
 <body>
     <div id="container">
         <h1>&bull; Pacientes &bull;</h1>
         <div class="underline">
         </div>
-        <form action="#" method="post" id="contact_form">
+        <form action="/php/paciente.php" method="post" id="contact_form">
           <div class="name">
             <label for="name"></label>
             <input type="text" placeholder="Nome completo" name="name" id="name_input" required>

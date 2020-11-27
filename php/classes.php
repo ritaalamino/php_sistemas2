@@ -1,14 +1,11 @@
 <?php
 
-class pessoa{
+class User{
     public $nome, $endereco, $email, $telefone;
-}
-
-class admin{
     
 }
 
-class medico extends pessoa{
+class Medico extends User{
     public $CMR;
 }
 
