@@ -1,3 +1,75 @@
+<?php 
+$nome = $idade = $email = $senha = "";
+$nome2 = $idade2 = $email2 = $senha2 = "";
+
+function confere($data){
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    if(empty($_POST["nome2"])){
+        $nome2Err = "Nome é Obrigatório!";
+    }else{
+        $nome2 = confere($_POST["nome2"]);
+        if(!preg_match("/^[a-zA-Z ]*$/",$nome2)){
+            $nome2Err = "Somente letras e espaços são permitidos!";
+        }
+    }
+
+    if(empty($_POST["email2"])){
+        $email2Err = "Email é Obrigatório!";
+    }else{
+        $email2 = confere($_POST["email2"]);
+        if(!filter_var($email2,FILTER_VALIDATE_EMAIL)){
+            $email2Err = "Formato de e-mail inválido!";
+        }
+    }
+
+    if(empty($_POST["senha2"])){
+        $senha2Err = "Senha é Obrigatória!";
+    }else{
+        $senha2 = confere($_POST["senha2"]);
+    }
+
+    $idade2 = confere($_POST["idade2"]);
+    
+}else{
+
+    if(empty($_GET["nome"])){
+        $nomeErr = "Nome é Obrigatório!";
+    }else{
+        $nome = confere($_GET["nome"]);
+        if(!preg_match("/^[a-zA-Z ]*$/",$nome)){
+            $nomeErr = "Somente letras e espaços são permitidos!";
+        }
+    }
+
+    if(empty($_GET["email"])){
+        $emailErr = "Email é Obrigatório!";
+    }else{
+        $email = confere($_GET["email"]);
+        if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+            $emailErr = "Formato de e-mail inválido!";
+        }
+    }
+
+    if(empty($_GET["senha"])){
+        $senhaErr = "Senha é Obrigatória!";
+    }else{
+        $senha = confere($_GET["senha"]);
+    }
+
+    $idade = confere($_GET["idade"]);
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
