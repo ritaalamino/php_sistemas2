@@ -32,22 +32,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = teste($_POST["genero"]);
   $infos = teste($_POST["infos"]);
 
-  $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+  $xml = simplexml_load_file("medicos.xml") or die("ERRO: Não foi possível abrir o XML");
 
-  $node = $xml->addChild("medico");
-  $node->addChild("nome",$nome);
-  $node->addChild("email",$email);
-  $node->addChild("idade",$idade);
-  $node->addChild("telefone",$telefone);
-  $node->addChild("crm",$crm);
-  $node->addChild("endereco",$endereco);
-  $node->addChild("especialidade",$especialidade);
-  $node->addChild("genero",$genero);
-  $node->addChild("infos",$infos);
+  $node = $xml->addChild('medico');
 
+  $node->addChild('nome',$nome);
+  $node->addChild('email',$email);
+  $node->addChild('idade',$idade);
+  $node->addChild('telefone',$telefone);
+  $node->addChild('crm',$crm);
+  $node->addChild('endereco',$endereco);
+  $node->addChild('especialidade',$especialidade);
+  $node->addChild('genero',$genero);
+  $node->addChild('infos',$infos);
+
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("medicos.xml");
+  
   //$s = simplexml_import_dom($xml);
   //$s->asXML("../../xml/medicos.xml");
-  file_put_contents('../../xml/medicos.xml', $xml->asXML());
+  //file_put_contents('../../xml/medicos.xml', $xml->asXML());
 
   foreach($xml->children() as $ca){
     alerta($ca->nome);
