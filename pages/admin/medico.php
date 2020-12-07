@@ -20,6 +20,9 @@ function teste($data){
 $nome = $email = $senha = $idade = $telefone = $crm = "";
 $endereco = $especialidade = $genero = $infos = "";
 
+
+///////////////////////////////////////////
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $nome = teste($_POST["nome"]);
   $email = teste($_POST["email"]);

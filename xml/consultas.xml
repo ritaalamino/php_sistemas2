@@ -2,9 +2,9 @@
 <consultas>
     <consulta>
         <id>1</id>
+        <paciente>Wanderson</paciente>
         <data>01/01/2020</data>
         <lab>Laboratório 1</lab>
-        <paciente>Wanderson</paciente>
         <diagnostico>Amor</diagnostico>
         <exames>Sangue@</exames>
         <resultados>Excesso de amor</resultados>
