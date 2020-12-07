@@ -15,10 +15,10 @@ function verificaAcesso($user,$password){
   $xml = simplexml_load_file($file);
 
   for($i = 0; $i < $xml->count(); $i++){
-      $xmlcadastro = $xml->user[$i]->admin->login;
+      $xmlcadastro = $xml->user[$i]->login;
 
       if($user == $xmlcadastro){
-          if($password == $xml->user[$i]->admin->senha) {
+          if($password == $xml->user[$i]->senha) {
               alerta("Acesso realizado com sucesso");
               return 1;
           } else {
@@ -71,6 +71,9 @@ if($user===true && $sen===true){
   $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
   if ($verifica === 1){
     redireciona("/php_sistemas2/html/admin/userAdmin.php");
+  }
+  else{
+    alerta("Acesso inválido.");
   }
 }
   
