@@ -1,17 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<user>
-    <admin>
+<users>
+    <user>
         <id>ad1290w</id>
         <tipo>admin</tipo>
         <login>wanderson@furg.br</login>
-        <senha>wAn12@</senha>
-    </admin>
-</user>
-<user>
-    <admin>
+        <senha>wan123@</senha>
+    </user>
+    <user>
         <id>abas48</id>
         <tipo>admin</tipo>
         <login>rita@furg.br</login>
         <senha>teste123@</senha>
-    </admin>
-</user>
+    </user>
+</users>
