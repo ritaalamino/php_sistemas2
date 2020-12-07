@@ -1,7 +1,6 @@
 <?php
 
-//função
-
+//funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
 }
@@ -19,16 +18,16 @@ function verificaAcesso($user,$password){
 
       if($user == $xmlcadastro){
           if($password == $xml->user[$i]->senha) {
-              alerta("Acesso realizado com sucesso");
-              return 1;
+              alerta("Acesso realizado com sucesso");              
+              return $xml->user[$i]->tipo;
           } else {
               alerta("Senha inválida");
-              return 0;
+              return "";
           }
       }
   }
   alerta("Usuário inválido.");
-  return 0;
+  return "";
 }
 
 function teste($data){
@@ -69,8 +68,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 if($user===true && $sen===true){
   $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
-  if ($verifica === 1){
-    redireciona("/php_sistemas2/html/admin/userAdmin.php");
+
+  if ($verifica == "admin"){
+    redireciona("/php_sistemas2/pages/admin/userAdmin.php");   
   }
   else{
     alerta("Acesso inválido.");

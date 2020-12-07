@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<consultas>
+    <consulta>
+        <id>1</id>
+        <data>01/01/2020</data>
+        <lab>Laboratório 1</lab>
+        <paciente>Wanderson</paciente>
+        <diagnostico>Amor</diagnostico>
+        <exames>Sangue@</exames>
+        <resultados>Excesso de amor</resultados>
+    </consulta>
+</consultas>
