@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<medicos>
+  <medico>
+    <nome>joão silva</nome>
+    <email>joao@email.com</email>
+    <idade>45</idade>
+    <telefone>15996049483</telefone>
+    <crm>12.346.90</crm>
+    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
+    <especialidade>Ortopedista</especialidade>
+    <genero>Masculino</genero>
+    <infos>Clinico geral</infos>
+  </medico>
+</medicos>

@@ -70,12 +70,18 @@ if($user===true && $sen===true){
   $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
 
   if ($verifica == "admin"){
-    redireciona("/php_sistemas2/pages/admin/userAdmin.php");   
+    redireciona("/pages/admin/userAdmin.php");   
+  }elseif($verifica == "medico"){
+    redireciona("/pages/medico/userMed.php");
+  }elseif($verifica == "paciente"){
+    redireciona("/pages/paciente/userPac.php");
+  }elseif($verifica == "lab"){
+    redireciona("/pages/laboratorio/userLab.php");
   }
-}
-  
+}  
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

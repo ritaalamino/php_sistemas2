@@ -1,74 +1,81 @@
-<?php 
-$nome = $idade = $email = $senha = "";
-$nome2 = $idade2 = $email2 = $senha2 = "";
+<?php
+//Funções
+function alerta($texto){
+  echo "<script>alert('${texto}');</script>";
+}
 
-function confere($data){
+function redireciona($url){
+  echo "<script> window.location.href = '{$url}'; </script>";
+}
+
+function teste($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
   return $data;
 }
 
+/////////////////////////////////////////////
+
+$nome = $email = $senha = $idade = $telefone = $cpf = "";
+$endereco = $genero = $infos = "";
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+  //Pegando os dados fornecidos pelo formulario
+  $nome = teste($_POST["nome"]);
+  $email = teste($_POST["email"]);
+  $senha = teste($_POST["senha"]);
+  $idade = teste($_POST["idade"]);
+  $telefone = teste($_POST["telefone"]);
+  $cpf = teste($_POST["cpf"]);
+  $endereco = teste($_POST["endereco"]);
+  $genero = teste($_POST["genero"]);
+  $infos = teste($_POST["infos"]);
 
-    if(empty($_POST["nome2"])){
-        $nome2Err = "Nome é Obrigatório!";
-    }else{
-        $nome2 = confere($_POST["nome2"]);
-        if(!preg_match("/^[a-zA-Z ]*$/",$nome2)){
-            $nome2Err = "Somente letras e espaços são permitidos!";
-        }
-    }
+  //Carregando xml
+  $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
-    if(empty($_POST["email2"])){
-        $email2Err = "Email é Obrigatório!";
-    }else{
-        $email2 = confere($_POST["email2"]);
-        if(!filter_var($email2,FILTER_VALIDATE_EMAIL)){
-            $email2Err = "Formato de e-mail inválido!";
-        }
-    }
+  //Adicionando paciente
+  $node = $xml->addChild('paciente');
 
-    if(empty($_POST["senha2"])){
-        $senha2Err = "Senha é Obrigatória!";
-    }else{
-        $senha2 = confere($_POST["senha2"]);
-    }
+  $node->addChild('nome',$nome);
+  $node->addChild('email',$email);
+  $node->addChild('idade',$idade);
+  $node->addChild('telefone',$telefone);
+  $node->addChild('cpf',$cpf);
+  $node->addChild('endereco',$endereco);
+  $node->addChild('genero',$genero);
+  $node->addChild('infos',$infos);
 
-    $idade2 = confere($_POST["idade2"]);
-    
-}else{
+  //Salvando no xml
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("../../xml/pacientes.xml");
 
-    if(empty($_GET["nome"])){
-        $nomeErr = "Nome é Obrigatório!";
-    }else{
-        $nome = confere($_GET["nome"]);
-        if(!preg_match("/^[a-zA-Z ]*$/",$nome)){
-            $nomeErr = "Somente letras e espaços são permitidos!";
-        }
-    }
+  //Salvando dados no user.xml para login
+  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
 
-    if(empty($_GET["email"])){
-        $emailErr = "Email é Obrigatório!";
-    }else{
-        $email = confere($_GET["email"]);
-        if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-            $emailErr = "Formato de e-mail inválido!";
-        }
-    }
+  //Adicionando novo usuario paciente
+  $node = $xml->addChild('user');
 
-    if(empty($_GET["senha"])){
-        $senhaErr = "Senha é Obrigatória!";
-    }else{
-        $senha = confere($_GET["senha"]);
-    }
+  $node->addChild('tipo','paciente');
+  $node->addChild('login', $email);
+  $node->addChild('senha', $senha);
 
-    $idade = confere($_GET["idade"]);
+  //Salvando no xml
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("../../xml/user.xml");
+
+  alerta("Cadastro efetuado");
+  redireciona("userAdmin.php");
 }
 
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,42 +96,46 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h1>&bull; Pacientes &bull;</h1>
         <div class="underline">
         </div>
-        <form action="/php/paciente.php" method="post" id="contact_form">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+          <div>
+            <label for="nome"></label>
+            <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
+          </div>
           <div class="name">
-            <label for="name"></label>
-            <input type="text" placeholder="Nome completo" name="name" id="name_input" required>
+            <label for="email"></label>
+            <input type="text" placeholder="E-mail" name="email" id="email" required>
           </div>
           <div class="email">
-            <label for="email"></label>
-            <input type="email" placeholder="E-mail" name="email" id="email_input" required>
+            <label for="senha"></label>
+            <input type="text" placeholder="Senha" name="senha" id="senha" required>
           </div>
-          <div class="age">
-            <label for="age"></label>
-            <input type="text" placeholder="Idade" name="age" id="age_input" required>
+          <div>
+            <label for="idade"></label>
+            <input type="text" placeholder="Idade" name="idade" id="idade" required>
           </div>
-          <div class="cpf">
+          <div>
             <label for="cpf"></label>
-            <input type="text" placeholder="CPF" name="cpf" id="cpf_input" required>
+            <input type="text" placeholder="CPF" name="cpf" id="cpf" required>
           </div>
-          <div class="telephone">
-            <label for="name"></label>
-            <input type="text" placeholder="Telefone" name="telephone" id="telephone_input" required>
+          <div>
+            <label for="telefone"></label>
+            <input type="text" placeholder="Telefone" name="telefone" id="telefone" required>
           </div>
-          <div class="adress">
-            <label for="adress"></label>
-            <input type="text" placeholder="Endereço" name="adress" id="adress_input" required>
+          <div>
+            <label for="endereco"></label>
+            <input type="text" placeholder="Endereço" name="endereco" id="endereco" required>
           </div>
-          <div class="subject">
-            <label for="gender"></label>
-            <select placeholder="Gênero" name="gender" id="gender_input" required>
+          <div>
+            <label for="genero"></label>
+            <select placeholder="Gênero" name="genero" id="genero" required>
               <option disabled hidden selected>Gênero</option>
               <option>Feminino</option>
               <option>Masculino</option>
             </select>
           </div>
-          <div class="message">
-            <label for="message"></label>
-            <textarea name="message" placeholder="Informações adicionais" id="message_input" cols="30" rows="3" required></textarea>
+          <div>
+            <label for="infos"></label>
+            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" required></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />
@@ -133,5 +144,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div><!-- // End #container -->
 </body>
 </html>
-
-

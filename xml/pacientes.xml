@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pacientes>
+  <paciente>
+    <nome>joão borges</nome>
+    <email>joãoBorges@email.com</email>
+    <idade>35</idade>
+    <telefone>15999999988</telefone>
+    <cpf>12345678909</cpf>
+    <endereco>Rua jose, 360</endereco>
+    <genero>Masculino</genero>
+    <infos>Com diabetes</infos>
+  </paciente>
+</pacientes>

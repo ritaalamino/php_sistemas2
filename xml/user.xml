@@ -1,15 +1,28 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <users>
-    <user>
-        <id>ad1290w</id>
-        <tipo>admin</tipo>
-        <login>wanderson@furg.br</login>
-        <senha>wan123@</senha>
-    </user>
-    <user>
-        <id>abas48</id>
-        <tipo>admin</tipo>
-        <login>rita@furg.br</login>
-        <senha>teste123@</senha>
-    </user>
+  <user>
+    <tipo>admin</tipo>
+    <login>wanderson@furg.br</login>
+    <senha>wan123@</senha>
+  </user>
+  <user>
+    <tipo>admin</tipo>
+    <login>rita@furg.br</login>
+    <senha>teste123@</senha>
+  </user>
+  <user>
+    <tipo>medico</tipo>
+    <login>joao@email.com</login>
+    <senha>joao123@</senha>
+  </user>
+  <user>
+    <tipo>lab</tipo>
+    <login>ids@ids.com</login>
+    <senha>ids123@</senha>
+  </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>joaoBorges@email.com</login>
+    <senha>borges123</senha>
+  </user>
 </users>

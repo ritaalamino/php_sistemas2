@@ -1,5 +1,5 @@
 <?php
-
+//Funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
 }
@@ -21,6 +21,7 @@ $nome = $email = $senha = $idade = $telefone = $crm = "";
 $endereco = $especialidade = $genero = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+  //Pegando os dados fornecidos pelo formulario
   $nome = teste($_POST["nome"]);
   $email = teste($_POST["email"]);
   $senha = teste($_POST["senha"]);
@@ -32,8 +33,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = teste($_POST["genero"]);
   $infos = teste($_POST["infos"]);
 
-  $xml = simplexml_load_file("medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+  //Carregando xml
+  $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
 
+  //Adicionando medico
   $node = $xml->addChild('medico');
 
   $node->addChild('nome',$nome);
@@ -46,22 +49,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $node->addChild('genero',$genero);
   $node->addChild('infos',$infos);
 
+  //Salvando no xml
   $dom = dom_import_simplexml($xml)->ownerDocument;
   $dom->formatOutput = true;
   $dom->preserveWhiteSpace = false;
   $dom->loadXML($dom->saveXML());
-  $dom->save("medicos.xml");
-  
-  //$s = simplexml_import_dom($xml);
-  //$s->asXML("../../xml/medicos.xml");
-  //file_put_contents('../../xml/medicos.xml', $xml->asXML());
+  $dom->save("../../xml/medicos.xml");
 
-  foreach($xml->children() as $ca){
-    alerta($ca->nome);
-  }
+  //Salvando dados no user.xml para login
+  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
+
+  //Adicionando novo usuario medico
+  $node = $xml->addChild('user');
+
+  $node->addChild('tipo','medico');
+  $node->addChild('login', $email);
+  $node->addChild('senha', $senha);
+
+  //Salvando no xml
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("../../xml/user.xml");
 
   alerta("Cadastro efetuado");
-  redireciona("/php_sistemas2/pages/admin/userAdmin.php");
+  redireciona("userAdmin.php");
 }
 
 ?>
@@ -134,8 +147,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />
           </div>
-        </form><!-- // End form -->
-      </div><!-- // End #container -->
+        </form><!-- Fim form -->
+      </div><!-- Fim #container -->
 </body>
 </html>
 
