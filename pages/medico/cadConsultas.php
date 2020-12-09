@@ -1,3 +1,62 @@
+<?php
+
+  function alerta($texto){
+    echo "<script>alert('${texto}');</script>";
+  }
+
+  function redireciona($url){
+    echo "<script> window.location.href = '{$url}'; </script>";
+  }
+
+  function verifica($data){
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+
+  /////////////////////////////////////////////
+
+  $nome = $email = $senha = $idade = $telefone = $crm = "";
+  $endereco = $especialidade = $genero = $infos = "";
+
+
+  ///////////////////////////////////////////
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $nome = verifica($_POST["data_input"]);
+    $email = verifica($_POST["laboratorio_input"]);
+    $senha = verifica($_POST["paciente_input"]);
+    $idade = verifica($_POST["diagnostico_input"]);
+    $telefone = verifica($_POST["exames_input"]);
+    $crm = verifica($_POST["resultados_input"]);
+
+    $xml = simplexml_load_file("../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
+
+    $node = $xml->addChild('consulta');
+
+    $node->addChild('data',$data);
+    $node->addChild('laboratorio',$laboratorio);
+    $node->addChild('paciente',$paciente);
+    $node->addChild('diagnostico',$diagnostico);
+    $node->addChild('exames',$exames);
+    $node->addChild('resultados',$resultados);
+
+    $dom = dom_import_simplexml($xml)->ownerDocument;
+    $dom->formatOutput = true;
+    $dom->preserveWhiteSpace = false;
+    $dom->loadXML($dom->saveXML());
+    $dom->save("consultas.xml");
+
+    foreach($xml->children() as $ca){
+      alerta($ca->nome);
+    }
+
+    alerta("Consulta cadastrada.");
+    redireciona("Consultas.php");
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +76,7 @@
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
         </div>
-        <form action="#" method="post" id="contact_form">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
           <div class="data">
             <label for="data"></label>
             <input type="text" placeholder="Data" name="data" id="data_input" required>
