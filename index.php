@@ -78,7 +78,11 @@ if($user===true && $sen===true){
   }elseif($verifica == "lab"){
     redireciona("/pages/laboratorio/userLab.php");
   }
-}  
+  else{
+    alerta("Acesso inválido.");
+  }
+}
+  
 
 ?>
 
