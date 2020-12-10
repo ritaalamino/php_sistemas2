@@ -9,4 +9,13 @@
     <tipoExame>Sangue</tipoExame>
     <infos>Só sangue</infos>
   </lab>
+  <lab>
+    <nome>biolabor</nome>
+    <email>biolabor@email.com</email>
+    <telefone>15999999999</telefone>
+    <cnpj>234759987364</cnpj>
+    <endereco>Rua eduardo frire</endereco>
+    <tipoExame>Ultrasom</tipoExame>
+    <infos>Clinica de exames</infos>
+  </lab>
 </labs>

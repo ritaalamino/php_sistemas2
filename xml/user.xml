@@ -25,4 +25,9 @@
     <login>joaoBorges@email.com</login>
     <senha>borges123</senha>
   </user>
+  <user>
+    <tipo>lab</tipo>
+    <login>biolabor@email.com</login>
+    <senha>bio123@</senha>
+  </user>
 </users>
