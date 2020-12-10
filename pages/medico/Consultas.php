@@ -2,39 +2,48 @@
 <html lang="en">
 
 <?php
+
+  session_start();
+
   function getConsultas(){
     $file = "xml/consultas.xml";
     $xml = simplexml_load_file($file);
-    $json = new stdClass();
+    $vetor = array();
     foreach ($xml->children() as $consulta) {
-      $json->paciente = strval($consulta->paciente);
-      $json->data = strval($consulta->data);
-      $json->lab = strval($consulta->lab);
-      $json->diagnostico = strval($consulta->diagnostico);
-      $json->exames = strval($consulta->exames);
-      $json->resultados = strval($consulta->resultados);
-      $myJSON = json_encode($json);
+      $vetor['id'] = strval($consulta->id);
+      $vetor['paciente'] = strval($consulta->paciente);
+      $vetor['data'] = strval($consulta->data);
+      $vetor['lab'] = strval($consulta->lab);
+      $vetor['diagnostico'] = strval($consulta->diagnostico);
+      $vetor['exames'] = strval($consulta->exames);
+      $vetor['resultados'] = strval($consulta->resultados);
     }
-    return $myJSON;
+    return $vetor;
   }
 
   function getConsulta($consultaID){
     $file = "xml/consultas.xml";
     $xml = simplexml_load_file($file);
-    $json = new stdClass();
+    $vetor = array();
     foreach ($xml->children() as $consulta) {
       if(strval($xml->id) == strval($consultaID)){
-        $json->paciente = strval($consulta->paciente);
-        $json->data = strval($consulta->data);
-        $json->lab = strval($consulta->lab);
-        $json->diagnostico = strval($consulta->diagnostico);
-        $json->exames = strval($consulta->exames);
-        $json->resultados = strval($consulta->resultados);
-        $myJSON = json_encode($json);
+        $vetor['id'] = strval($consulta->id);
+        $vetor['paciente'] = strval($consulta->paciente);
+        $vetor['data'] = strval($consulta->data);
+        $vetor['lab'] = strval($consulta->lab);
+        $vetor['diagnostico'] = strval($consulta->diagnostico);
+        $vetor['exames'] = strval($consulta->exames);
+        $vetor['resultados'] = strval($consulta->resultados);
       }
     }
-    return $myJSON;
+    return $vetor;
   }
+  function getConsulta2(){
+    $file = "xml/consultas.xml";
+    $xml = simplexml_load_file($file);
+    return $xml;
+  }
+
 ?>
 
 <head>
@@ -56,9 +65,10 @@
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
           <?php
-            
+            $consultas = getConsulta2();
+            echo $consultas->consulta->paciente;
           ?>
-        </div>
+        </div>  
     </div>
 </body>
 </html>

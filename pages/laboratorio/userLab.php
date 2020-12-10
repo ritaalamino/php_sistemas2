@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
+<?php
+
+require '../php/login.php';
+
+if (verificaLogin($_SESSION["username"])){
+    session_start();
+}
+else {
+    redireciona('../php/logout.php');
+}
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

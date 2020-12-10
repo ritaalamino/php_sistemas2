@@ -10,4 +10,24 @@
     <genero>Masculino</genero>
     <infos>Com diabetes</infos>
   </paciente>
+  <paciente>
+    <nome>Rita CArolina Alamino borges da costa</nome>
+    <email>ritaalamino@gmail.com</email>
+    <idade>20</idade>
+    <telefone>11968325598</telefone>
+    <cpf>12544831790</cpf>
+    <endereco>Rua tal tal tal</endereco>
+    <genero>Feminino</genero>
+    <infos>tal tal tal</infos>
+  </paciente>
+  <paciente>
+    <nome>Maria joana libertina</nome>
+    <email>maria@joana.com</email>
+    <idade>34</idade>
+    <telefone>1121231456</telefone>
+    <cpf>12308766123</cpf>
+    <endereco>rua barata tatata</endereco>
+    <genero>Feminino</genero>
+    <infos>afsdsadasdas</infos>
+  </paciente>
 </pacientes>

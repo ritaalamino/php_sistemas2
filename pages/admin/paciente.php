@@ -15,6 +15,8 @@ function teste($data){
   return $data;
 }
 
+session_start();
+
 /////////////////////////////////////////////
 
 $nome = $email = $senha = $idade = $telefone = $cpf = "";
@@ -92,11 +94,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>Clínica PW</title>
 </head>
 <body>
+
+    <!-- valida form -->
+    <script src="js/script.js"></script>
+    
     <div id="container">
         <h1>&bull; Pacientes &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+        <form name="pacienteform" class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return validateform()">
           <div>
             <label for="nome"></label>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" required>

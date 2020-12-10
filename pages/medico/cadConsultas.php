@@ -1,5 +1,6 @@
 <?php
 
+
   function alerta($texto){
     echo "<script>alert('${texto}');</script>";
   }
@@ -14,6 +15,8 @@
     $data = htmlspecialchars($data);
     return $data;
   }
+
+  session_start();
 
   /////////////////////////////////////////////
 

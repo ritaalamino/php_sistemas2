@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+<?php
+    session_start();
+?>
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +18,7 @@
     <nav style="margin: 15px;">
         <ul class="menuItems">
             <li><a data-item='UserPac'>UserPac</a></li>
-            <li><a href='../../index.html' data-item='Log Out'>Log Out</a></li>
+            <li><a href='../../php/logout.php' data-item='Log Out'>Log Out</a></li>
         </ul>
     </nav>
     <br><br><br><br><br><br><br><br>

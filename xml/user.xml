@@ -25,4 +25,14 @@
     <login>joaoBorges@email.com</login>
     <senha>borges123</senha>
   </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>ritaalamino@gmail.com</login>
+    <senha>teste</senha>
+  </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>maria@joana.com</login>
+    <senha>123</senha>
+  </user>
 </users>

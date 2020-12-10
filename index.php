@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+
+
 //funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
@@ -18,7 +21,10 @@ function verificaAcesso($user,$password){
 
       if($user == $xmlcadastro){
           if($password == $xml->user[$i]->senha) {
-              alerta("Acesso realizado com sucesso");              
+              alerta("Acesso realizado com sucesso");
+              $_SESSION["id"]= $xml->user[$i]->id;
+              $_SESSION["username"] = $xml->user[$i]->login;
+              $_SESSION["tipo"]= $xml->user[$i]->tipo;             
               return $xml->user[$i]->tipo;
           } else {
               alerta("Senha inválida");
@@ -30,7 +36,7 @@ function verificaAcesso($user,$password){
   return "";
 }
 
-function teste($data){
+function verifica($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -39,8 +45,10 @@ function teste($data){
 
 ///////////////////// 
 
+
 $username = $senha = "";
 $user = $sen = $verifica;
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $user = $sen = true;
@@ -50,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       alerta($userErr);
       $user=false;
   }else{
-      $username = teste($_POST["username"]);
+      $username = verifica($_POST["username"]);
       if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
           $username = "Formato de e-mail inválido!";
           alerta($username);
@@ -68,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 if($user===true && $sen===true){
   $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
-
+  setcookie("username", $_POST["username"], time() + 30 );
   if ($verifica == "admin"){
     redireciona("/pages/admin/userAdmin.php");   
   }elseif($verifica == "medico"){
@@ -129,7 +137,7 @@ if($user===true && $sen===true){
             <div class='bg-inner'></div>
           </div>
         </div>
-        <input class='btn block-cube block-cube-hover' type='submit' name='acessar'>
+        <button class='btn block-cube block-cube-hover' type='submit' name='acessar'>
           <div class='bg-top'>
             <div class='bg-inner'></div>
           </div>

@@ -15,6 +15,8 @@ function teste($data){
   return $data;
 }
 
+session_start();
+
 ///////////////////////////////////////////////
 
 $nome = $email = $senha = $telefone = $cnpj = "";
