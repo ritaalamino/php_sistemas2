@@ -1,21 +1,21 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <consultas>
-    <consulta>
-        <id>1</id>
-        <paciente>Wanderson</paciente>
-        <data>01/01/2020</data>
-        <lab>Laboratório 1</lab>
-        <diagnostico>Amor</diagnostico>
-        <exames>Sangue@</exames>
-        <resultados>Excesso de amor</resultados>
-    </consulta>
-    <consulta>
-        <id>1</id>
-        <paciente>Wanderson</paciente>
-        <data>01/01/2020</data>
-        <lab>Laboratório 1</lab>
-        <diagnostico>Amor</diagnostico>
-        <exames>Sangue@</exames>
-        <resultados>Excesso de amor</resultados>
-    </consulta>
+  <consulta>
+    <id>1</id>
+    <paciente>Joana</paciente>
+    <data>01/01/2020</data>
+    <lab>Laboratório 1</lab>
+    <diagnostico>Amor</diagnostico>
+    <exames>Sangue@</exames>
+    <resultados>Excesso de amor</resultados>
+  </consulta>
+  <consulta>
+    <id>2</id>
+    <paciente>Wanderson2</paciente>
+    <data>01/01/2020</data>
+    <lab>Laboratório 1</lab>
+    <diagnostico>Amor</diagnostico>
+    <exames>Sangue@</exames>
+    <resultados>Excesso de amor</resultados>
+  </consulta>
 </consultas>

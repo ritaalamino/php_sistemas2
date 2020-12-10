@@ -2,7 +2,6 @@
 
 session_start();
 
-
 //funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
@@ -13,8 +12,10 @@ function redireciona($url){
 }
 
 function verificaAcesso($user,$password){
-  $file = "xml/user.xml";
-  $xml = simplexml_load_file($file);
+  $file = "xml/user.xml"; 
+  $xml = simplexml_load_file($file) or die("Não foi possível abrir o XML");
+  //ini_set( 'error_reporting', E_ALL );
+  //ini_set( 'display_errors', true );
 
   for($i = 0; $i < $xml->count(); $i++){
       $xmlcadastro = $xml->user[$i]->login;
@@ -36,7 +37,7 @@ function verificaAcesso($user,$password){
   return "";
 }
 
-function verifica($data){
+function verificaS($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -44,7 +45,6 @@ function verifica($data){
 }
 
 ///////////////////// 
-
 
 $username = $senha = "";
 $user = $sen = $verifica;
@@ -58,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       alerta($userErr);
       $user=false;
   }else{
-      $username = verifica($_POST["username"]);
+      $username = verificaS($_POST["username"]);
       if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
           $username = "Formato de e-mail inválido!";
           alerta($username);
