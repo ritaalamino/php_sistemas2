@@ -26,7 +26,7 @@ else {
     <nav style="margin: 15px;">
         <ul class="menuItems">
             <li><a data-item='UserLab'>UserLab</a></li>
-            <li><a href='../../index.html' data-item='Log Out'>Log Out</a></li>
+            <li><a href='../../index.php' data-item='Log Out'>Log Out</a></li>
         </ul>
     </nav>
     <br><br><br><br><br><br><br><br>
@@ -38,8 +38,9 @@ else {
     <div>Escolha sua opção:</div>
     <nav>
         <ul class="menuItems">
-        <li><a href='laboratorio.html' data-item='Laboratório'>Laboratório</a></li>
-        <li><a href='exames.html' data-item='Exames'>Exames</a></li>
+        <li><a href='laboratorio.php' data-item='Atualizar Cadastro'>Atualizar Cadastro</a></li>
+        <li><a href='exames.php' data-item='Cadastra Exames'>Cadastra Exames</a></li>
+        <li><a href='consultaExames.php' data-item='Histórico Exames'>Histórico Exames</a></li>
         </ul>
     </nav>
 

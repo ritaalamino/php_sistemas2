@@ -1,23 +1,7 @@
 <?php
-//Funções
-function alerta($texto){
-  echo "<script>alert('${texto}');</script>";
-}
 
-function redireciona($url){
-  echo "<script> window.location.href = '{$url}'; </script>";
-}
-
-function teste($data){
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-
-session_start();
-
-/////////////////////////////////////////////
+//Incluindo bibliotecas
+include("../../php/funcoes.php");
 
 $nome = $email = $senha = $idade = $telefone = $cpf = "";
 $endereco = $genero = $infos = "";
@@ -34,47 +18,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = teste($_POST["genero"]);
   $infos = teste($_POST["infos"]);
 
-  //Carregando xml
-  $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+  if(jaExiste($email, "../../xml/pacientes.xml")){
+    alerta("Usuário já existe!");
+    redireciona("userAdmin.php");
+  }else{
+    cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos);
+    alerta("Cadastro efetuado");
+    redireciona("userAdmin.php");
+  }
 
-  //Adicionando paciente
-  $node = $xml->addChild('paciente');
-
-  $node->addChild('nome',$nome);
-  $node->addChild('email',$email);
-  $node->addChild('idade',$idade);
-  $node->addChild('telefone',$telefone);
-  $node->addChild('cpf',$cpf);
-  $node->addChild('endereco',$endereco);
-  $node->addChild('genero',$genero);
-  $node->addChild('infos',$infos);
-
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/pacientes.xml");
-
-  //Salvando dados no user.xml para login
-  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
-
-  //Adicionando novo usuario paciente
-  $node = $xml->addChild('user');
-
-  $node->addChild('tipo','paciente');
-  $node->addChild('login', $email);
-  $node->addChild('senha', $senha);
-
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/user.xml");
-
-  alerta("Cadastro efetuado");
-  redireciona("userAdmin.php");
 }
 
 ?>
