@@ -1,3 +1,23 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <exames>
+  <exame>
+    <data>20/20/2020</data>
+    <medico>Médico 1</medico>
+    <paciente>joana dar'c</paciente>
+    <email>joana@darc.br</email>
+    <diagnostico>teste123</diagnostico>
+    <receita>teste123</receita>
+    <exames>teeste</exames>
+    <infos>teste</infos>
+  </exame>
+  <exame>
+    <data>21/02/2020</data>
+    <medico>Médico 2</medico>
+    <paciente>janice pinte</paciente>
+    <email>pinte@janice.com</email>
+    <diagnostico>teste</diagnostico>
+    <receita>teste</receita>
+    <exames>teste</exames>
+    <infos>teste</infos>
+  </exame>
 </exames>

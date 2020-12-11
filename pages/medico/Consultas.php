@@ -5,60 +5,6 @@
 
   session_start();
 
-  function getConsultas(){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      $vetor[$consulta->id] = array(
-        'paciente' => strval($consulta->paciente),
-        'data' => strval($consulta->data),
-        'lab' => strval($consulta->lab),
-        'diagnostico' => strval($consulta->diagnostico),
-        'exames' => strval($consulta->exames),
-        'resultados' => strval($consulta->resultados)
-      );
-    }
-    return $vetor;
-  }
-
-  function getConsulta($consultaID){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      if(strval($xml->id) == strval($consultaID)){
-        $vetor['id'] = strval($consulta->id);
-        $vetor['paciente'] = strval($consulta->paciente);
-        $vetor['data'] = strval($consulta->data);
-        $vetor['lab'] = strval($consulta->lab);
-        $vetor['diagnostico'] = strval($consulta->diagnostico);
-        $vetor['exames'] = strval($consulta->exames);
-        $vetor['resultados'] = strval($consulta->resultados);
-      }
-    }
-    return $vetor;
-  }
-
-
-  function alterarCadastro($consultaID,$parametro,$valor){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file) or die("XML não acessado.");
-
-    for($i = 0; $i < $xml->count(); $i++){
-      if ($xml->consulta[$i]->id == $consultaID){
-        $xml->consulta[$i]->$parametro = $valor;
-      }
-    }
-  
-    //Salvando no xml
-    $dom = dom_import_simplexml($xml)->ownerDocument;
-    $dom->formatOutput = true;
-    $dom->preserveWhiteSpace = false;
-    $dom->loadXML($dom->saveXML());
-    $dom->save("../../xml/consultas.xml");
-  }
-
 ?>
 
 <head>
@@ -81,10 +27,31 @@
         <div class="underline">
         </div>  
         <?php
-            alterarCadastro(1,'paciente','Joana');
+            $id = $paciente = $data = $lab = $diagnostico = $exames = $dados = "";
+
+            $file = "../../xml/consultas.xml";
+            $xml = simplexml_load_file($file);
+
+            foreach ($xml->children() as $consulta) {
+              $id = $consulta->id;
+              $paciente= $consulta->paciente;
+              $data= $consulta->data;
+              $lab= $consulta->lab;
+              $diagnostico = $consulta->diagnostico;
+              $exames = $consulta->exames;
+              $resultados = $consulta->resultados;
+              echo '<div id="container">';
+              echo '<p>Paciente: ' .$paciente .'<br>';
+              echo 'Data: ' .$data .'<br>';
+              echo 'Laboratório: ' .$lab .'<br>';
+              echo 'Diagnóstico: ' .$diagnostico .'<br>';
+              echo 'Exames: ' .$exames .'<br>';
+              echo 'Resultados: ' .$resultados .'<br>';
+              setcookie("id", $id , time()+60000, '/');
+              echo '<a href ="altera.php">Alterar</a>';
+              echo '</div>';
+            }
           ?>
     </div>
 </body>
 </html>
-
-

@@ -30,9 +30,9 @@
     <div>Escolha sua opção:</div>
     <nav>
         <ul class="menuItems">
-        <li><a href='paciente.html' data-item='Paciente'>Paciente</a></li>
-        <li><a href='consultas.html' data-item='Consultas'>Consultas</a></li>
-        <li><a href='exames.html' data-item='Exames'>Exames</a></li>
+        <li><a href='paciente.php' data-item='Paciente'>Paciente</a></li>
+        <li><a href='consultas.php' data-item='Consultas'>Consultas</a></li>
+        <li><a href='exames.php' data-item='Exames'>Exames</a></li>
         </ul>
     </nav>
 

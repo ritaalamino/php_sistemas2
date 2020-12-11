@@ -30,4 +30,29 @@
     <login>biolabor@email.com</login>
     <senha>bio123@</senha>
   </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>maria@maria.com</login>
+    <senha>teste123</senha>
+  </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>aaaaaaaaaaaaa</login>
+    <senha>aaaaaaaaaaaa</senha>
+  </user>
+  <user>
+    <tipo>medico</tipo>
+    <login>joana@joana.com</login>
+    <senha>joana123</senha>
+  </user>
+  <user>
+    <tipo>lab</tipo>
+    <login>marta@rocha.com</login>
+    <senha>123456</senha>
+  </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>lana@almeida</login>
+    <senha>123548</senha>
+  </user>
 </users>
