@@ -1,17 +1,9 @@
+<?php
+$texto="mudaaaa";
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<?php
-
-require '../php/login.php';
-
-if (verificaLogin($_SESSION["username"])){
-    session_start();
-}
-else {
-    redireciona('../php/logout.php');
-}
-?>
 
 <head>
     <meta charset="UTF-8">
@@ -41,9 +33,18 @@ else {
         <li><a href='laboratorio.php' data-item='Atualizar Cadastro'>Atualizar Cadastro</a></li>
         <li><a href='exames.php' data-item='Cadastra Exames'>Cadastra Exames</a></li>
         <li><a href='consultaExames.php' data-item='Histórico Exames'>Histórico Exames</a></li>
+        <li><button onclick="testando()">Mudar</button></li>
+        <li><p id="demo">Mudar texto</p></li>
         </ul>
     </nav>
 
     </section>
+
+    <script>
+        var variavel = "<?php echo $texto; ?>";
+        function testando(){
+            document.getElementById("demo").innerHTML = "<?php echo $texto; ?>";
+        }
+    </script>
 </body>
 </html>

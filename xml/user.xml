@@ -26,19 +26,8 @@
     <senha>borges123</senha>
   </user>
   <user>
-<<<<<<< HEAD
-    <tipo>paciente</tipo>
-    <login>ritaalamino@gmail.com</login>
-    <senha>teste</senha>
-  </user>
-  <user>
-    <tipo>paciente</tipo>
-    <login>maria@joana.com</login>
-    <senha>123</senha>
-=======
     <tipo>lab</tipo>
     <login>biolabor@email.com</login>
     <senha>bio123@</senha>
->>>>>>> 9a2785066f48173ff38493784d03b780bec02cf8
   </user>
 </users>

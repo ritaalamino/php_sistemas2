@@ -14,7 +14,7 @@ function redireciona($url){
 
 function verificaAcesso($user,$password){
   $file = "xml/user.xml";
-  $xml = simplexml_load_file($file);
+  $xml = simplexml_load_file($file) or die("ERRO: Não foi possível abrir o XML");
 
   for($i = 0; $i < $xml->count(); $i++){
       $xmlcadastro = $xml->user[$i]->login;
@@ -36,7 +36,7 @@ function verificaAcesso($user,$password){
   return "";
 }
 
-function verifica($data){
+function teste($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -58,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       alerta($userErr);
       $user=false;
   }else{
-      $username = verifica($_POST["username"]);
+      $username = teste($_POST["username"]);
       if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
           $username = "Formato de e-mail inválido!";
           alerta($username);
