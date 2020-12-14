@@ -81,11 +81,15 @@ function cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $enderec
 //Função cadastro novo paciente
 function cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos){
     //Carregando xml
+    $id = "";
+
     $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
     //Adicionando paciente
     $node = $xml->addChild('paciente');
+    $id = count($xml)+1;
 
+    $node->addChild('id',$id);
     $node->addChild('nome',$nome);
     $node->addChild('email',$email);
     $node->addChild('idade',$idade);
@@ -122,12 +126,17 @@ function cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $ender
 
 //Cadastra novo laboratório
 function cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos){
+    $id = "";
+
     //Carregando xml
     $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
 
     //Carregando laboratório
     $node = $xml->addChild('lab');
 
+    $id = count($xml)+1;
+
+    $node->addChild('id',$id);
     $node->addChild('nome', $nome);
     $node->addChild('email',$email);
     $node->addChild('telefone',$telefone);

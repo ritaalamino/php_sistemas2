@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <medicos>
   <medico>
+    <id>1</id>
     <nome>joão silva</nome>
     <email>joao@email.com</email>
     <idade>45</idade>
@@ -12,6 +13,7 @@
     <infos>Clinico geral</infos>
   </medico>
   <medico>
+    <id>2</id>
     <nome>Joana SIlva</nome>
     <email>joana@joana.com</email>
     <idade>25</idade>

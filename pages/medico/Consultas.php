@@ -48,7 +48,8 @@
               echo 'Exames: ' .$exames .'<br>';
               echo 'Resultados: ' .$resultados .'<br>';
               setcookie("id", $id , time()+60000, '/');
-              echo '<a href ="altera.php">Alterar</a>';
+              setcookie("tipo", 'consulta' , time()+60000, '/');
+              echo '<a href ="../../php/altera.php">Alterar</a>';
               echo '</div>';
             }
           ?>

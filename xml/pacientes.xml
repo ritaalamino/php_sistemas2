@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pacientes>
   <paciente>
+    <id>1</id>
     <nome>joão borges</nome>
     <email>joaoBorges@email.com</email>
     <idade>35</idade>
@@ -11,6 +12,7 @@
     <infos>Com diabetes</infos>
   </paciente>
   <paciente>
+    <id>2</id>
     <nome>Rita CArolina Alamino borges da costa</nome>
     <email>ritaalamino@gmail.com</email>
     <idade>20</idade>
@@ -21,6 +23,7 @@
     <infos>tal tal tal</infos>
   </paciente>
   <paciente>
+    <id>3</id>
     <nome>Maria joana libertina</nome>
     <email>maria@joana.com</email>
     <idade>34</idade>
@@ -31,6 +34,7 @@
     <infos>afsdsadasdas</infos>
   </paciente>
   <paciente>
+    <id>4</id>
     <nome>Maria Madalena</nome>
     <email>maria@maria.com</email>
     <idade>25</idade>
@@ -41,6 +45,7 @@
     <infos>teset</infos>
   </paciente>
   <paciente>
+    <id>5</id>  
     <nome>aaaaaaaaaaaaaa</nome>
     <email>aaaaaaaaaaaaa</email>
     <idade>aaaaaaaaaaaaaa</idade>
@@ -51,6 +56,7 @@
     <infos>aaaaaaaaaaaaaa</infos>
   </paciente>
   <paciente>
+    <id>6</id>
     <nome>Lana almeida</nome>
     <email>lana@almeida</email>
     <idade>12</idade>

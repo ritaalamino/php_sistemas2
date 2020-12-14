@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labs>
   <lab>
+    <id>1</id>
     <nome>IDS</nome>
     <email>ids@ids.com</email>
     <telefone>15999999999</telefone>
@@ -10,6 +11,7 @@
     <infos>Só sangue</infos>
   </lab>
   <lab>
+    <id>2</id>
     <nome>biolabor</nome>
     <email>biolabor@email.com</email>
     <telefone>15999999999</telefone>
@@ -19,6 +21,7 @@
     <infos>Clinica de exames</infos>
   </lab>
   <lab>
+    <id>3</id>
     <nome>Marta ROCHA</nome>
     <email>marta@rocha.com</email>
     <telefone>1764651561</telefone>
