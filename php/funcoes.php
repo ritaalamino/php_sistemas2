@@ -1,5 +1,25 @@
 <?php 
 
+
+//alteracadastro
+function alterarCadastro($consultaID,$parametro,$valor){
+    $file = "../../xml/consultas.xml";
+    $xml = simplexml_load_file($file) or die("XML não acessado.");
+  
+    for($i = 0; $i < $xml->count(); $i++){
+      if ($xml->consulta[$i]->id == $consultaID){
+        $xml->consulta[$i]->$parametro = $valor;
+      }
+    }
+     //Salvando no xml
+     $dom = dom_import_simplexml($xml)->ownerDocument;
+     $dom->formatOutput = true;
+     $dom->preserveWhiteSpace = false;
+     $dom->loadXML($dom->saveXML());
+     $dom->save("../../xml/consultas.xml");
+   }
+ 
+
 //alerta
 function alerta($texto){
     echo "<script>alert('${texto}');</script>";
@@ -11,7 +31,7 @@ function redireciona($url){
 }
 
 //Função que retira possíveis injeção de código
-function teste($data){
+function verifica($data){
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);

@@ -3,47 +3,22 @@
 //Incluindo bibliotecas
 include("../../php/funcoes.php");
 
-function verifica($data){
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-
-function alterarCadastro($consultaID,$parametro,$valor){
-  $file = "../../xml/consultas.xml";
-  $xml = simplexml_load_file($file) or die("XML não acessado.");
-
-  for($i = 0; $i < $xml->count(); $i++){
-    if ($xml->consulta[$i]->id == $consultaID){
-      $xml->consulta[$i]->$parametro = $valor;
-    }
-  }
-
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/consultas.xml");
-}
-
 
 $nome = $email = $senha = $idade = $telefone = $crm = "";
 $endereco = $especialidade = $genero = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-  $nome = teste($_POST["nome"]);
-  $email = teste($_POST["email"]);
-  $senha = teste($_POST["senha"]);
-  $idade = teste($_POST["idade"]);
-  $telefone = teste($_POST["telefone"]);
-  $crm = teste($_POST["crm"]);
-  $endereco = teste($_POST["endereco"]);
-  $especialidade = teste($_POST["especialidade"]);
-  $genero = teste($_POST["genero"]);
-  $infos = teste($_POST["infos"]);
+  $nome = verifica($_POST["nome"]);
+  $email = verifica($_POST["email"]);
+  $senha = verifica($_POST["senha"]);
+  $idade = verifica($_POST["idade"]);
+  $telefone = verifica($_POST["telefone"]);
+  $crm = verifica($_POST["crm"]);
+  $endereco = verifica($_POST["endereco"]);
+  $especialidade = verifica($_POST["especialidade"]);
+  $genero = verifica($_POST["genero"]);
+  $infos = verifica($_POST["infos"]);
 
   
   $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
@@ -97,10 +72,6 @@ session_start();
             <input type="text" placeholder="E-mail" name="email" id="email" value="<?php echo $_COOKIE['email'] ?>" required>
           </div>
           <div class="email">
-            <label for="senha"></label>
-            <input type="text" placeholder="Senha" name="senha" id="senha" value="<?php echo $_COOKIE['senha'] ?>" required>
-          </div>
-          <div>
             <label for="idade"></label>
             <input type="text" placeholder="Idade" name="idade" id="idade" value="<?php echo $_COOKIE['idade'] ?>" required>
           </div>
@@ -118,7 +89,7 @@ session_start();
           </div>
           <div>
             <label for="especialidade"></label>
-            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" value="<?php echo $_COOKIE['especiaçodade'] ?>" required>
+            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" value="<?php echo $_COOKIE['especialidade'] ?>" required>
           </div>
           <div>
             <label for="genero"></label>

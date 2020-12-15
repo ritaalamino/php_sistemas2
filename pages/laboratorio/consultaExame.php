@@ -81,7 +81,36 @@
         <div class="underline">
         </div>  
         <?php
-            alterarCadastro(1,'paciente','Joana');
+            $id = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
+            $receita = $exames = $infos = '';
+
+            $file = "../../xml/exames.xml";
+            $xml = simplexml_load_file($file);
+            foreach ($xml->children() as $exame) {
+              $id = $exame->id;
+              $data= $exame->data;
+              $medico= $exame->medico;
+              $paciente= $exame->paciente;
+              $email = $exame->email;
+              $diagnostico = $exame->diagnostico;
+              $receita = $exame->receita;
+              $exames = $exame->exames;
+              $infos = $exame->infos;
+              echo '<div id="container">';
+              echo '<p>ID: ' .$id .'<br>';
+              echo 'Paciente: ' .$paciente .'<br>';
+              echo 'Data: ' .$data .'<br>';
+              echo 'Médico: ' .$medico .'<br>';
+              echo 'Email: ' .$email .'<br>';
+              echo 'Diagnóstico: ' .$diagnostico .'<br>';
+              echo 'Receita: ' .$receita .'<br>';
+              echo 'Exames: ' .$exames .'<br>';
+              echo 'Infos: ' .$infos .'<br>';
+              setcookie("id", $id , time()+60000, '/');
+              setcookie("tipo", 'exame' , time()+60000, '/');
+              echo '<a href ="../../php/altera.php">Alterar</a>';
+              echo '</div>';
+            }
           ?>
     </div>
 </body>

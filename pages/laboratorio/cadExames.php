@@ -8,7 +8,7 @@ function redireciona($url){
   echo "<script> window.location.href = '{$url}'; </script>";
 }
 
-function teste($data){
+function verifica($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -26,14 +26,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
 
   
-  $data = teste($_POST["data"]);
-  $medico = teste($_POST["medico"]);
-  $paciente = teste($_POST["paciente"]);
-  $email = teste($_POST["email"]);
-  $diagnostico = teste($_POST["diagnostico"]);
-  $receita = teste($_POST["receita"]);
-  $exames = teste($_POST["exames"]);
-  $infos = teste($_POST["message"]);
+  $data = verifica($_POST["data"]);
+  $medico = verifica($_POST["medico"]);
+  $paciente = verifica($_POST["paciente"]);
+  $email = verifica($_POST["email"]);
+  $diagnostico = verifica($_POST["diagnostico"]);
+  $receita = verifica($_POST["receita"]);
+  $exames = verifica($_POST["exames"]);
+  $infos = verifica($_POST["message"]);
 
   //Carregando xml
   $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
