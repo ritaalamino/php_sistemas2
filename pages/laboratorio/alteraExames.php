@@ -3,7 +3,12 @@
 //Incluindo bibliotecas
 include("../../php/funcoes.php");
 
-session_start();
+ini_set( 'error_reporting', E_ALL );
+ini_set( 'display_errors', true );
+if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+    session_start();
+}
+$_COOKIE['id'] = $_SESSION['id'];
 
 ///////////////////////////////////////////////
 
@@ -27,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
 
   //Carregando exame
-  $node = $xml->addChild('exame');
+  //$node = $xml->addChild('exame');
 
   alterarCadastro($_COOKIE['id'],'data', $data);
   alterarCadastro($_COOKIE['id'],'medico',$medico);

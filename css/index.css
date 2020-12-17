@@ -108,6 +108,10 @@
     position: relative;
     z-index: 2;
   }
+  .block-cube.block-input input [type="password"]{
+    position: relative;
+    z-index: 2;
+  }
   .block-cube.block-input input:focus ~ .bg-right .bg-inner, .block-cube.block-input input:focus ~ .bg-top .bg-inner, .block-cube.block-input input:focus ~ .bg-inner .bg-inner {
     top: 100%;
     background: rgba(255, 255, 255, 0.5);
