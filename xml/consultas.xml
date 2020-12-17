@@ -36,4 +36,13 @@
     <exames>sangue</exames>
     <resultados>teste</resultados>
   </consulta>
+  <consulta>
+    <id>5</id>
+    <paciente>Maria Madalena</paciente>
+    <data>20/20/2020</data>
+    <lab>Laboratório 2</lab>
+    <diagnostico>Santa</diagnostico>
+    <exames>Amém</exames>
+    <resultados>asdsadsa</resultados>
+  </consulta>
 </consultas>

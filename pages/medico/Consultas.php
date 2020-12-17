@@ -34,7 +34,7 @@ $logado = $_SESSION['username'];
 <body>
 
     <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+        <h1>&bull; Consultas &bull;</h1>
         <div class="underline">
         </div>  
         <?php

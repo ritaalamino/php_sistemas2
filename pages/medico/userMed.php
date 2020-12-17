@@ -32,7 +32,7 @@ $logado = $_SESSION['username'];
         <ul class="menuItems">
             <li><a data-item='UserMed'>UserMed</a></li>
             <li><a href='../../php/logout.php' data-item='Log Out'>Log Out</a></li>
-            <li><a href='../../php/logout.php' data-item='Log Out'>Log Out</a></li>
+            <li><a href='#' data-item='<?php echo $logado;?>'><?php echo $logado;?></a></li>
         </ul>
     </nav>
     <br><br>
@@ -46,6 +46,7 @@ $logado = $_SESSION['username'];
         <ul class="menuItems">
         <li><a href='medico.php' data-item='Médico'>Médico</a></li>
         <li><a href='Consultas.php' data-item='Consultas'>Consultas</a></li>
+        <li><a href='cadConsultas.php' data-item='Nova Consultas'>Novas Consultas</a></li>
         </ul>
     </nav>
 

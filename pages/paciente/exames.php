@@ -124,6 +124,8 @@ $logado = $_SESSION['username'];
                 setcookie("tipo", 'exame' , time()+60000, '/');
                 echo '<a href ="../../php/altera.php">Alterar</a>';
                 echo '</div>';
+                $flag = false;
+                break;
               }
               else{
                 $flag = true;
