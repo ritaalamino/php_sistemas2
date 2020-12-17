@@ -5,8 +5,6 @@ include("../../php/funcoes.php");
 
 $nome = $email = $senha = $telefone = $cnpj = "";
 $endereco = $tipoExame = $infos = "";
-//$emailErr = $telefoneErr = $cnpjErr = false;
-//$tudoOk=true;
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
@@ -19,28 +17,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $tipoExame = verifica($_POST["tipoExame"]);
   $infos = verifica($_POST["infos"]);
 
-  /*if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
-    $emailErr=true;
-    $tudoOk=false;
-  }*/
-  
-  //if($tudoOk){
-    //alerta("entrou aqui");
-    if(jaExiste($email, "../../xml/labs.xml")){
-      alerta("Usuário já existe!");
-      redireciona("userAdmin.php");
-    }else{
-
-      cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
-      alerta("Cadastro efetuado");
-      redireciona("userAdmin.php");
-    }
-  //}
-
+  if(jaExiste($email, "../../xml/labs.xml")){
+    alerta("Usuário já existe!");
+    redireciona("userAdmin.php");
+  }else{
+    cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
+    alerta("Cadastro efetuado");
+    redireciona("userAdmin.php");
+  }
 }
-
-//session_start();
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -98,10 +84,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="tipoExame"></label>
-            <select placeholder="Tipo Exame" name="tipoExame" id="tipoExame" required>
+            <select placeholder="Especialidade de Exame" name="tipoExame" id="tipoExame" required>
               <option disabled hidden selected>Tipo de Exame</option>
+              <option>Geral</option>
               <option>Sangue</option>
               <option>Ultrasom</option>
+              <option>Endoscopia</option>
             </select>
           </div>
           <div>
@@ -110,6 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />
+            <h6 id="demo7"></h6>
           </div>
         </form><!-- Fim form -->
       </div><!-- Fim #container -->
@@ -118,14 +107,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         function checkForm(){
           var nome = document.getElementById("nome").value
           var email = document.getElementById("email").value
-          var senha = document.getElementById("senha").value
           var cnpj = document.getElementById("cnpj").value
           var telefone = document.getElementById("telefone").value
-          var endereco = document.getElementById("endereco").value
-          var tipoExame = document.getElementById("tipoExame").value
-          var infos = document.getElementById("infos").value
           var tudoOk = true;
-          var cnpj2;
+          
 
           document.getElementById("demo").innerHTML = "";
           document.getElementById("demo2").innerHTML = "";
@@ -137,7 +122,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
             document.getElementById("demo2").innerHTML = ".";
             tudoOk=false;
-            //window.alert("Formato de e-mail inválido");
+            
           }
           if(nome.indexOf('0')!=-1 || 
             nome.indexOf('1')!=-1 || 
@@ -153,7 +138,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               document.getElementById("demo3").innerHTML = "Nome não pode conter números!";
               tudoOk=false;
           }
-          console.log(cnpj);
+          
           if(cnpj.length != 14){
             document.getElementById("demo4").innerHTML = "Formato de CNPJ inválido!";
             tudoOk=false;
@@ -167,12 +152,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           if(tudoOk){
             return true;
           }else{
+            document.getElementById("demo7").innerHTML = "Campos preenchidos incorretamente!";
             return false;
           }
                 
-        }
-         
-        
+        } 
     </script>
 </body>
 </html>

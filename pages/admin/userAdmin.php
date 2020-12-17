@@ -32,8 +32,8 @@ $logado = $_SESSION['username'];
     <nav style="margin: 15px;">
         <ul class="menuItems">
             <li><a data-item='Admin'>Admin</a></li>
+            <li><a data-item='<?php echo $logado;?>'><?php echo $logado;?></a></li>
             <li><a href='../../php/logout.php' data-item='Log Out'>Log Out</a></li>
-            <li><a href='#' data-item='<?php echo $logado;?>'><?php echo $logado;?></a></li>
         </ul>
     </nav>
     <br><br>

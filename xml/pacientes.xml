@@ -45,25 +45,14 @@
     <infos>teset</infos>
   </paciente>
   <paciente>
-    <id>5</id>  
-    <nome>aaaaaaaaaaaaaa</nome>
-    <email>aaaaaaaaaaaaa</email>
-    <idade>aaaaaaaaaaaaaa</idade>
-    <telefone>aaaaaaaaaaaaa</telefone>
-    <cpf>aaaaaaaaaaaaaaa</cpf>
-    <endereco>aaaaaaaaaaaaa</endereco>
-    <genero>Feminino</genero>
-    <infos>aaaaaaaaaaaaaa</infos>
-  </paciente>
-  <paciente>
     <id>6</id>
-    <nome>Lana almeida</nome>
-    <email>lana@almeida</email>
-    <idade>12</idade>
-    <telefone>6416416</telefone>
-    <cpf>15641631</cpf>
-    <endereco>rua 14601620</endereco>
+    <nome>Prícilla Karen</nome>
+    <email>pri@furg.br</email>
+    <idade>23</idade>
+    <telefone>15996049418</telefone>
+    <cpf>12345678556</cpf>
+    <endereco>Rua João Machado, 467</endereco>
     <genero>Feminino</genero>
-    <infos>1651</infos>
+    <infos>Diabética</infos>
   </paciente>
 </pacientes>

@@ -26,11 +26,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     alerta("Cadastro efetuado");
     redireciona("userAdmin.php");
   }
-
 }
-
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -44,42 +41,43 @@ session_start();
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
-    <script src="../../js/script.js"></script>
 
     <title>Clínica PW</title>
 </head>
-<body>
-
-    <!-- valida form -->
-    
-    
+<body>    
     <div id="container">
         <h1>&bull; Pacientes &bull;</h1>
         <div class="underline">
         </div>
-        <form name="pacienteform" class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return validateform()">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();">
           <div>
             <label for="nome"></label>
+            <h6 id="demo3"></h6>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
           </div>
           <div class="name">
             <label for="email"></label>
+            <h6 id="demo"></h6>
             <input type="text" placeholder="E-mail" name="email" id="email" required>
+            <h6 id="demo6"></h6>
           </div>
           <div class="email">
             <label for="senha"></label>
-            <input type="text" placeholder="Senha" name="senha" id="senha" required>
+            <h6 id="demo2"></h6>
+            <input type="password" placeholder="Senha" name="senha" id="senha" required>
           </div>
           <div>
             <label for="idade"></label>
-            <input type="text" placeholder="Idade" name="idade" id="idade" required>
+            <input type="number" placeholder="Idade" name="idade" id="idade" required>
           </div>
           <div>
             <label for="cpf"></label>
+            <h6 id="demo4"></h6>
             <input type="text" placeholder="CPF" name="cpf" id="cpf" required>
           </div>
           <div>
             <label for="telefone"></label>
+            <h6 id="demo5"></h6>
             <input type="text" placeholder="Telefone" name="telefone" id="telefone" required>
           </div>
           <div>
@@ -92,6 +90,7 @@ session_start();
               <option disabled hidden selected>Gênero</option>
               <option>Feminino</option>
               <option>Masculino</option>
+              <option>Outro</option>
             </select>
           </div>
           <div>
@@ -100,8 +99,72 @@ session_start();
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />
+            <h6 id="demo7"></h6>
           </div>
         </form><!-- // End form -->
       </div><!-- // End #container -->
+
+      <script>
+        function checkForm(){
+          var nome = document.getElementById("nome").value
+          var email = document.getElementById("email").value
+          var cpf = document.getElementById("cpf").value
+          var telefone = document.getElementById("telefone").value
+          var idade = document.getElementById("idade").value
+          var tudoOk = true;
+          
+
+          document.getElementById("demo").innerHTML = "";
+          document.getElementById("demo2").innerHTML = "";
+          document.getElementById("demo3").innerHTML = "";
+          document.getElementById("demo4").innerHTML = "";
+          document.getElementById("demo5").innerHTML = "";
+          document.getElementById("demo6").innerHTML = "";
+
+          if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
+            document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
+            document.getElementById("demo2").innerHTML = ".";
+            tudoOk=false;
+            
+          }
+          if(nome.indexOf('0')!=-1 || 
+            nome.indexOf('1')!=-1 || 
+            nome.indexOf('2')!=-1 || 
+            nome.indexOf('3')!=-1 || 
+            nome.indexOf('4')!=-1 || 
+            nome.indexOf('5')!=-1 || 
+            nome.indexOf('6')!=-1 || 
+            nome.indexOf('7')!=-1 || 
+            nome.indexOf('8')!=-1 || 
+            nome.indexOf('9')!=-1){
+            
+              document.getElementById("demo3").innerHTML = "Nome não pode conter números!";
+              tudoOk=false;
+          }
+          
+          if(cpf.length != 11){
+            document.getElementById("demo4").innerHTML = "Formato de CPF inválido!";
+            tudoOk=false;
+          }
+
+          if(telefone.length < 11 || telefone.length > 12){
+            document.getElementById("demo5").innerHTML = "Formato de telefone inválido!";
+            tudoOk=false;
+          }
+
+          if(idade < 0 || idade > 120){
+            document.getElementById("demo6").innerHTML = "Idade inválida!";
+            tudoOk=false;
+          }
+
+          if(tudoOk){
+            return true;
+          }else{
+            document.getElementById("demo7").innerHTML = "Campos preenchidos incorretamente!";
+            return false;
+          }
+                
+        } 
+    </script>
 </body>
 </html>

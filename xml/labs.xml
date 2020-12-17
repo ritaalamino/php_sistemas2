@@ -40,4 +40,14 @@
     <tipoExame>Ultrasom</tipoExame>
     <infos>bio</infos>
   </lab>
+  <lab>
+    <id>6</id>
+    <nome>lunav</nome>
+    <email>lunav@gmail.com</email>
+    <telefone>15996049483</telefone>
+    <cnpj>12345678901234</cnpj>
+    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
+    <tipoExame>Geral</tipoExame>
+    <infos>Lunav</infos>
+  </lab>
 </labs>

@@ -24,4 +24,28 @@
     <genero>Feminino</genero>
     <infos>SIMPLES</infos>
   </medico>
+  <medico>
+    <id>3</id>
+    <nome>Thales de Oliveira</nome>
+    <email>thales@gmail.com</email>
+    <idade>21</idade>
+    <telefone>15996049483</telefone>
+    <crm>123456</crm>
+    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
+    <especialidade>Ortopedista</especialidade>
+    <genero>Masculino</genero>
+    <infos>Bio</infos>
+  </medico>
+  <medico>
+    <id>4</id>
+    <nome>Suely Augusto</nome>
+    <email>suely@gmail.com</email>
+    <idade>58</idade>
+    <telefone>17996049483</telefone>
+    <crm>765429</crm>
+    <endereco>Rua eduardo frire</endereco>
+    <especialidade>Pediátra</especialidade>
+    <genero>Feminino</genero>
+    <infos>Especialista</infos>
+  </medico>
 </medicos>

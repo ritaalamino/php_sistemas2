@@ -225,4 +225,39 @@
     <login>labteste@email.com</login>
     <senha>lab123@</senha>
   </user>
+  <user>
+    <tipo>medico</tipo>
+    <login>thales@gmail.com</login>
+    <senha>thales123@</senha>
+  </user>
+  <user>
+    <tipo>medico</tipo>
+    <login>thales@gmail.com</login>
+    <senha>thales123@</senha>
+  </user>
+  <user>
+    <tipo>lab</tipo>
+    <login>lunav@gmail.com</login>
+    <senha>lunav123@</senha>
+  </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>joao@email.com</login>
+    <senha>we123</senha>
+  </user>
+  <user>
+    <tipo>paciente</tipo>
+    <login>pri@furg.br</login>
+    <senha>pri123@</senha>
+  </user>
+  <user>
+    <tipo>medico</tipo>
+    <login>suely@gmail.com</login>
+    <senha>su123@</senha>
+  </user>
+  <user>
+    <tipo>medico</tipo>
+    <login>suely@gmail.com</login>
+    <senha>su123@</senha>
+  </user>
 </users>
