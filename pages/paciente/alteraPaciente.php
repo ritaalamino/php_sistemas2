@@ -8,7 +8,7 @@ ini_set( 'display_errors', true );
 if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
     session_start();
 }
-if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')){
     unset($_SESSION['username']);
     $_SESSION['valid'] = false;
     unset($_SESSION['tipo']);
@@ -16,7 +16,7 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
     }
 
 $logado = $_SESSION['username'];
-$_COOKIE['id'] = $_SESSION['id'];
+
 
 $nome = $email = $senha = $idade = $telefone = $crm = "";
 $endereco = $especialidade = $genero = $infos = "";
@@ -28,34 +28,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $senha = verifica($_POST["senha"]);
   $idade = verifica($_POST["idade"]);
   $telefone = verifica($_POST["telefone"]);
-  $crm = verifica($_POST["crm"]);
+  $cpf = verifica($_POST["cpf"]);
   $endereco = verifica($_POST["endereco"]);
   $especialidade = verifica($_POST["especialidade"]);
   $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
   
-  $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+  $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
   alterarCadastro($_COOKIE['id'],'nome',$nome);
   alterarCadastro($_COOKIE['id'],'email',$email);
   alterarCadastro($_COOKIE['id'],'senha',$senha);
   alterarCadastro($_COOKIE['id'],'idade',$idade);
   alterarCadastro($_COOKIE['id'],'telefone',$telefone);
-  alterarCadastro($_COOKIE['id'],'crm',$crm);
+  alterarCadastro($_COOKIE['id'],'cpf',$cpf);
   alterarCadastro($_COOKIE['id'],'endereco',$endereco);
   alterarCadastro($_COOKIE['id'],'especialidade',$especialidade);
   alterarCadastro($_COOKIE['id'],'genero',$genero);
   alterarCadastro($_COOKIE['id'],'infos',$infos);
 
   alerta("Cadastro alterado.");
-  redireciona("medico.php");
+  redireciona("paciente.php");
 
 }
 
-session_start();
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,12 +67,17 @@ session_start();
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
+    <script src="../../js/script.js"></script>
 
     <title>Clínica PW</title>
 </head>
 <body>
+
+    <!-- valida form -->
+    
+    
     <div id="container">
-        <h1>&bull; Médico &bull;</h1>
+        <h1>&bull; Pacientes &bull;</h1>
         <div class="underline">
         </div>
         <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
@@ -90,8 +94,8 @@ session_start();
             <input type="text" placeholder="Idade" name="idade" id="idade" value="<?php echo $_COOKIE['idade'] ?>" required>
           </div>
           <div>
-            <label for="crm"></label>
-            <input type="text" placeholder="CRM" name="crm" id="crm" value="<?php echo $_COOKIE['crm'] ?>" required>
+            <label for="cpf"></label>
+            <input type="text" placeholder="CPF" name="cpf" id="cpf" value="<?php echo $_COOKIE['cpf'] ?>" required>
           </div>
           <div>
             <label for="telefone"></label>
@@ -100,10 +104,6 @@ session_start();
           <div>
             <label for="endereco"></label>
             <input type="text" placeholder="Endereço" name="endereco" id="endereco" rvalue="<?php echo $_COOKIE['endereco'] ?>" equired>
-          </div>
-          <div>
-            <label for="especialidade"></label>
-            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" value="<?php echo $_COOKIE['especialidade'] ?>" required>
           </div>
           <div>
             <label for="genero"></label>
@@ -122,8 +122,6 @@ session_start();
             <input type="submit" value="Cadastrar" id="form_button" />
           </div>
         </form><!-- Fim form -->
-      </div><!-- Fim #container -->
+      </div><!-- // Fim #container -->
 </body>
 </html>
-
-

@@ -72,8 +72,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   
 }
 
-
-
 if($user===true && $sen===true){
   $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
   setcookie("username", $_POST["username"], time() + 30 );
