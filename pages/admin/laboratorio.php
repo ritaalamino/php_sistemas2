@@ -3,6 +3,20 @@
 //Incluindo bibliotecas
 include("../../php/funcoes.php");
 
+ini_set( 'error_reporting', E_ALL );
+ini_set( 'display_errors', true );
+if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+    session_start();
+}
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != "admin")){
+    unset($_SESSION['username']);
+    $_SESSION['valid'] = false;
+    unset($_SESSION['tipo']);
+    header('location:../../index.php');
+    }
+
+$logado = $_SESSION['username'];
+
 $nome = $email = $senha = $telefone = $cnpj = "";
 $endereco = $tipoExame = $infos = "";
 //$emailErr = $telefoneErr = $cnpjErr = false;

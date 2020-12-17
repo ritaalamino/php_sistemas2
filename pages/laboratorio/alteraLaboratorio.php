@@ -6,9 +6,19 @@ ini_set( 'display_errors', true );
 if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
     session_start();
 }
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
+  unset($_SESSION['username']);
+  $_SESSION['valid'] = false;
+  unset($_SESSION['tipo']);
+  header('location:../../index.php');
+  }
+
+$logado = $_SESSION['username'];
 $_COOKIE['id'] = $_SESSION['id'];
 
 include("../../php/funcoes.php");
+
+
 
 ///////////////////////////////////////////////
 

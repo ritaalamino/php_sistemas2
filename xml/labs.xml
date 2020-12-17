@@ -40,4 +40,14 @@
     <tipoExame>Ultrasom</tipoExame>
     <infos>bio</infos>
   </lab>
+  <lab>
+    <id>6</id>
+    <nome>Rita</nome>
+    <email>aaaaaaaa@aaaaaaa.com</email>
+    <telefone>11968325598</telefone>
+    <cnpj>12345678912345</cnpj>
+    <endereco>aaaaaaaaaaaaaa</endereco>
+    <tipoExame>Sangue</tipoExame>
+    <infos>aaaaaaaaaa</infos>
+  </lab>
 </labs>

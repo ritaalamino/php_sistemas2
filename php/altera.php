@@ -69,6 +69,29 @@
           }
         }
       }
+
+        
+    function importaPaciente(){
+      $file = "../xml/pacientes.xml";
+          $xml = simplexml_load_file($file) or die("XML não acessado.");
+          for($i = 0; $i < $xml->count(); $i++){
+            if ($xml->paciente[$i]->id == $_COOKIE['id']){
+              setcookie('id',$xml->paciente[$i]->id, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('nome',$xml->paciente[$i]->nome, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('email',$xml->paciente[$i]->email, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('idade',$xml->paciente[$i]->idade, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('telefone',$xml->paciente[$i]->telefone, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('cpf',$xml->paciente[$i]->cpf, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('endereco',$xml->paciente[$i]->endereco, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('especialidade',$xml->paciente[$i]->especialidade, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('genero',$xml->paciente[$i]->genero, time()+600, '/pages/paciente/alteraPaciente.php');
+              setcookie('infos',$xml->paciente[$i]->infos, time()+600, '/pages/paciente/alteraPaciente.php');
+              redireciona('../pages/paciente/alteraPaciente.php');
+              //ini_set( 'error_reporting', E_ALL );
+              //ini_set( 'display_errors', true );
+            }
+          }
+    }
       
 
       function importaCookie($cookie){
@@ -81,6 +104,9 @@
           break;
         case 'medico':
           importaMedico();
+          break;
+        case 'paciente':
+          importaPaciente();
           break;
     }
   } 

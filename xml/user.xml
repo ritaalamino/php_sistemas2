@@ -225,4 +225,9 @@
     <login>labteste@email.com</login>
     <senha>lab123@</senha>
   </user>
+  <user>
+    <tipo>lab</tipo>
+    <login>aaaaaaaa@aaaaaaa.com</login>
+    <senha>aaaaaaaaaa</senha>
+  </user>
 </users>

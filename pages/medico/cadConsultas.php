@@ -1,20 +1,24 @@
 <?php
 
 
-  function alerta($texto){
-    echo "<script>alert('${texto}');</script>";
-  }
 
-  function redireciona($url){
-    echo "<script> window.location.href = '{$url}'; </script>";
+  ini_set( 'error_reporting', E_ALL );
+  ini_set( 'display_errors', true );
+  if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+      session_start();
   }
+  if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
+      unset($_SESSION['username']);
+      $_SESSION['valid'] = false;
+      unset($_SESSION['tipo']);
+      header('location:../../index.php');
+      }
 
-  function verifica($data){
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
+  $logado = $_SESSION['username'];
+
+
+  include("../../php/funcoes.php");
+
 
   //session_start();
 

@@ -1,71 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <?php
-//Funções
-function alerta($texto){
-  echo "<script>alert('${texto}');</script>";
+ini_set( 'error_reporting', E_ALL );
+ini_set( 'display_errors', true );
+if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+    session_start();
 }
 
-function redireciona($url){
-  echo "<script> window.location.href = '{$url}'; </script>";
-}
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')){
+    unset($_SESSION['username']);
+    $_SESSION['valid'] = false;
+    unset($_SESSION['tipo']);
+    header('location:../../index.php');
+    }
 
-function verifica($data){
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
+$logado = $_SESSION['username'];
 
-session_start();
+  function getConsultas(){
+    $file = "../../xml/consultas.xml";
+    $xml = simplexml_load_file($file);
+    $vetor = array();
+    foreach ($xml->children() as $consulta) {
+      $vetor[$consulta->id] = array(
+        'paciente' => strval($consulta->paciente),
+        'data' => strval($consulta->data),
+        'lab' => strval($consulta->lab),
+        'diagnostico' => strval($consulta->diagnostico),
+        'exames' => strval($consulta->exames),
+        'resultados' => strval($consulta->resultados)
+      );
+    }
+    return $vetor;
+  }
 
-///////////////////////////////////////////////
+  function getConsulta($consultaID){
+    $file = "../../xml/consultas.xml";
+    $xml = simplexml_load_file($file);
+    $vetor = array();
+    foreach ($xml->children() as $consulta) {
+      if(strval($xml->id) == strval($consultaID)){
+        $vetor['id'] = strval($consulta->id);
+        $vetor['paciente'] = strval($consulta->paciente);
+        $vetor['data'] = strval($consulta->data);
+        $vetor['lab'] = strval($consulta->lab);
+        $vetor['diagnostico'] = strval($consulta->diagnostico);
+        $vetor['exames'] = strval($consulta->exames);
+        $vetor['resultados'] = strval($consulta->resultados);
+      }
+    }
+    return $vetor;
+  }
 
-$data = $medico = $paciente = $diagnostico = $receita = "";
-$exames = $infos = "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  //Pegando os dados fornecidos pelo formulario
+  function alterarCadastro($consultaID,$parametro,$valor){
+    $file = "../../xml/consultas.xml";
+    $xml = simplexml_load_file($file) or die("XML não acessado.");
 
+    for($i = 0; $i < $xml->count(); $i++){
+      if ($xml->consulta[$i]->id == $consultaID){
+        $xml->consulta[$i]->$parametro = $valor;
+      }
+    }
   
-  $data = verifica($_POST["data"]);
-  $medico = verifica($_POST["medico"]);
-  $paciente = verifica($_POST["paciente"]);
-  $email = verifica($_POST["email"]);
-  $diagnostico = verifica($_POST["diagnostico"]);
-  $receita = verifica($_POST["receita"]);
-  $exames = verifica($_POST["exames"]);
-  $infos = verifica($_POST["message"]);
-
-  //Carregando xml
-  $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
-
-  //Carregando exame
-  $node = $xml->addChild('exame');
-
-  $node->addChild('data', $data);
-  $node->addChild('medico',$medico);
-  $node->addChild('paciente',$paciente);
-  $node->addChild('email',$email);
-  $node->addChild('diagnostico',$diagnostico);
-  $node->addChild('receita',$receita);
-  $node->addChild('exames',$exames);
-  $node->addChild('infos',$infos);
-
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/exames.xml");
-
-  alerta("Cadastro efetuado");
-  redireciona("userLab.php");
-
-}
+    //Salvando no xml
+    $dom = dom_import_simplexml($xml)->ownerDocument;
+    $dom->formatOutput = true;
+    $dom->preserveWhiteSpace = false;
+    $dom->loadXML($dom->saveXML());
+    $dom->save("../../xml/consultas.xml");
+  }
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,54 +84,57 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
     <title>Seguros</title>
+
 </head>
 <body>
+
     <div id="container">
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
-        </div>
-        <form action="#" method="post" id="contact_form">
-          <div class="data">
-            <label for="data"></label>
-            <input type="text" placeholder="Data" name="data" id="data" required>
-          </div>
-          <div class="subject">
-            <label for="medico"></label>
-            <select placeholder="Médico" name="medico" id="medico" required>
-              <option disabled hidden selected>Médico</option>
-              <option>Médico 1</option>
-              <option>Médico 2</option>
-            </select>
-          </div>
-          <div class="paciente">
-            <label for="paciente"></label>
-            <input type="text" placeholder="Paciente" name="paciente" id="paciente" required>
-          </div>
-          <div class="name">
-            <label for="email"></label>
-            <input type="text" placeholder="E-mail" name="email" id="email" required>
-          </div>
-          <div class="diagnostico">
-            <label for="diagnostico"></label>
-            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" required>
-          </div>
-          <div class="receita">
-            <label for="receita"></label>
-            <input type="text" placeholder="Receita" name="receita" id="receita" required>
-          </div>
-          <div class="exames">
-            <label for="exames"></label>
-            <input type="text" placeholder="exames" name="exames" id="exames" required>
-          </div>
-          <div class="message">
-            <label for="message"></label>
-            <textarea name="message" placeholder="Informações adicionais" id="message" cols="30" rows="3" required></textarea>
-          </div>
-          <div class="submit">
-            <input type="submit" value="Enviar" id="form_button" />
-          </div>
-        </form><!-- // End form -->
-      </div><!-- // End #container -->
+        </div>  
+        <?php
+            $id = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
+            $receita = $exames = $infos = '';
+            $flag = false;
+
+            $file = "../../xml/exames.xml";
+            $xml = simplexml_load_file($file);
+            foreach ($xml->children() as $exame) {
+              if ($exame->email == $_SESSION['username']){
+                $id = $exame->id;
+                $data= $exame->data;
+                $medico= $exame->medico;
+                $paciente= $exame->paciente;
+                $email = $exame->email;
+                $diagnostico = $exame->diagnostico;
+                $receita = $exame->receita;
+                $exames = $exame->exames;
+                $infos = $exame->infos;
+                echo '<div id="container">';
+                echo '<p>ID: ' .$id .'<br>';
+                echo 'Paciente: ' .$paciente .'<br>';
+                echo 'Data: ' .$data .'<br>';
+                echo 'Médico: ' .$medico .'<br>';
+                echo 'Email: ' .$email .'<br>';
+                echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                echo 'Receita: ' .$receita .'<br>';
+                echo 'Exames: ' .$exames .'<br>';
+                echo 'Infos: ' .$infos .'<br>';
+                setcookie("id", $id , time()+60000, '/');
+                setcookie("tipo", 'exame' , time()+60000, '/');
+                echo '<a href ="../../php/altera.php">Alterar</a>';
+                echo '</div>';
+              }
+              else{
+                $flag = true;
+              }
+            }
+            if ($flag == true){
+              echo '<br><p>';
+              echo 'Não existem exames para esse cadastro. </p>';
+            }
+          ?>
+    </div>
 </body>
 </html>
 

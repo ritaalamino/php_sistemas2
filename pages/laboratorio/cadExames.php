@@ -1,21 +1,23 @@
 <?php
 //Funções
-function alerta($texto){
-  echo "<script>alert('${texto}');</script>";
+include("../../php/funcoes.php");
+
+ini_set( 'error_reporting', E_ALL );
+ini_set( 'display_errors', true );
+if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+    session_start();
 }
 
-function redireciona($url){
-  echo "<script> window.location.href = '{$url}'; </script>";
-}
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
+    unset($_SESSION['username']);
+    $_SESSION['valid'] = false;
+    unset($_SESSION['tipo']);
+    header('location:../../index.php');
+    }
 
-function verifica($data){
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
+$logado = $_SESSION['username'];
+$logado = $_SESSION['username'];
 
-session_start();
 
 ///////////////////////////////////////////////
 
