@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 //funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
@@ -74,21 +72,43 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   
 }
 
+
+
 if($user===true && $sen===true){
   $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
   setcookie("username", $_POST["username"], time() + 30 );
   if ($verifica == "admin"){
-    redireciona("/pages/admin/userAdmin.php");   
+    session_start();
+    $_SESSION['valid'] = true;
+    $_SESSION['timeout'] = time();
+    $_SESSION['username'] = $username; 
+    $_SESSION['tipo'] = 'admin'; 
+    header('location:/pages/admin/userAdmin.php');   
   }elseif($verifica == "medico"){
-    redireciona("/pages/medico/userMed.php");
+    session_start();
+    $_SESSION['valid'] = true;
+    $_SESSION['timeout'] = time();
+    $_SESSION['username'] = $username; 
+    $_SESSION['tipo'] = 'medico'; 
+    header('location:/pages/medico/userMed.php');
   }elseif($verifica == "paciente"){
-    redireciona("/pages/paciente/userPac.php");
+    session_start();
+    $_SESSION['valid'] = true;
+    $_SESSION['timeout'] = time();
+    $_SESSION['username'] = $username; 
+    $_SESSION['tipo'] = 'paciente'; 
+    header("location:/pages/paciente/userPac.php");
   }elseif($verifica == "lab"){
-    redireciona("/pages/laboratorio/userLab.php");
+    session_start();
+    $_SESSION['valid'] = true;
+    $_SESSION['timeout'] = time()+1000;
+    $_SESSION['username'] = $username; 
+    $_SESSION['tipo'] = 'lab'; 
+    header("location:/pages/laboratorio/userLab.php");
   }
-  else{
+  /*else{
     alerta("Acesso inválido.");
-  }
+  }*/
 }
   
 

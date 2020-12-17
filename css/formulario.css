@@ -228,4 +228,8 @@ textarea {
   input[type='text'], [type='email'], [type='number'], [type='password'], select, textarea {
     font-size: 0.875em;
   }
+
+  input[type='text'], [type='email']:required {
+    border:2px solid tomato;
+}
 }

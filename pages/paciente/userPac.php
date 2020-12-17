@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 
 <?php
+ini_set( 'error_reporting', E_ALL );
+ini_set( 'display_errors', true );
+if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
     session_start();
+}
+if((!isset ($_SESSION['username']) == true) and ($_SESSION['tipo'] != 'paciente')){
+    unset($_SESSION['username']);
+    $_SESSION['valid'] = false;
+    unset($_SESSION['tipo']);
+    header('location:../../index.php');
+    }
+
+$logado = $_SESSION['username'];
+
 ?>
 
 <html lang="pt-br">
