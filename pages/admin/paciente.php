@@ -8,15 +8,15 @@ $endereco = $genero = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-  $nome = teste($_POST["nome"]);
-  $email = teste($_POST["email"]);
-  $senha = teste($_POST["senha"]);
-  $idade = teste($_POST["idade"]);
-  $telefone = teste($_POST["telefone"]);
-  $cpf = teste($_POST["cpf"]);
-  $endereco = teste($_POST["endereco"]);
-  $genero = teste($_POST["genero"]);
-  $infos = teste($_POST["infos"]);
+  $nome = verifica($_POST["nome"]);
+  $email = verifica($_POST["email"]);
+  $senha = verifica($_POST["senha"]);
+  $idade = verifica($_POST["idade"]);
+  $telefone = verifica($_POST["telefone"]);
+  $cpf = verifica($_POST["cpf"]);
+  $endereco = verifica($_POST["endereco"]);
+  $genero = verifica($_POST["genero"]);
+  $infos = verifica($_POST["infos"]);
 
   if(jaExiste($email, "../../xml/pacientes.xml")){
     alerta("Usuário já existe!");

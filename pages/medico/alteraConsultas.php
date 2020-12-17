@@ -1,39 +1,9 @@
 <?php
 
+  //Incluindo bibliotecas
+  include("../../php/funcoes.php");
 
-  function alerta($texto){
-    echo "<script>alert('${texto}');</script>";
-  }
-
-  function redireciona($url){
-    echo "<script> window.location.href = '{$url}'; </script>";
-  }
-
-  function verifica($data){
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
-
-  function alterarCadastro($consultaID,$parametro,$valor){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file) or die("XML não acessado.");
-
-    for($i = 0; $i < $xml->count(); $i++){
-      if ($xml->consulta[$i]->id == $consultaID){
-        $xml->consulta[$i]->$parametro = $valor;
-      }
-    }
-  
-    //Salvando no xml
-    $dom = dom_import_simplexml($xml)->ownerDocument;
-    $dom->formatOutput = true;
-    $dom->preserveWhiteSpace = false;
-    $dom->loadXML($dom->saveXML());
-    $dom->save("../../xml/consultas.xml");
-  }
-
+ 
   session_start();
 
   /////////////////////////////////////////////

@@ -1,19 +1,7 @@
 <?php
-//Funções
-function alerta($texto){
-  echo "<script>alert('${texto}');</script>";
-}
 
-function redireciona($url){
-  echo "<script> window.location.href = '{$url}'; </script>";
-}
-
-function verifica($data){
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
+//Incluindo bibliotecas
+include("../../php/funcoes.php");
 
 session_start();
 
@@ -41,23 +29,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Carregando exame
   $node = $xml->addChild('exame');
 
-  $node->addChild('data', $data);
-  $node->addChild('medico',$medico);
-  $node->addChild('paciente',$paciente);
-  $node->addChild('email',$email);
-  $node->addChild('diagnostico',$diagnostico);
-  $node->addChild('receita',$receita);
-  $node->addChild('exames',$exames);
-  $node->addChild('infos',$infos);
+  alterarCadastro($_COOKIE['id'],'data', $data);
+  alterarCadastro($_COOKIE['id'],'medico',$medico);
+  alterarCadastro($_COOKIE['id'],'paciente',$paciente);
+  alterarCadastro($_COOKIE['id'],'email',$email);
+  alterarCadastro($_COOKIE['id'],'diagnostico',$diagnostico);
+  alterarCadastro($_COOKIE['id'],'receita',$receita);
+  alterarCadastro($_COOKIE['id'],'exames',$exames);
+  alterarCadastro($_COOKIE['id'],'infos',$infos);
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/exames.xml");
 
-  alerta("Cadastro efetuado");
+  alerta("Cadastro alterado.");
   redireciona("userLab.php");
 
 }
@@ -83,10 +65,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
         </div>
-        <form action="#" method="post" id="contact_form">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" id="contact_form">
           <div class="data">
             <label for="data"></label>
-            <input type="text" placeholder="Data" name="data" id="data" required>
+            <input type="text" placeholder="Data" name="data" id="data"  value="<?php echo $_COOKIE['data'] ?>" required>
           </div>
           <div class="subject">
             <label for="medico"></label>
@@ -98,27 +80,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div class="paciente">
             <label for="paciente"></label>
-            <input type="text" placeholder="Paciente" name="paciente" id="paciente" required>
+            <input type="text" placeholder="Paciente" name="paciente" id="paciente" value="<?php echo $_COOKIE['paciente'] ?>" required>
           </div>
           <div class="name">
             <label for="email"></label>
-            <input type="text" placeholder="E-mail" name="email" id="email" required>
+            <input type="text" placeholder="E-mail" name="email" id="email" value="<?php echo $_COOKIE['email'] ?>" required>
           </div>
           <div class="diagnostico">
             <label for="diagnostico"></label>
-            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" required>
+            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" value="<?php echo $_COOKIE['diagnostico'] ?>" required>
           </div>
           <div class="receita">
             <label for="receita"></label>
-            <input type="text" placeholder="Receita" name="receita" id="receita" required>
+            <input type="text" placeholder="Receita" name="receita" id="receita" value="<?php echo $_COOKIE['receita'] ?>" required>
           </div>
           <div class="exames">
             <label for="exames"></label>
-            <input type="text" placeholder="exames" name="exames" id="exames" required>
+            <input type="text" placeholder="exames" name="exames" id="exames" value="<?php echo $_COOKIE['exames'] ?>" required>
           </div>
           <div class="message">
             <label for="message"></label>
-            <textarea name="message" placeholder="Informações adicionais" id="message" cols="30" rows="3" required></textarea>
+            <textarea name="message" placeholder="Informações adicionais" id="message" cols="30" rows="3" value="<?php echo $_COOKIE['infos'] ?>" required></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Enviar" id="form_button" />

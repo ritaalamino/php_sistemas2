@@ -5,35 +5,37 @@ include("../../php/funcoes.php");
 
 $nome = $email = $senha = $telefone = $cnpj = "";
 $endereco = $tipoExame = $infos = "";
-$emailErr = $telefoneErr = $cnpjErr = false;
-$tudoOk=true;
+//$emailErr = $telefoneErr = $cnpjErr = false;
+//$tudoOk=true;
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-  $nome = teste($_POST["nome"]);
-  $email = teste($_POST["email"]);
-  $senha = teste($_POST["senha"]);
-  $telefone = teste($_POST["telefone"]);
-  $cnpj = teste($_POST["cnpj"]);
-  $endereco = teste($_POST["endereco"]);
-  $tipoExame = teste($_POST["tipoExame"]);
-  $infos = teste($_POST["infos"]);
+  $nome = verifica($_POST["nome"]);
+  $email = verifica($_POST["email"]);
+  $senha = verifica($_POST["senha"]);
+  $telefone = verifica($_POST["telefone"]);
+  $cnpj = verifica($_POST["cnpj"]);
+  $endereco = verifica($_POST["endereco"]);
+  $tipoExame = verifica($_POST["tipoExame"]);
+  $infos = verifica($_POST["infos"]);
 
-  if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
+  /*if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
     $emailErr=true;
     $tudoOk=false;
-  }
-
-  if($tudoOk){
+  }*/
+  
+  //if($tudoOk){
+    //alerta("entrou aqui");
     if(jaExiste($email, "../../xml/labs.xml")){
       alerta("Usuário já existe!");
       redireciona("userAdmin.php");
     }else{
+
       cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
       alerta("Cadastro efetuado");
       redireciona("userAdmin.php");
     }
-  }
+  //}
 
 }
 
@@ -60,31 +62,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h1>&bull; Laboratório &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="erros()" ajax="true">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();" >
           <div>
             <label for="nome"></label>
+            <h6 id="demo3"></h6>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
             
           </div>
           <div class="name">
             <label for="email"></label>
-            <h6 id="demo">Email inválido!</h6>
+            <h6 id="demo"></h6>
             <input type="text" placeholder="E-mail" name="email" id="email" required>
-            <h6>CNPJ inválido!</h6>
+            <h6 id="demo4"></h6>
           </div>
           
           <div class="email">
             <label for="senha"></label>
-            <h6>.</h6>
+            <h6 id="demo2"></h6>
             <input type="password" placeholder="Senha" name="senha" id="senha" required>
           </div>
+          
           <div>
             <label for="cnpj"></label>
-            <input type="number" placeholder="CNPJ" name="cnpj" id="cnpj" required>
-            
+            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj" required>
+      
           </div>
           <div>
             <label for="telefone"></label>
+            <h6 id="demo5"></h6>
             <input type="text" placeholder="Telefone" name="telefone" id="telefone" required>
           </div>
           <div>
@@ -109,16 +114,66 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </form><!-- Fim form -->
       </div><!-- Fim #container -->
 
-      <script>
-        function erros(){
-          var errEmail = "<?php echo $emailErr; ?>";
-          if(errEmail){
+    <script>
+        function checkForm(){
+          var nome = document.getElementById("nome").value
+          var email = document.getElementById("email").value
+          var senha = document.getElementById("senha").value
+          var cnpj = document.getElementById("cnpj").value
+          var telefone = document.getElementById("telefone").value
+          var endereco = document.getElementById("endereco").value
+          var tipoExame = document.getElementById("tipoExame").value
+          var infos = document.getElementById("infos").value
+          var tudoOk = true;
+          var cnpj2;
+
+          document.getElementById("demo").innerHTML = "";
+          document.getElementById("demo2").innerHTML = "";
+          document.getElementById("demo3").innerHTML = "";
+          document.getElementById("demo4").innerHTML = "";
+          document.getElementById("demo5").innerHTML = "";
+
+          if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
             document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
-            //window.alert("Entro no if!");
+            document.getElementById("demo2").innerHTML = ".";
+            tudoOk=false;
+            //window.alert("Formato de e-mail inválido");
           }
-          submit.preventDefault();
+          if(nome.indexOf('0')!=-1 || 
+            nome.indexOf('1')!=-1 || 
+            nome.indexOf('2')!=-1 || 
+            nome.indexOf('3')!=-1 || 
+            nome.indexOf('4')!=-1 || 
+            nome.indexOf('5')!=-1 || 
+            nome.indexOf('6')!=-1 || 
+            nome.indexOf('7')!=-1 || 
+            nome.indexOf('8')!=-1 || 
+            nome.indexOf('9')!=-1){
+            
+              document.getElementById("demo3").innerHTML = "Nome não pode conter números!";
+              tudoOk=false;
+          }
+          console.log(cnpj);
+          if(cnpj.length != 14){
+            document.getElementById("demo4").innerHTML = "Formato de CNPJ inválido!";
+            tudoOk=false;
+          }
+
+          if(telefone.length < 11 || telefone.length > 12){
+            document.getElementById("demo5").innerHTML = "Formato de telefone inválido!";
+            tudoOk=false;
+          }
+
+          if(tudoOk){
+            return true;
+          }else{
+            return false;
+          }
+                
         }
-      </script>
+         
+        
+    </script>
 </body>
 </html>
 

@@ -11,7 +11,7 @@ function redireciona($url){
   echo "<script> window.location.href = '{$url}'; </script>";
 }
 
-function teste($data){
+function verifica($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -25,14 +25,14 @@ $endereco = $tipoExame = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-  $nome = teste($_POST["nome"]);
-  $email = teste($_POST["email"]);
-  $senha = teste($_POST["senha"]);
-  $telefone = teste($_POST["telefone"]);
-  $cnpj = teste($_POST["cnpj"]);
-  $endereco = teste($_POST["endereco"]);
-  $tipoExame = teste($_POST["tipoExame"]);
-  $infos = teste($_POST["infos"]);
+  $nome = verifica($_POST["nome"]);
+  $email = verifica($_POST["email"]);
+  $senha = verifica($_POST["senha"]);
+  $telefone = verifica($_POST["telefone"]);
+  $cnpj = verifica($_POST["cnpj"]);
+  $endereco = verifica($_POST["endereco"]);
+  $tipoExame = verifica($_POST["tipoExame"]);
+  $infos = verifica($_POST["infos"]);
 
   //Carregando xml
   $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");

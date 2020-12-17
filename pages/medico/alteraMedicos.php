@@ -3,6 +3,7 @@
 //Incluindo bibliotecas
 include("../../php/funcoes.php");
 
+
 $nome = $email = $senha = $idade = $telefone = $crm = "";
 $endereco = $especialidade = $genero = $infos = "";
 
@@ -19,14 +20,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
-  if(jaExiste($email, "../../xml/medicos.xml")){
-    alerta("Usuário já existe!");
-    redireciona("userAdmin.php");
-  }else{
-    cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $endereco, $especialidade, $genero, $infos);
-    alerta("Cadastro efetuado");
-    redireciona("userAdmin.php");
-  }
+  
+  $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+
+  alterarCadastro($_COOKIE['id'],'nome',$nome);
+  alterarCadastro($_COOKIE['id'],'email',$email);
+  alterarCadastro($_COOKIE['id'],'senha',$senha);
+  alterarCadastro($_COOKIE['id'],'idade',$idade);
+  alterarCadastro($_COOKIE['id'],'telefone',$telefone);
+  alterarCadastro($_COOKIE['id'],'crm',$crm);
+  alterarCadastro($_COOKIE['id'],'endereco',$endereco);
+  alterarCadastro($_COOKIE['id'],'especialidade',$especialidade);
+  alterarCadastro($_COOKIE['id'],'genero',$genero);
+  alterarCadastro($_COOKIE['id'],'infos',$infos);
+
+  alerta("Cadastro alterado.");
+  redireciona("medico.php");
 
 }
 
@@ -56,35 +65,31 @@ session_start();
         <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
           <div>
             <label for="nome"></label>
-            <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
+            <input type="text" placeholder="Nome completo" name="nome" id="nome" value="<?php echo $_COOKIE['nome'] ?>" required>
           </div>
           <div class="name">
             <label for="email"></label>
-            <input type="text" placeholder="E-mail" name="email" id="email" required>
+            <input type="text" placeholder="E-mail" name="email" id="email" value="<?php echo $_COOKIE['email'] ?>" required>
           </div>
           <div class="email">
-            <label for="senha"></label>
-            <input type="text" placeholder="Senha" name="senha" id="senha" required>
-          </div>
-          <div>
             <label for="idade"></label>
-            <input type="text" placeholder="Idade" name="idade" id="idade" required>
+            <input type="text" placeholder="Idade" name="idade" id="idade" value="<?php echo $_COOKIE['idade'] ?>" required>
           </div>
           <div>
             <label for="crm"></label>
-            <input type="text" placeholder="CRM" name="crm" id="crm" required>
+            <input type="text" placeholder="CRM" name="crm" id="crm" value="<?php echo $_COOKIE['crm'] ?>" required>
           </div>
           <div>
             <label for="telefone"></label>
-            <input type="text" placeholder="Telefone" name="telefone" id="telefone" required>
+            <input type="text" placeholder="Telefone" name="telefone" id="telefone" value="<?php echo $_COOKIE['telefone'] ?>" required>
           </div>
           <div>
             <label for="endereco"></label>
-            <input type="text" placeholder="Endereço" name="endereco" id="endereco" required>
+            <input type="text" placeholder="Endereço" name="endereco" id="endereco" rvalue="<?php echo $_COOKIE['endereco'] ?>" equired>
           </div>
           <div>
             <label for="especialidade"></label>
-            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" required>
+            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" value="<?php echo $_COOKIE['especialidade'] ?>" required>
           </div>
           <div>
             <label for="genero"></label>
@@ -97,7 +102,7 @@ session_start();
           </div>
           <div>
             <label for="infos"></label>
-            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" required></textarea>
+            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" value="<?php echo $_COOKIE['infos'] ?>" required></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />

@@ -1,12 +1,50 @@
-function validateform(){  
-    var name=document.pacienteform.nome.value;  
-    var password=document.pacienteform.senha.value;  
+
+//function agoraVai(){
+  $(document).ready(function () {
+  $("form").submit(function (event){
+    event.preventDefault()
+
+    var nome = document.getElementById("nome").value
+    var email = document.getElementById("email").value
+    var senha = document.getElementById("senha").value
+    var cnpj = document.getElementById("cnpj").value
+    var telefone = document.getElementById("telefone").value
+    var endereco = document.getElementById("endereco").value
+    var tipoExame = document.getElementById("tipoExame").value
+    var infos = document.getElementById("infos").value
+    var tudoOk=false;
+
+    if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
+      document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
+    }else{
+      tudoOk=true;
+    }
+
+    if(tudoOk){
+      //window.alert("Entro no else!");
+      $.post("laboratorio.php", {nome:nome,
+                                email:email,
+                                senha:senha,
+                                cnpj:cnpj,
+                                telefone:telefone,
+                                endereco:endereco,
+                                tipoExame:tipoExame,
+                                infos:infos,
+                                tudoOk:tudoOk
+      })
       
-    if (name==null || name==""){  
-      alert("Nome não pode ser vazio");  
-      return false;  
-    }else if(password.length<6){  
-      alert("A senha deve ter no mínimo 6 caracteres.");  
-      return false;  
-      }  
-    }  
+    }
+    $(location).attr('href', $('http://www.devmedia.com.br').val())
+
+    
+  })
+})
+  //}
+  /*function erros(){
+    var errEmail = "<?php echo $emailErr; ?>";
+    if(errEmail){
+      
+      //window.alert("Entro no if!");
+    }
+    submit.preventDefault();
+  }*/

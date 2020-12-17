@@ -1,5 +1,25 @@
 <?php 
 
+
+//alteracadastro
+function alterarCadastro($consultaID,$parametro,$valor){
+    $file = "../../xml/consultas.xml";
+    $xml = simplexml_load_file($file) or die("XML não acessado.");
+  
+    for($i = 0; $i < $xml->count(); $i++){
+      if ($xml->consulta[$i]->id == $consultaID){
+        $xml->consulta[$i]->$parametro = $valor;
+      }
+    }
+     //Salvando no xml
+     $dom = dom_import_simplexml($xml)->ownerDocument;
+     $dom->formatOutput = true;
+     $dom->preserveWhiteSpace = false;
+     $dom->loadXML($dom->saveXML());
+     $dom->save("../../xml/consultas.xml");
+   }
+ 
+
 //alerta
 function alerta($texto){
     echo "<script>alert('${texto}');</script>";
@@ -11,7 +31,7 @@ function redireciona($url){
 }
 
 //Função que retira possíveis injeção de código
-function teste($data){
+function verifica($data){
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
@@ -81,11 +101,15 @@ function cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $enderec
 //Função cadastro novo paciente
 function cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos){
     //Carregando xml
+    $id = "";
+
     $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
     //Adicionando paciente
     $node = $xml->addChild('paciente');
+    $id = count($xml)+1;
 
+    $node->addChild('id',$id);
     $node->addChild('nome',$nome);
     $node->addChild('email',$email);
     $node->addChild('idade',$idade);
@@ -122,12 +146,17 @@ function cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $ender
 
 //Cadastra novo laboratório
 function cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos){
+    $id = "";
+
     //Carregando xml
     $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
 
     //Carregando laboratório
     $node = $xml->addChild('lab');
 
+    $id = count($xml)+1;
+
+    $node->addChild('id',$id);
     $node->addChild('nome', $nome);
     $node->addChild('email',$email);
     $node->addChild('telefone',$telefone);
