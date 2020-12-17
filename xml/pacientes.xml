@@ -30,4 +30,34 @@
     <genero>Feminino</genero>
     <infos>afsdsadasdas</infos>
   </paciente>
+  <paciente>
+    <nome>Maria Madalena</nome>
+    <email>maria@maria.com</email>
+    <idade>25</idade>
+    <telefone>11968258215</telefone>
+    <cpf>11234546874</cpf>
+    <endereco>Rua de jesus 123</endereco>
+    <genero>Feminino</genero>
+    <infos>teset</infos>
+  </paciente>
+  <paciente>
+    <nome>aaaaaaaaaaaaaa</nome>
+    <email>aaaaaaaaaaaaa</email>
+    <idade>aaaaaaaaaaaaaa</idade>
+    <telefone>aaaaaaaaaaaaa</telefone>
+    <cpf>aaaaaaaaaaaaaaa</cpf>
+    <endereco>aaaaaaaaaaaaa</endereco>
+    <genero>Feminino</genero>
+    <infos>aaaaaaaaaaaaaa</infos>
+  </paciente>
+  <paciente>
+    <nome>Lana almeida</nome>
+    <email>lana@almeida</email>
+    <idade>12</idade>
+    <telefone>6416416</telefone>
+    <cpf>15641631</cpf>
+    <endereco>rua 14601620</endereco>
+    <genero>Feminino</genero>
+    <infos>1651</infos>
+  </paciente>
 </pacientes>

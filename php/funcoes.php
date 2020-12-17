@@ -37,9 +37,11 @@ function cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $enderec
     //Carregando xml
     $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
 
+    $id = count($xml)+1;
+
     //Adicionando medico
     $node = $xml->addChild('medico');
-
+    $node->addChild('id',$id);
     $node->addChild('nome',$nome);
     $node->addChild('email',$email);
     $node->addChild('idade',$idade);

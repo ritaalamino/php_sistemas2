@@ -32,8 +32,8 @@ session_start();
     <div>Escolha sua opção:</div>
     <nav>
         <ul class="menuItems">
-        <li><a href='medico.html' data-item='Médico'>Médico</a></li>
-        <li><a href='consultas.html' data-item='Consultas'>Consultas</a></li>
+        <li><a href='medico.php' data-item='Médico'>Médico</a></li>
+        <li><a href='Consultas.php' data-item='Consultas'>Consultas</a></li>
         </ul>
     </nav>
 

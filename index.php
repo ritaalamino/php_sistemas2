@@ -2,7 +2,6 @@
 
 session_start();
 
-
 //funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
@@ -13,8 +12,10 @@ function redireciona($url){
 }
 
 function verificaAcesso($user,$password){
-  $file = "xml/user.xml";
-  $xml = simplexml_load_file($file) or die("ERRO: Não foi possível abrir o XML");
+  $file = "xml/user.xml"; 
+  $xml = simplexml_load_file($file) or die("Não foi possível abrir o XML");
+  //ini_set( 'error_reporting', E_ALL );
+  //ini_set( 'display_errors', true );
 
   for($i = 0; $i < $xml->count(); $i++){
       $xmlcadastro = $xml->user[$i]->login;
@@ -36,7 +37,7 @@ function verificaAcesso($user,$password){
   return "";
 }
 
-function teste($data){
+function verificaS($data){
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
@@ -44,7 +45,6 @@ function teste($data){
 }
 
 ///////////////////// 
-
 
 $username = $senha = "";
 $user = $sen = $verifica;
@@ -58,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       alerta($userErr);
       $user=false;
   }else{
-      $username = teste($_POST["username"]);
+      $username = verificaS($_POST["username"]);
       if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
           $username = "Formato de e-mail inválido!";
           alerta($username);
@@ -125,7 +125,7 @@ if($user===true && $sen===true){
           </div>
         </div>
         <div class='control block-cube block-input'>
-          <input name='senha' placeholder='senha' type='senha' id="senha">
+          <input name='senha' placeholder='senha' type='password' id="senha">
           <?php echo $senhaErr;?>
           <div class='bg-top'>
             <div class='bg-inner'></div>

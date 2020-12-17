@@ -44,13 +44,14 @@ session_start();
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
+    <script src="../../js/script.js"></script>
 
     <title>Clínica PW</title>
 </head>
 <body>
 
     <!-- valida form -->
-    <script src="js/script.js"></script>
+    
     
     <div id="container">
         <h1>&bull; Pacientes &bull;</h1>

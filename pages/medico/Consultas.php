@@ -5,45 +5,6 @@
 
   session_start();
 
-  function getConsultas(){
-    $file = "xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      $vetor['id'] = strval($consulta->id);
-      $vetor['paciente'] = strval($consulta->paciente);
-      $vetor['data'] = strval($consulta->data);
-      $vetor['lab'] = strval($consulta->lab);
-      $vetor['diagnostico'] = strval($consulta->diagnostico);
-      $vetor['exames'] = strval($consulta->exames);
-      $vetor['resultados'] = strval($consulta->resultados);
-    }
-    return $vetor;
-  }
-
-  function getConsulta($consultaID){
-    $file = "xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      if(strval($xml->id) == strval($consultaID)){
-        $vetor['id'] = strval($consulta->id);
-        $vetor['paciente'] = strval($consulta->paciente);
-        $vetor['data'] = strval($consulta->data);
-        $vetor['lab'] = strval($consulta->lab);
-        $vetor['diagnostico'] = strval($consulta->diagnostico);
-        $vetor['exames'] = strval($consulta->exames);
-        $vetor['resultados'] = strval($consulta->resultados);
-      }
-    }
-    return $vetor;
-  }
-  function getConsulta2(){
-    $file = "xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    return $xml;
-  }
-
 ?>
 
 <head>
@@ -64,13 +25,33 @@
     <div id="container">
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
-          <?php
-            $consultas = getConsulta2();
-            echo $consultas->consulta->paciente;
-          ?>
         </div>  
+        <?php
+            $id = $paciente = $data = $lab = $diagnostico = $exames = $dados = "";
+
+            $file = "../../xml/consultas.xml";
+            $xml = simplexml_load_file($file);
+
+            foreach ($xml->children() as $consulta) {
+              $id = $consulta->id;
+              $paciente= $consulta->paciente;
+              $data= $consulta->data;
+              $lab= $consulta->lab;
+              $diagnostico = $consulta->diagnostico;
+              $exames = $consulta->exames;
+              $resultados = $consulta->resultados;
+              echo '<div id="container">';
+              echo '<p>Paciente: ' .$paciente .'<br>';
+              echo 'Data: ' .$data .'<br>';
+              echo 'Laboratório: ' .$lab .'<br>';
+              echo 'Diagnóstico: ' .$diagnostico .'<br>';
+              echo 'Exames: ' .$exames .'<br>';
+              echo 'Resultados: ' .$resultados .'<br>';
+              setcookie("id", $id , time()+60000, '/');
+              echo '<a href ="altera.php">Alterar</a>';
+              echo '</div>';
+            }
+          ?>
     </div>
 </body>
 </html>
-
-

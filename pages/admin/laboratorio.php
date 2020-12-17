@@ -5,6 +5,8 @@ include("../../php/funcoes.php");
 
 $nome = $email = $senha = $telefone = $cnpj = "";
 $endereco = $tipoExame = $infos = "";
+$emailErr = $telefoneErr = $cnpjErr = false;
+$tudoOk=true;
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
@@ -17,18 +19,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $tipoExame = teste($_POST["tipoExame"]);
   $infos = teste($_POST["infos"]);
 
-  if(jaExiste($email, "../../xml/labs.xml")){
-    alerta("Usuário já existe!");
-    redireciona("userAdmin.php");
-  }else{
-    cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
-    alerta("Cadastro efetuado");
-    redireciona("userAdmin.php");
+  if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
+    $emailErr=true;
+    $tudoOk=false;
+  }
+
+  if($tudoOk){
+    if(jaExiste($email, "../../xml/labs.xml")){
+      alerta("Usuário já existe!");
+      redireciona("userAdmin.php");
+    }else{
+      cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
+      alerta("Cadastro efetuado");
+      redireciona("userAdmin.php");
+    }
   }
 
 }
 
-session_start();
+//session_start();
 
 ?>
 
@@ -51,22 +60,28 @@ session_start();
         <h1>&bull; Laboratório &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="erros()" ajax="true">
           <div>
             <label for="nome"></label>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
+            
           </div>
           <div class="name">
             <label for="email"></label>
+            <h6 id="demo">Email inválido!</h6>
             <input type="text" placeholder="E-mail" name="email" id="email" required>
+            <h6>CNPJ inválido!</h6>
           </div>
+          
           <div class="email">
             <label for="senha"></label>
-            <input type="text" placeholder="Senha" name="senha" id="senha" required>
+            <h6>.</h6>
+            <input type="password" placeholder="Senha" name="senha" id="senha" required>
           </div>
           <div>
             <label for="cnpj"></label>
-            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj" required>
+            <input type="number" placeholder="CNPJ" name="cnpj" id="cnpj" required>
+            
           </div>
           <div>
             <label for="telefone"></label>
@@ -93,6 +108,17 @@ session_start();
           </div>
         </form><!-- Fim form -->
       </div><!-- Fim #container -->
+
+      <script>
+        function erros(){
+          var errEmail = "<?php echo $emailErr; ?>";
+          if(errEmail){
+            document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
+            //window.alert("Entro no if!");
+          }
+          submit.preventDefault();
+        }
+      </script>
 </body>
 </html>
 

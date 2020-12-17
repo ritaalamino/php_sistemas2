@@ -18,4 +18,13 @@
     <tipoExame>Ultrasom</tipoExame>
     <infos>Clinica de exames</infos>
   </lab>
+  <lab>
+    <nome>Marta ROCHA</nome>
+    <email>marta@rocha.com</email>
+    <telefone>1764651561</telefone>
+    <cnpj>167441161000125</cnpj>
+    <endereco>Rua 25468165</endereco>
+    <tipoExame>Ultrasom</tipoExame>
+    <infos>TESTE</infos>
+  </lab>
 </labs>

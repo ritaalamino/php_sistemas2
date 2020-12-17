@@ -11,4 +11,15 @@
     <genero>Masculino</genero>
     <infos>Clinico geral</infos>
   </medico>
+  <medico>
+    <nome>Joana SIlva</nome>
+    <email>joana@joana.com</email>
+    <idade>25</idade>
+    <telefone>2564165165</telefone>
+    <crm>25161</crm>
+    <endereco>Rua TAL x abc</endereco>
+    <especialidade>VACINADORA</especialidade>
+    <genero>Feminino</genero>
+    <infos>SIMPLES</infos>
+  </medico>
 </medicos>

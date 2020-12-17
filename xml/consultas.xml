@@ -1,21 +1,39 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <consultas>
-    <consulta>
-        <id>1</id>
-        <paciente>Wanderson</paciente>
-        <data>01/01/2020</data>
-        <lab>Laboratório 1</lab>
-        <diagnostico>Amor</diagnostico>
-        <exames>Sangue@</exames>
-        <resultados>Excesso de amor</resultados>
-    </consulta>
-    <consulta>
-        <id>1</id>
-        <paciente>Wanderson</paciente>
-        <data>01/01/2020</data>
-        <lab>Laboratório 1</lab>
-        <diagnostico>Amor</diagnostico>
-        <exames>Sangue@</exames>
-        <resultados>Excesso de amor</resultados>
-    </consulta>
+  <consulta>
+    <id>1</id>
+    <paciente>luana maria da silva</paciente>
+    <data>20/20/2020</data>
+    <lab>Laboratório 2</lab>
+    <diagnostico>bla bla bla</diagnostico>
+    <exames>teste 123</exames>
+    <resultados>adsddedasdad</resultados>
+  </consulta>
+  <consulta>
+    <id>2</id>
+    <paciente>luana maria da silva2</paciente>
+    <data>20/20/2020</data>
+    <lab>Laboratório 2</lab>
+    <diagnostico>bla bla bla</diagnostico>
+    <exames>teste 123</exames>
+    <resultados>adsddedasdad</resultados>
+  </consulta>
+  <consulta>
+    <id>3</id>
+    <paciente>joana silva santos</paciente>
+    <data>20/20/2021</data>
+    <lab>Laboratório 1</lab>
+    <diagnostico>bla bla bla</diagnostico>
+    <exames>teste 123</exames>
+    <resultados>adsddedasdad</resultados>
+  </consulta>
+  <consulta>
+    <id>4</id>
+    <paciente>teste</paciente>
+    <data>10/10/2020</data>
+    <lab>Laboratório 2</lab>
+    <diagnostico>teste</diagnostico>
+    <exames>teste</exames>
+    <resultados>teste</resultados>
+  </consulta>
 </consultas>
