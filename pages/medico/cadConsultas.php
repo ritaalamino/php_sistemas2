@@ -24,13 +24,14 @@
 
   /////////////////////////////////////////////
 
-  $nome = $laboratorio = $paciente = $diagnostico = $exames = $resultados = "";
+  $nome = $laboratorio = $paciente = $medico = $diagnostico = $exames = $resultados = "";
 
   ///////////////////////////////////////////
   if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $data = verifica($_POST["data"]);
     $laboratorio = verifica($_POST["laboratorio"]);
+    $medico = verifica($_POST["medico"]);
     $paciente = verifica($_POST["paciente"]);
     $diagnostico = verifica($_POST["diagnostico"]);
     $exames = verifica($_POST["exames"]);
@@ -43,6 +44,7 @@
     $node = $xml->addChild('consulta');
     $node->addChild('id',$id);
     $node->addChild('paciente',$paciente);
+    $node->addChild('medico',$medico);
     $node->addChild('data',$data);
     $node->addChild('lab',$laboratorio);
     $node->addChild('diagnostico',$diagnostico);
@@ -96,6 +98,10 @@
           <div class="paciente">
             <label for="paciente"></label>
             <input type="text" placeholder="Paciente" name="paciente" id="paciente" required>
+          </div>
+          <div class="medico">
+            <label for="medico"></label>
+            <input type="text" placeholder="Médico" name="medico" id="medico" required>
           </div>
           <div class="diagnostico">
             <label for="diagnostico"></label>

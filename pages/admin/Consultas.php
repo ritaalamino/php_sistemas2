@@ -28,48 +28,44 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Médico</title>
+    <title>Saúde</title>
+
 </head>
 <body>
-    <div id="container">
-        <h1>&bull; Medico &bull;</h1>
-        <div class="underline">
-        </div>
-        <?php
-            $id = $paciente = $data = $lab = $diagnostico = $exames = $dados = "";
 
-            $file = "../../xml/medicos.xml";
+    <div id="container">
+        <h1>&bull; Consultas &bull;</h1>
+        <div class="underline">
+        </div>  
+        <?php
+            $id = $paciente = $medico = $data = $lab = $diagnostico = $exames = $dados = "";
+
+            $file = "../../xml/consultas.xml";
             $xml = simplexml_load_file($file);
 
-            foreach ($xml->children() as $medico) {
-              $id = $medico->id;
-              $nome = $medico->nome;
-              $email = $medico->email;
-              $idade = $medico->idade;
-              $telefone = $medico->telefone;
-              $crm = $medico->crm;
-              $endereco = $medico->endereco;
-              $especialidade = $medico->especialidade;
-              $genero = $medico->genero;
-              $info = $medico->infos;
+            foreach ($xml->children() as $consulta) {
+              $id = $consulta->id;
+              $paciente= $consulta->paciente;
+              $medico = $consulta->medico;
+              $data= $consulta->data;
+              $lab= $consulta->lab;
+              $diagnostico = $consulta->diagnostico;
+              $exames = $consulta->exames;
+              $resultados = $consulta->resultados;
               echo '<div id="container">';
-              echo '<p>Nome: ' .$nome .'<br>';
-              echo 'E-mail: ' .$email .'<br>';
-              echo 'Idade: ' .$idade .'<br>';
-              echo 'Telefone: ' .$telefone .'<br>';
-              echo 'CRM: ' .$crm .'<br>';
-              echo 'Endereço: ' .$endereco .'<br>';
-              echo 'Especialidade: ' .$especialidade .'<br>';
-              echo 'Genero: ' .$genero .'<br>';
-              echo 'Info: ' .$info .'<br>';
+              echo '<p>Paciente: ' .$paciente .'<br>';
+              echo 'Médico: ' .$medico .'<br>';
+              echo 'Data: ' .$data .'<br>';
+              echo 'Laboratório: ' .$lab .'<br>';
+              echo 'Diagnóstico: ' .$diagnostico .'<br>';
+              echo 'Exames: ' .$exames .'<br>';
+              echo 'Resultados: ' .$resultados .'<br>';
               setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'medico' , time()+60000, '/');
+              setcookie("tipo", 'consulta' , time()+60000, '/');
               echo '<a href ="../../php/altera.php">Alterar</a>';
               echo '</div>';
             }
           ?>
-      </div><!-- // End #container -->
+    </div>
 </body>
 </html>
-
-

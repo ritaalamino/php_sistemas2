@@ -38,31 +38,49 @@ $logado = $_SESSION['username'];
         <div class="underline">
         </div>  
         <?php
-            $id = $paciente = $data = $lab = $diagnostico = $exames = $dados = "";
+            $id = $paciente = $data = $lab = $medico = $diagnostico = $exames = $dados = "";
 
+            $flag = false;
             $file = "../../xml/consultas.xml";
+            $file2 = "../../xml/medicos.xml";
             $xml = simplexml_load_file($file);
+            $xml2 = simplexml_load_file($file2);
 
             foreach ($xml->children() as $consulta) {
-              $id = $consulta->id;
-              $paciente= $consulta->paciente;
-              $data= $consulta->data;
-              $lab= $consulta->lab;
-              $diagnostico = $consulta->diagnostico;
-              $exames = $consulta->exames;
-              $resultados = $consulta->resultados;
-              echo '<div id="container">';
-              echo '<p>Paciente: ' .$paciente .'<br>';
-              echo 'Data: ' .$data .'<br>';
-              echo 'Laboratório: ' .$lab .'<br>';
-              echo 'Diagnóstico: ' .$diagnostico .'<br>';
-              echo 'Exames: ' .$exames .'<br>';
-              echo 'Resultados: ' .$resultados .'<br>';
-              setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'consulta' , time()+60000, '/');
-              echo '<a href ="../../php/altera.php">Alterar</a>';
-              echo '</div>';
+                foreach ($xml2->children() as $medico) {
+                if (strval($consulta->medico) == strval($medico->nome)){
+                    $id = $consulta->id;
+                    $paciente= $consulta->paciente;
+                    $medico= $consulta->medico;
+                    $data= $consulta->data;
+                    $lab= $consulta->lab;
+                    $diagnostico = $consulta->diagnostico;
+                    $exames = $consulta->exames;
+                    $resultados = $consulta->resultados;
+                    echo '<div id="container">';
+                    echo '<p>Paciente: ' .$paciente .'<br>';
+                    echo 'Médico: ' .$medico .'<br>';
+                    echo 'Data: ' .$data .'<br>';
+                    echo 'Laboratório: ' .$lab .'<br>';
+                    echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                    echo 'Exames: ' .$exames .'<br>';
+                    echo 'Resultados: ' .$resultados .'<br>';
+                    setcookie("id", $id , time()+60000, '/');
+                    setcookie("tipo", 'consulta' , time()+60000, '/');
+                    echo '<a href ="../../php/altera.php">Alterar</a>';
+                    echo '</div>';
+                    $flag = false;
+                    break;
+                }
+                else{
+                    $flag = true;
+                  }
+                }
             }
+                if ($flag == true){
+                  echo '<br><p>';
+                  echo 'Não existem consultas para esse cadastro. </p>';
+                }
           ?>
     </div>
 </body>

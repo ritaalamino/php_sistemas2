@@ -8,7 +8,7 @@ if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
     session_start();
 }
 
-if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'admin')){
     unset($_SESSION['username']);
     $_SESSION['valid'] = false;
     unset($_SESSION['tipo']);
@@ -16,7 +16,6 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
     }
 
 $logado = $_SESSION['username'];
-
 
   function alterarCadastro($consultaID,$parametro,$valor){
     $file = "../../xml/consultas.xml";
@@ -54,37 +53,35 @@ $logado = $_SESSION['username'];
 <body>
 
     <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+        <h1>&bull; Laboratórios &bull;</h1>
         <div class="underline">
         </div>  
         <?php
-            $id = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
-            $receita = $exames = $infos = '';
+            $id = $nome = $email = $telefone = '';
+            $cnpj = $endereco = $tipoExame = $infos = '';
 
-            $file = "../../xml/exames.xml";
+            $file = "../../xml/labs.xml";
             $xml = simplexml_load_file($file);
-            foreach ($xml->children() as $exame) {
-              $id = $exame->id;
-              $data= $exame->data;
-              $medico= $exame->medico;
-              $paciente= $exame->paciente;
-              $email = $exame->email;
-              $diagnostico = $exame->diagnostico;
-              $receita = $exame->receita;
-              $exames = $exame->exames;
-              $infos = $exame->infos;
+            foreach ($xml->children() as $lab) {
+              $id = $lab->id;
+              $nome= $lab->nome;
+              $email= $lab->email;
+              $telefone = $lab->telefone;
+              $cnpj = $lab->cnpj;
+              $endereco = $lab->endereco;
+              $tipoExame = $lab->tipoExame;
+              $infos = $lab->infos;
               echo '<div id="container">';
               echo '<p>ID: ' .$id .'<br>';
-              echo 'Paciente: ' .$paciente .'<br>';
-              echo 'Data: ' .$data .'<br>';
-              echo 'Médico: ' .$medico .'<br>';
+              echo 'Nome: ' .$nome .'<br>';
               echo 'Email: ' .$email .'<br>';
-              echo 'Diagnóstico: ' .$diagnostico .'<br>';
-              echo 'Receita: ' .$receita .'<br>';
-              echo 'Exames: ' .$exames .'<br>';
+              echo 'Telefone: ' .$telefone .'<br>';
+              echo 'CNPJ: ' .$cnpj .'<br>';
+              echo 'Endereço: ' .$endereco .'<br>';
+              echo 'Tipo de Exame: ' .$tipoExame .'<br>';
               echo 'Infos: ' .$infos .'<br>';
               setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'exame' , time()+60000, '/');
+              setcookie("tipo", 'lab' , time()+60000, '/');
               echo '<a href ="../../php/altera.php">Alterar</a>';
               echo '</div>';
             }
