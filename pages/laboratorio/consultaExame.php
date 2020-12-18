@@ -17,41 +17,6 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
 
 $logado = $_SESSION['username'];
 
-  function getConsultas(){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      $vetor[$consulta->id] = array(
-        'paciente' => strval($consulta->paciente),
-        'data' => strval($consulta->data),
-        'lab' => strval($consulta->lab),
-        'diagnostico' => strval($consulta->diagnostico),
-        'exames' => strval($consulta->exames),
-        'resultados' => strval($consulta->resultados)
-      );
-    }
-    return $vetor;
-  }
-
-  function getConsulta($consultaID){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      if(strval($xml->id) == strval($consultaID)){
-        $vetor['id'] = strval($consulta->id);
-        $vetor['paciente'] = strval($consulta->paciente);
-        $vetor['data'] = strval($consulta->data);
-        $vetor['lab'] = strval($consulta->lab);
-        $vetor['diagnostico'] = strval($consulta->diagnostico);
-        $vetor['exames'] = strval($consulta->exames);
-        $vetor['resultados'] = strval($consulta->resultados);
-      }
-    }
-    return $vetor;
-  }
-
 
   function alterarCadastro($consultaID,$parametro,$valor){
     $file = "../../xml/consultas.xml";
@@ -93,36 +58,57 @@ $logado = $_SESSION['username'];
         <div class="underline">
         </div>  
         <?php
-            $id = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
+            $id = $lab = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
             $receita = $exames = $infos = '';
 
+            $flag = false;
             $file = "../../xml/exames.xml";
+            $file2 = "../../xml/labs.xml";
             $xml = simplexml_load_file($file);
+            $xml2 = simplexml_load_file($file2);
+
             foreach ($xml->children() as $exame) {
-              $id = $exame->id;
-              $data= $exame->data;
-              $medico= $exame->medico;
-              $paciente= $exame->paciente;
-              $email = $exame->email;
-              $diagnostico = $exame->diagnostico;
-              $receita = $exame->receita;
-              $exames = $exame->exames;
-              $infos = $exame->infos;
-              echo '<div id="container">';
-              echo '<p>ID: ' .$id .'<br>';
-              echo 'Paciente: ' .$paciente .'<br>';
-              echo 'Data: ' .$data .'<br>';
-              echo 'Médico: ' .$medico .'<br>';
-              echo 'Email: ' .$email .'<br>';
-              echo 'Diagnóstico: ' .$diagnostico .'<br>';
-              echo 'Receita: ' .$receita .'<br>';
-              echo 'Exames: ' .$exames .'<br>';
-              echo 'Infos: ' .$infos .'<br>';
-              setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'exame' , time()+60000, '/');
-              echo '<a href ="../../php/altera.php">Alterar</a>';
-              echo '</div>';
-            }
+                foreach ($xml2->children() as $lab) {
+                  if(strval($lab->email) == strval($_SESSION['username'])){
+                    if (strval($exame->lab) == strval($lab->nome)){
+                      $id = $exame->id;
+                      $data= $exame->data;
+                      $medico= $exame->medico;
+                      $paciente= $exame->paciente;
+                      $lab = $exame->lab;
+                      $email = $exame->email;
+                      $diagnostico = $exame->diagnostico;
+                      $receita = $exame->receita;
+                      $exames = $exame->exames;
+                      $infos = $exame->infos;
+                      echo '<div id="container">';
+                      echo '<p>ID: ' .$id .'<br>';
+                      echo 'Paciente: ' .$paciente .'<br>';
+                      echo 'Laboratório: ' .$lab .'<br>';
+                      echo 'Data: ' .$data .'<br>';
+                      echo 'Médico: ' .$medico .'<br>';
+                      echo 'Email: ' .$email .'<br>';
+                      echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                      echo 'Receita: ' .$receita .'<br>';
+                      echo 'Exames: ' .$exames .'<br>';
+                      echo 'Infos: ' .$infos .'<br>';
+                      setcookie("id", $id , time()+60000, '/');
+                      setcookie("tipo", 'exame' , time()+60000, '/');
+                      echo '<a href ="../../php/altera.php">Alterar</a>';
+                      echo '</div>';
+                      $flag = false;
+                      break 2;
+                    }
+                    else{
+                      $flag = true;
+                    }
+                  }
+              }
+          }
+              if ($flag == true){
+                echo '<br><p>';
+                echo 'Não existem consultas para esse cadastro. </p>';
+              }
           ?>
     </div>
 </body>

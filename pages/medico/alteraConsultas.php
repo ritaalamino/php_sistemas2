@@ -10,26 +10,26 @@
       session_start();
   }
   if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
-      unset($_SESSION['username']);
-      $_SESSION['valid'] = false;
-      unset($_SESSION['tipo']);
-      header('location:../../index.php');
+    if($_SESSION['tipo'] != 'admin'){
+        unset($_SESSION['username']);
+        $_SESSION['valid'] = false;
+        unset($_SESSION['tipo']);
+        header('location:../../index.php');
+        }
       }
-
   $logado = $_SESSION['username'];
-
-
-  session_start();
+      
 
   /////////////////////////////////////////////
 
-  $data = $id = $laboratorio = $paciente = $diagnostico = $exames = $resultados = "";
+  $data = $id = $laboratorio = $medico = $paciente = $diagnostico = $exames = $resultados = "";
 
   ///////////////////////////////////////////
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     $data = verifica($_POST["data"]);
     $laboratorio = verifica($_POST["laboratorio"]);
     $paciente = verifica($_POST["paciente"]);
+    $medico = verifica($_POST["medico"]);
     $diagnostico = verifica($_POST["diagnostico"]);
     $exames = verifica($_POST["exames"]);
     $resultados = verifica($_POST["resultados"]);
@@ -39,6 +39,7 @@
     alterarCadastro($_COOKIE['id'],'data',$data);
     alterarCadastro($_COOKIE['id'],'lab',$laboratorio);
     alterarCadastro($_COOKIE['id'],'paciente',$paciente);
+    alterarCadastro($_COOKIE['id'],'medico',$medico);
     alterarCadastro($_COOKIE['id'],'diagnostico',$diagnostico);
     alterarCadastro($_COOKIE['id'],'exames',$exames);
     alterarCadastro($_COOKIE['id'],'resultados',$resultados);
@@ -88,6 +89,10 @@
           <div class="paciente">
             <label for="paciente"></label>
             <input type="text" placeholder="Paciente" name="paciente" id="paciente"  value="<?php echo $_COOKIE['paciente'] ?>" required>
+          </div>
+          <div class="medico">
+            <label for="medico"></label>
+            <input type="text" placeholder="Médico" name="medico" id="medico"  value="<?php echo $_COOKIE['medico'] ?>" required>
           </div>
           <div class="diagnostico">
             <label for="diagnostico"></label>

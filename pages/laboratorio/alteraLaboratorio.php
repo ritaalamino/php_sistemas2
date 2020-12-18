@@ -7,14 +7,15 @@ if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
     session_start();
 }
 if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
-  unset($_SESSION['username']);
-  $_SESSION['valid'] = false;
-  unset($_SESSION['tipo']);
-  header('location:../../index.php');
+  if($_SESSION['tipo'] != 'admin'){
+    unset($_SESSION['username']);
+    $_SESSION['valid'] = false;
+    unset($_SESSION['tipo']);
+    header('location:../../index.php');
+    }
   }
 
 $logado = $_SESSION['username'];
-$_COOKIE['id'] = $_SESSION['id'];
 
 include("../../php/funcoes.php");
 
@@ -79,27 +80,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
           <div>
             <label for="nome"></label>
-            <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
+            <input type="text" placeholder="Nome completo" name="nome" id="nome" value="<?php echo $_COOKIE['nome'] ?>" required>
           </div>
           <div class="name">
             <label for="email"></label>
-            <input type="text" placeholder="E-mail" name="email" id="email" required>
-          </div>
-          <div class="email">
-            <label for="senha"></label>
-            <input type="text" placeholder="Senha" name="senha" id="senha" required>
+            <input type="text" placeholder="E-mail" name="email" id="email" value="<?php echo $_COOKIE['email'] ?>" required>
           </div>
           <div>
-            <label for="cnpj"></label>
-            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj" required>
+            <label for="email"></label>
+            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj"  value="<?php echo $_COOKIE['cnpj'] ?>" required>
           </div>
           <div>
             <label for="telefone"></label>
-            <input type="text" placeholder="Telefone" name="telefone" id="telefone" required>
+            <input type="text" placeholder="Telefone" name="telefone" id="telefone" value="<?php echo $_COOKIE['telefone'] ?>" required>
           </div>
           <div>
             <label for="endereco"></label>
-            <input type="text" placeholder="Endereço" name="endereco" id="endereco" required>
+            <input type="text" placeholder="Endereço" name="endereco" id="endereco" value="<?php echo $_COOKIE['endereco'] ?>" required>
           </div>
           <div>
             <label for="tipoExame"></label>
@@ -111,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="infos"></label>
-            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" required></textarea>
+            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" value="<?php echo $_COOKIE['infos'] ?>" required></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />

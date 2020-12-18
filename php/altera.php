@@ -38,6 +38,7 @@
               setcookie('paciente',$xml->consulta[$i]->paciente, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('data',$xml->consulta[$i]->data, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('lab',$xml->consulta[$i]->lab, time()+600, '/pages/medico/alteraConsultas.php');
+              setcookie('medico',$xml->consulta[$i]->medico, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('diagnostico',$xml->consulta[$i]->diagnostico, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('exames',$xml->consulta[$i]->exames, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('resultados',$xml->consulta[$i]->resultados, time()+600, '/pages/medico/alteraConsultas.php');
@@ -92,6 +93,28 @@
             }
           }
     }
+
+        
+    function importaLab(){
+      $file = "../xml/labs.xml";
+          $xml = simplexml_load_file($file) or die("XML não acessado.");
+          for($i = 0; $i < $xml->count(); $i++){
+            if ($xml->lab[$i]->id == $_COOKIE['id']){
+              setcookie('id',$xml->lab[$i]->id, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('nome',$xml->lab[$i]->nome, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('email',$xml->lab[$i]->email, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('telefone',$xml->lab[$i]->telefone, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('cnpj',$xml->lab[$i]->cnpj, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('endereco',$xml->lab[$i]->endereco, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('tipoExame',$xml->lab[$i]->tipoExame, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              setcookie('infos',$xml->lab[$i]->infos, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              redireciona('../pages/laboratorio/alteraLaboratorio.php');
+              //ini_set( 'error_reporting', E_ALL );
+              //ini_set( 'display_errors', true );
+            }
+          }
+    }
+      
       
 
       function importaCookie($cookie){
@@ -107,6 +130,9 @@
           break;
         case 'paciente':
           importaPaciente();
+          break;
+        case 'lab':
+          importaLab();
           break;
     }
   } 

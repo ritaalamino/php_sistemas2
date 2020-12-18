@@ -102,9 +102,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <label for="genero"></label>
             <select placeholder="Gênero" name="genero" id="genero" required>
               <option disabled hidden selected>Gênero</option>
-              <option>Feminino</option>
-              <option>Masculino</option>
-              <option>Outro</option>
+              <option value="Feminino"> </option>
+              <option value="Masculino"> </option>
             </select>
           </div>
           <div>

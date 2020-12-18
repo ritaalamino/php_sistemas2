@@ -35,7 +35,7 @@ $logado = $_SESSION['username'];
             <li><a href='paciente.php' data-item='<?php echo $logado; ?>'><?php echo $logado; ?></a></li>
         </ul>
     </nav>
-    <br><br><br><br><br><br><br><br>
+    <br><br>
 
     <div>Sua saúde em primeiro lugar.</div>
     <p data-item='Clínica RW'>Clínica RW</p>

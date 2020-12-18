@@ -3,6 +3,7 @@
   <consulta>
     <id>1</id>
     <paciente>luana maria da silva</paciente>
+    <medico>Joana Silva 2</medico>
     <data>20/20/2020</data>
     <lab>Laboratório 2</lab>
     <diagnostico>bla bla bla</diagnostico>
@@ -12,8 +13,9 @@
   <consulta>
     <id>2</id>
     <paciente>luana maria da silva2</paciente>
+    <medico>Joana Silva 2</medico>
     <data>20/20/2020</data>
-    <lab/>
+    <lab>Laboratório 2</lab>
     <diagnostico>bla bla bla</diagnostico>
     <exames>teste 123</exames>
     <resultados>Os resultados vão aqui</resultados>
@@ -21,6 +23,7 @@
   <consulta>
     <id>3</id>
     <paciente>joana silva santos</paciente>
+    <medico>Joana Silva 2</medico>
     <data>20/20/2021</data>
     <lab>Laboratório 1</lab>
     <diagnostico>bla bla bla</diagnostico>
@@ -30,6 +33,7 @@
   <consulta>
     <id>4</id>
     <paciente>Luana maria da silva</paciente>
+    <medico>Joana Silva</medico>
     <data>10/10/2020</data>
     <lab>Laboratório 1</lab>
     <diagnostico>santa</diagnostico>
@@ -39,6 +43,7 @@
   <consulta>
     <id>5</id>
     <paciente>Maria Madalena</paciente>
+    <medico>Joana Silva</medico>
     <data>20/20/2020</data>
     <lab>Laboratório 2</lab>
     <diagnostico>Santa</diagnostico>
