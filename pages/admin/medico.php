@@ -42,7 +42,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     redireciona("userAdmin.php");
   }
 }
-session_start();
 ?>
 
 <!DOCTYPE html>

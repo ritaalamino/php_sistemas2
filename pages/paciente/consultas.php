@@ -28,13 +28,13 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Seguros</title>
+    <title>Saúde</title>
 
 </head>
 <body>
 
     <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+        <h1>&bull; Consultas &bull;</h1>
         <div class="underline">
         </div>  
         <?php
@@ -46,8 +46,8 @@ $logado = $_SESSION['username'];
             $xml2 = simplexml_load_file($file2);
 
             foreach ($xml->children() as $consulta) {
-                foreach ($xml2->children() as $consulta2) {
-                if ($consulta->paciente == $consulta2->nome){
+                foreach ($xml2->children() as $paciente) {
+                if (strval($consulta->paciente) == strval($paciente->nome)){
                     $id = $consulta->id;
                     $paciente= $consulta->paciente;
                     $data= $consulta->data;
@@ -66,6 +66,8 @@ $logado = $_SESSION['username'];
                     setcookie("tipo", 'consulta' , time()+60000, '/');
                     echo '<a href ="../../php/altera.php">Alterar</a>';
                     echo '</div>';
+                    $flag = false;
+                    break;
                 }
                 else{
                     $flag = true;

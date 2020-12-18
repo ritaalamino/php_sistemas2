@@ -80,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Clínica PW</title>
+    <title>Saúde</title>
 </head>
 <body>
     <div id="container">

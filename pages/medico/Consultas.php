@@ -28,13 +28,13 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Seguros</title>
+    <title>Saúde</title>
 
 </head>
 <body>
 
     <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+        <h1>&bull; Consultas &bull;</h1>
         <div class="underline">
         </div>  
         <?php
