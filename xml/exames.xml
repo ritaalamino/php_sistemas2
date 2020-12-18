@@ -9,7 +9,7 @@
     <email>maria@maria.com</email>
     <diagnostico>teste123</diagnostico>
     <receita>teste123</receita>
-    <exames>teeste</exames>
+    <exames>Ultrasom</exames>
     <infos>teste</infos>
   </exame>
   <exame>
@@ -21,7 +21,7 @@
     <email>pinte@janice.com</email>
     <diagnostico>teste</diagnostico>
     <receita>teste</receita>
-    <exames>teste</exames>
+    <exames>Sangue</exames>
     <infos>teste</infos>
   </exame>
   <exame>
@@ -32,7 +32,7 @@
     <email>lab</email>
     <diagnostico>bla bla</diagnostico>
     <receita>bla bla</receita>
-    <exames>bla bla</exames>
+    <exames>Ultrasom</exames>
     <infos>bla bla</infos>
   </exame>
   <exame>

@@ -1,6 +1,11 @@
 <?php
 //Funções
 
+$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+$exames = simplexml_load_file("../../xml/tipoExames.xml") or die("ERRO: Não foi possível abrir o XML");
+
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
 if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
@@ -53,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
   alerta("Cadastro alterado");
-  redireciona("userAdmin.php");
+  redireciona("userLab.php");
 }
 
 ?>
@@ -101,14 +106,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           <div>
             <label for="tipoExame"></label>
             <select placeholder="Tipo Exame" name="tipoExame" id="tipoExame" required>
-              <option disabled hidden selected>Tipo de Exame</option>
-              <option>Sangue</option>
-              <option>Ultrasom</option>
+              <option disabled hidden>Tipo de Exame</option>
+              <?php foreach($exames as $exame){
+                  if(strval($exame->$tipo)   == strval($_COOKIE['tipoExame'])){
+                    echo "<option selected>".$exame->tipo."</option>";
+                  }
+                  else {
+                    echo "<option>".$exame->tipo."</option>";
+                  }
+                } ?>
             </select>
           </div>
           <div>
             <label for="infos"></label>
-            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" value="<?php echo $_COOKIE['infos'] ?>" required></textarea>
+            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" required><?php echo $_COOKIE['infos'] ?></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />

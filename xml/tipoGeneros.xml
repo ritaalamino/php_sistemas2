@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<generos>
+  <genero>
+    <tipo>Feminino</tipo>
+  </genero>
+  <genero>
+    <tipo>Masculino</tipo>
+  </genero>
+  <genero>
+    <tipo>Outro</tipo>
+  </genero>
+  
+</generos>

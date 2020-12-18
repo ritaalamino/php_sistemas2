@@ -3,6 +3,10 @@
   //Incluindo bibliotecas
   include("../../php/funcoes.php");
 
+  $medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+  $labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+  $pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+
 
   ini_set( 'error_reporting', E_ALL );
   ini_set( 'display_errors', true );
@@ -48,6 +52,7 @@
     redireciona("Consultas.php");
   }
 
+  
 ?>
 
 <!DOCTYPE html>
@@ -81,9 +86,11 @@
           <div class="subject">
             <label for="laboratorio"></label>
             <select placeholder="Laboratório" name="laboratorio" id="laboratorio" required>
-              <option disabled hidden selected>Laboratório</option>
-              <option>Laboratório 1</option>
-              <option>Laboratório 2</option>
+              <option disabled hidden>Laboratório</option>
+              <?php foreach($labs as $lab){
+                if($lab->nome == $_COOKIE['lab']){
+                  echo "<option selected>".$lab->nome."</option>";
+                } else { echo "<option>".$lab->nome."</option>";}} ?>}
             </select>
           </div>
           <div class="paciente">

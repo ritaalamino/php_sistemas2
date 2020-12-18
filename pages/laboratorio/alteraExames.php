@@ -19,6 +19,11 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
 
 $logado = $_SESSION['username'];
 
+$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+
+
 ///////////////////////////////////////////////
 
 $data = $medico = $paciente = $diagnostico = $receita = "";
@@ -87,9 +92,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           <div class="subject">
             <label for="medico"></label>
             <select placeholder="Médico" name="medico" id="medico" required>
-              <option disabled hidden selected>Médico</option>
-              <option>Médico 1</option>
-              <option>Médico 2</option>
+              <option disabled hidden>Médico</option>
+              <?php foreach($medicos as $medico){
+                  if($medico->nome == $_COOKIE['medico']){
+                    echo "<option selected>".$medico->nome."</option>";
+                  }
+                  else {
+                    echo "<option>".$medico->nome."</option>";
+                  }
+                } ?>
             </select>
           </div>
           <div class="paciente">
@@ -114,7 +125,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div class="message">
             <label for="message"></label>
-            <textarea name="message" placeholder="Informações adicionais" id="message" cols="30" rows="3" value="<?php echo $_COOKIE['infos'] ?>" required></textarea>
+            <textarea name="message" placeholder="Informações adicionais" id="message" cols="30" rows="3" required><?php echo $_COOKIE['infos'] ?></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Enviar" id="form_button" />
@@ -123,5 +134,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div><!-- // End #container -->
 </body>
 </html>
-
 

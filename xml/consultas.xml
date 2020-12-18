@@ -19,6 +19,13 @@
     <diagnostico>bla bla bla</diagnostico>
     <exames>teste 123</exames>
     <resultados>Os resultados vão aqui</resultados>
+    <nome>Lab 2</nome>
+    <email>lab@lab.com</email>
+    <telefone>15999999999</telefone>
+    <cnpj>234759987364</cnpj>
+    <endereco>Rua eduardo frire</endereco>
+    <tipoExame>Ultrasom</tipoExame>
+    <infos>Clinica de exames</infos>
   </consulta>
   <consulta>
     <id>3</id>

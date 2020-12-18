@@ -54,7 +54,6 @@
           $xml = simplexml_load_file($file) or die("XML não acessado.");
           for($i = 0; $i < $xml->count(); $i++){
             if ($xml->exame[$i]->id == $_COOKIE['id']){
-              alerta('teste');
               setcookie('id',$xml->exame[$i]->id, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('data',$xml->exame[$i]->data, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('medico',$xml->exame[$i]->medico, time()+600, '/pages/laboratorio/alteraExames.php');
@@ -62,7 +61,7 @@
               setcookie('email',$xml->exame[$i]->email, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('diagnostico',$xml->exame[$i]->diagnostico, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('receita',$xml->exame[$i]->receita, time()+600, '/pages/laboratorio/alteraExames.php');
-              setcookie('exames',$xml->exame[$i]->exames, time()+600, '/pages/laboratorio/alteraExames.php');
+              setcookie('tipoExame',$xml->exame[$i]->exames, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('infos',$xml->exame[$i]->infos, time()+600, '/pages/laboratorio/alteraExames.php');
               redireciona('../pages/laboratorio/alteraExames.php');
               ini_set( 'error_reporting', E_ALL );
@@ -84,7 +83,6 @@
               setcookie('telefone',$xml->paciente[$i]->telefone, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('cpf',$xml->paciente[$i]->cpf, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('endereco',$xml->paciente[$i]->endereco, time()+600, '/pages/paciente/alteraPaciente.php');
-              setcookie('especialidade',$xml->paciente[$i]->especialidade, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('genero',$xml->paciente[$i]->genero, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('infos',$xml->paciente[$i]->infos, time()+600, '/pages/paciente/alteraPaciente.php');
               redireciona('../pages/paciente/alteraPaciente.php');

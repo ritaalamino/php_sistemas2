@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exames>
+    <exame>
+    <tipo>Ultrasom</tipo>
+  </exame>
+  <exame>
+    <tipo>Sangue</tipo>
+  </exame>
+  <exame>
+    <tipo>Geral</tipo>
+  </exame>
+  <exame>
+    <tipo>Endoscopia</tipo>
+  </exame>
+  
+</exames>

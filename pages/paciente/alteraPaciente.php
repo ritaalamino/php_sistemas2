@@ -3,6 +3,12 @@
 //Incluindo bibliotecas
 include("../../php/funcoes.php");
 
+$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+$generos = simplexml_load_file("../../xml/tipoGeneros.xml") or die("ERRO: Não foi possível abrir o XML");
+
+
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
 if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
@@ -105,20 +111,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="endereco"></label>
-            <input type="text" placeholder="Endereço" name="endereco" id="endereco" rvalue="<?php echo $_COOKIE['endereco'] ?>" equired>
+            <input type="text" placeholder="Endereço" name="endereco" id="endereco" value="<?php echo $_COOKIE['endereco'] ?>" equired>
           </div>
           <div>
             <label for="genero"></label>
             <select placeholder="Gênero" name="genero" id="genero" required>
-              <option disabled hidden selected>Gênero</option>
-              <option>Feminino</option>
-              <option>Masculino</option>
-              <option>Outro</option>
+            <option disabled hidden >Gênero</option>
+              <<?php foreach($generos as $genero){
+                if($genero->tipo == $_COOKIE['genero']){
+                  echo "<option selected>".$genero->tipo."</option>";
+                } else { echo "<option>".$genero->tipo."</option>";}} ?>
             </select>
           </div>
           <div>
             <label for="infos"></label>
-            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" value="<?php echo $_COOKIE['infos'] ?>" required></textarea>
+            <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" required><?php echo $_COOKIE['infos'] ?></textarea>
           </div>
           <div class="submit">
             <input type="submit" value="Cadastrar" id="form_button" />
