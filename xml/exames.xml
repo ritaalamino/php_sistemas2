@@ -5,6 +5,7 @@
     <data>20/20/2020</data>
     <medico>Médico 1</medico>
     <paciente>Maria Madalena</paciente>
+    <lab>Lab 1</lab>
     <email>maria@maria.com</email>
     <diagnostico>teste123</diagnostico>
     <receita>teste123</receita>
@@ -16,10 +17,22 @@
     <data>21/02/2020</data>
     <medico>Médico 2</medico>
     <paciente>janice pinte</paciente>
+    <lab>Lab 1</lab>
     <email>pinte@janice.com</email>
     <diagnostico>teste</diagnostico>
     <receita>teste</receita>
     <exames>teste</exames>
     <infos>teste</infos>
+  </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 1</medico>
+    <paciente>Wanderson 2</paciente>
+    <lab>Lab 1</lab>
+    <email>lab</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla bla</infos>
   </exame>
 </exames>

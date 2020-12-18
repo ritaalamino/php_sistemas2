@@ -1,7 +1,3 @@
-<?php
-$texto="mudaaaa";
-?>
-
 <!DOCTYPE html>
 
 <?php
