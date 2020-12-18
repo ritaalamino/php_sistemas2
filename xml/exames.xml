@@ -22,4 +22,15 @@
     <exames>teste</exames>
     <infos>teste</infos>
   </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 1</medico>
+    <paciente>Wanderson 2</paciente>
+    <lab/>
+    <email>lab</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla bla</infos>
+  </exame>
 </exames>

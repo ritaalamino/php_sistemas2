@@ -83,7 +83,7 @@ h6 {
 	width: 45%;
 }
 
-input[type='text'], [type='email'], [type='number'], [type='password'], select, textarea {
+input[type='text'], [type='email'], [type='number'], [type='password'], [type='date'], select, textarea {
 	background: none;
   border: none;
 	border-bottom: solid 2px #474544;
@@ -107,7 +107,7 @@ input[type='text'], [type='email'], [type='number'], [type='password'], select, 
 	transition: all 0.3s;
 }
 
-input[type='text']:focus, [type='email']:focus, [type='number']:focus, [type='password']:focus, textarea:focus {
+input[type='text']:focus, [type='email']:focus, [type='number']:focus, [type='password']:focus, [type='date']:focus, textarea:focus {
 	outline: none;
 	padding: 0 0 0.875em 0;
 }
@@ -225,7 +225,7 @@ textarea {
     width: 53px;
   }
   
-  input[type='text'], [type='email'], [type='number'], [type='password'], select, textarea {
+  input[type='text'], [type='email'], [type='date'], [type='number'], [type='password'], select, textarea {
     font-size: 0.875em;
   }
 
