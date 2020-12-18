@@ -32,7 +32,7 @@ $logado = $_SESSION['username'];
 </head>
 <body>
     <div id="container">
-        <h1>&bull; <?php echo $logado;?> &bull;</h1>
+        <h1>&bull; PACIENTES &bull;</h1>
         <div class="underline">
         </div>
 
