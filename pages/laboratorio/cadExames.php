@@ -153,27 +153,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           var tudoOk = true;       
 
           document.getElementById("demo").innerHTML = "";
-          document.getElementById("demo3").innerHTML = "";
           
 
           if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
             document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
             tudoOk=false;
             
-          }
-          if(paciente.indexOf('0')!=-1 || 
-            paciente.indexOf('1')!=-1 || 
-            paciente.indexOf('2')!=-1 || 
-            paciente.indexOf('3')!=-1 || 
-            paciente.indexOf('4')!=-1 || 
-            paciente.indexOf('5')!=-1 || 
-            paciente.indexOf('6')!=-1 || 
-            paciente.indexOf('7')!=-1 || 
-            paciente.indexOf('8')!=-1 || 
-            paciente.indexOf('9')!=-1){
-            
-              document.getElementById("demo3").innerHTML = "Nome não pode conter números!";
-              tudoOk=false;
           }
 
           if(tudoOk){

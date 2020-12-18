@@ -90,4 +90,15 @@
     <exames>bla bla</exames>
     <infos>bla</infos>
   </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>joão silva</medico>
+    <paciente>Rita CArolina Alamino borges da costa</paciente>
+    <lab/>
+    <email>rita@rita.com</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla bla</infos>
+  </exame>
 </exames>
