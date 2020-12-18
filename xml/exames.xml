@@ -35,4 +35,70 @@
     <exames>bla bla</exames>
     <infos>bla bla</infos>
   </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 1</medico>
+    <paciente>Wanderson 2</paciente>
+    <lab/>
+    <email>lab</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bl bla</infos>
+  </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 2</medico>
+    <paciente>Wanderson 2</paciente>
+    <lab/>
+    <email>lab</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla</infos>
+  </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 2</medico>
+    <paciente>Wanderson 2</paciente>
+    <lab/>
+    <email>lab</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla bla</infos>
+  </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 2</medico>
+    <paciente>Wanderson 2</paciente>
+    <lab/>
+    <email>lab</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla</infos>
+  </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>Médico 1</medico>
+    <paciente>Wanderson</paciente>
+    <lab/>
+    <email>labteste@email.com</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla</infos>
+  </exame>
+  <exame>
+    <data>2020-12-25</data>
+    <medico>joão silva</medico>
+    <paciente>Rita CArolina Alamino borges da costa</paciente>
+    <lab/>
+    <email>rita@rita.com</email>
+    <diagnostico>bla bla</diagnostico>
+    <receita>bla bla</receita>
+    <exames>bla bla</exames>
+    <infos>bla bla</infos>
+  </exame>
 </exames>

@@ -19,6 +19,10 @@ $logado = $_SESSION['username'];
 $logado = $_SESSION['username'];
 
 
+$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+
 ///////////////////////////////////////////////
 
 $data = $medico = $paciente = $diagnostico = $receita = "";
@@ -96,22 +100,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <label for="medico"></label>
             <select placeholder="Médico" name="medico" id="medico" required>
               <option disabled hidden selected>Médico</option>
-              <option>Médico 1</option>
-              <option>Médico 2</option>
+              <?php foreach($medicos as $medico){echo "<option>".$medico->nome."</option>";} ?>
             </select>
           </div>
           <div>
             <label for="lab"></label>
             <select placeholder="Laboratório" name="Lab" id="lab" required>
               <option disabled hidden selected>Laboratório</option>
-              <option>Lab 1</option>
-              <option>Lab 2</option>
+              <?php foreach($labs as $lab){echo "<option>".$lab->nome."</option>";} ?>
             </select>
           </div>
           <div>
-            <label for="paciente"></label>
-            <h6 id="demo3"></h6>
-            <input type="text" placeholder="Paciente" name="paciente" id="paciente" required>
+            <label for="lab"></label>
+            <select placeholder="Paciente" name="paciente" id="paciente" required>
+              <option disabled hidden selected>Pacientes</option>
+              <?php foreach($pacientes as $paciente){echo "<option>".$paciente->nome."</option>";} ?>
+            </select>
           </div>
           <div>
             <label for="email"></label>
@@ -143,41 +147,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
       <script>
         function checkForm(){
+          //e.preventDefault();
           var paciente = document.getElementById("paciente").value
           var email = document.getElementById("email").value
-          var tudoOk = true;          
+          var tudoOk = true;       
 
           document.getElementById("demo").innerHTML = "";
-          document.getElementById("demo2").innerHTML = "";
-          document.getElementById("demo3").innerHTML = "";
           
 
           if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
             document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
-            document.getElementById("demo2").innerHTML = ".";
             tudoOk=false;
             
-          }
-          if(paciente.indexOf('0')!=-1 || 
-            paciente.indexOf('1')!=-1 || 
-            paciente.indexOf('2')!=-1 || 
-            paciente.indexOf('3')!=-1 || 
-            paciente.indexOf('4')!=-1 || 
-            paciente.indexOf('5')!=-1 || 
-            paciente.indexOf('6')!=-1 || 
-            paciente.indexOf('7')!=-1 || 
-            paciente.indexOf('8')!=-1 || 
-            paciente.indexOf('9')!=-1){
-            
-              document.getElementById("demo3").innerHTML = "Nome não pode conter números!";
-              tudoOk=false;
           }
 
           if(tudoOk){
             return true;
-            window.alert("aqui não");
           }else{
-            window.alert("aqui");
             document.getElementById("demo7").innerHTML = "Campos preenchidos incorretamente!";
             return false;
           }
