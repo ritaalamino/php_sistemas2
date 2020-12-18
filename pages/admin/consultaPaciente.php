@@ -38,11 +38,12 @@ $logado = $_SESSION['username'];
 
         <?php
             $id = $nome = $email = $idade = $telefone = $cpf = $endereco = "";
-            $genero = $infos = '';
+            $genero = $infos = $valor = '';
+
+            $flag = false;
 
             $file = "../../xml/pacientes.xml";
             $xml = simplexml_load_file($file);
-
             foreach ($xml->children() as $paciente) {
                     $id = $paciente->id;
                     $nome = $paciente->nome;
@@ -55,6 +56,7 @@ $logado = $_SESSION['username'];
                     $info = $paciente->infos;
                     echo '<div id="container">';
                     echo '<p>Nome: ' .$nome .'<br>';
+                    echo 'ID: ' .$id .'<br>';
                     echo 'E-mail: ' .$email .'<br>';
                     echo 'Idade: ' .$idade .'<br>';
                     echo 'Telefone: ' .$telefone .'<br>';
@@ -62,14 +64,9 @@ $logado = $_SESSION['username'];
                     echo 'Endereço: ' .$endereco .'<br>';
                     echo 'Genero: ' .$genero .'<br>';
                     echo 'Info: ' .$info .'<br>';
-                    setcookie("id", $id , time()+60000, '/');
-                    setcookie("tipo", 'paciente' , time()+60000, '/');
-                    echo '<a href ="../../php/altera.php">Alterar</a>';
-                    echo '</div>';
-            }
+            }                
           ?>
-
-        
+            
        
       </div><!-- // End #container -->
 </body>

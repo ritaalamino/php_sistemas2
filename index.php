@@ -21,7 +21,6 @@ function verificaAcesso($user,$password){
       if($user == $xmlcadastro){
           if($password == $xml->user[$i]->senha) {
               alerta("Acesso realizado com sucesso");
-              $_SESSION["id"]= $xml->user[$i]->id;
               $_SESSION["username"] = $xml->user[$i]->login;
               $_SESSION["tipo"]= $xml->user[$i]->tipo;             
               return $xml->user[$i]->tipo;

@@ -87,9 +87,6 @@ $logado = $_SESSION['username'];
               echo 'Receita: ' .$receita .'<br>';
               echo 'Exames: ' .$exames .'<br>';
               echo 'Infos: ' .$infos .'<br>';
-              setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'exame' , time()+60000, '/');
-              echo '<a href ="../../php/altera.php">Alterar</a>';
               echo '</div>';
             }
           ?>

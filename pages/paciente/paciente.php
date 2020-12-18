@@ -15,6 +15,7 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')
 
 $logado = $_SESSION['username'];
 
+
 ?>
 
 <html lang="en">
@@ -44,6 +45,7 @@ $logado = $_SESSION['username'];
             $xml = simplexml_load_file($file);
 
             foreach ($xml->children() as $paciente) {
+                //echo $_SESSION['username'] .' -> ' .$paciente->email .'<br>';
                 if($_SESSION['username'] == $paciente->email){
                     $id = $paciente->id;
                     $nome = $paciente->nome;
@@ -69,6 +71,7 @@ $logado = $_SESSION['username'];
                     setcookie("tipo", 'paciente' , time()+60000, '/');
                     echo '<a href ="../../php/altera.php">Alterar</a>';
                     echo '</div>';
+                    break;
                 }
             }
           ?>

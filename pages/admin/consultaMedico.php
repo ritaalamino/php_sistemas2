@@ -62,9 +62,6 @@ $logado = $_SESSION['username'];
               echo 'Especialidade: ' .$especialidade .'<br>';
               echo 'Genero: ' .$genero .'<br>';
               echo 'Info: ' .$info .'<br>';
-              setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'medico' , time()+60000, '/');
-              echo '<a href ="../../php/altera.php">Alterar</a>';
               echo '</div>';
             }
           ?>

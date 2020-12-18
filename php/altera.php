@@ -12,7 +12,6 @@
           $xml = simplexml_load_file($file) or die("XML não acessado.");
           for($i = 0; $i < $xml->count(); $i++){
             if ($xml->medico[$i]->id == $_COOKIE['id']){
-              setcookie('id',$xml->medico[$i]->id, time()+600, '/pages/medico/alteraMedicos.php');
               setcookie('nome',$xml->medico[$i]->nome, time()+600, '/pages/medico/alteraMedicos.php');
               setcookie('email',$xml->medico[$i]->email, time()+600, '/pages/medico/alteraMedicos.php');
               setcookie('idade',$xml->medico[$i]->idade, time()+600, '/pages/medico/alteraMedicos.php');
@@ -54,7 +53,7 @@
           $xml = simplexml_load_file($file) or die("XML não acessado.");
           for($i = 0; $i < $xml->count(); $i++){
             if ($xml->exame[$i]->id == $_COOKIE['id']){
-              setcookie('id',$xml->exame[$i]->id, time()+600, '/pages/laboratorio/alteraExames.php');
+              //setcookie('id',$xml->exame[$i]->id, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('data',$xml->exame[$i]->data, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('medico',$xml->exame[$i]->medico, time()+600, '/pages/laboratorio/alteraExames.php');
               setcookie('paciente',$xml->exame[$i]->paciente, time()+600, '/pages/laboratorio/alteraExames.php');
@@ -75,8 +74,9 @@
       $file = "../xml/pacientes.xml";
           $xml = simplexml_load_file($file) or die("XML não acessado.");
           for($i = 0; $i < $xml->count(); $i++){
+            //echo 'teste ' .$xml->paciente[$i]->id .'teste' .$_COOKIE['id'] .'<br>';
             if ($xml->paciente[$i]->id == $_COOKIE['id']){
-              setcookie('id',$xml->paciente[$i]->id, time()+600, '/pages/paciente/alteraPaciente.php');
+              //setcookie('id',$xml->paciente[$i]->id, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('nome',$xml->paciente[$i]->nome, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('email',$xml->paciente[$i]->email, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('idade',$xml->paciente[$i]->idade, time()+600, '/pages/paciente/alteraPaciente.php');
@@ -86,10 +86,9 @@
               setcookie('genero',$xml->paciente[$i]->genero, time()+600, '/pages/paciente/alteraPaciente.php');
               setcookie('infos',$xml->paciente[$i]->infos, time()+600, '/pages/paciente/alteraPaciente.php');
               redireciona('../pages/paciente/alteraPaciente.php');
-              //ini_set( 'error_reporting', E_ALL );
-              //ini_set( 'display_errors', true );
-            }
-          }
+              ini_set( 'error_reporting', E_ALL );
+              ini_set( 'display_errors', true );
+            }         }
     }
 
         
@@ -98,7 +97,7 @@
           $xml = simplexml_load_file($file) or die("XML não acessado.");
           for($i = 0; $i < $xml->count(); $i++){
             if ($xml->lab[$i]->id == $_COOKIE['id']){
-              setcookie('id',$xml->lab[$i]->id, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
+              //setcookie('id',$xml->lab[$i]->id, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
               setcookie('nome',$xml->lab[$i]->nome, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
               setcookie('email',$xml->lab[$i]->email, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
               setcookie('telefone',$xml->lab[$i]->telefone, time()+600, '/pages/laboratorio/alteraLaboratorio.php');
