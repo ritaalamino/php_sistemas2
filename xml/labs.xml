@@ -2,7 +2,7 @@
 <labs>
   <lab>
     <id>1</id>
-    <nome>IDS</nome>
+    <nome>Lab 1</nome>
     <email>ids@ids.com</email>
     <telefone>15999999999</telefone>
     <cnpj>12345678906</cnpj>
@@ -12,7 +12,7 @@
   </lab>
   <lab>
     <id>2</id>
-    <nome>biolabor</nome>
+    <nome>Lab 2</nome>
     <email>lab@lab.com</email>
     <telefone>15999999999</telefone>
     <cnpj>234759987364</cnpj>

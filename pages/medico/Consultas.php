@@ -48,29 +48,31 @@ $logado = $_SESSION['username'];
 
             foreach ($xml->children() as $consulta) {
                 foreach ($xml2->children() as $medico) {
-                if (strval($consulta->medico) == strval($medico->nome)){
-                    $id = $consulta->id;
-                    $paciente= $consulta->paciente;
-                    $medico= $consulta->medico;
-                    $data= $consulta->data;
-                    $lab= $consulta->lab;
-                    $diagnostico = $consulta->diagnostico;
-                    $exames = $consulta->exames;
-                    $resultados = $consulta->resultados;
-                    echo '<div id="container">';
-                    echo '<p>Paciente: ' .$paciente .'<br>';
-                    echo 'Médico: ' .$medico .'<br>';
-                    echo 'Data: ' .$data .'<br>';
-                    echo 'Laboratório: ' .$lab .'<br>';
-                    echo 'Diagnóstico: ' .$diagnostico .'<br>';
-                    echo 'Exames: ' .$exames .'<br>';
-                    echo 'Resultados: ' .$resultados .'<br>';
-                    setcookie("id", $id , time()+60000, '/');
-                    setcookie("tipo", 'consulta' , time()+60000, '/');
-                    echo '<a href ="../../php/altera.php">Alterar</a>';
-                    echo '</div>';
-                    $flag = false;
-                    break;
+                if(strval($medico->email) == strval($_SESSION['username'])){
+                    if (strval($consulta->medico) == strval($medico->nome)){
+                        $id = $consulta->id;
+                        $paciente= $consulta->paciente;
+                        $medico= $consulta->medico;
+                        $data= $consulta->data;
+                        $lab= $consulta->lab;
+                        $diagnostico = $consulta->diagnostico;
+                        $exames = $consulta->exames;
+                        $resultados = $consulta->resultados;
+                        echo '<div id="container">';
+                        echo '<p>Paciente: ' .$paciente .'<br>';
+                        echo 'Médico: ' .$medico .'<br>';
+                        echo 'Data: ' .$data .'<br>';
+                        echo 'Laboratório: ' .$lab .'<br>';
+                        echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                        echo 'Exames: ' .$exames .'<br>';
+                        echo 'Resultados: ' .$resultados .'<br>';
+                        setcookie("id", $id , time()+60000, '/');
+                        setcookie("tipo", 'consulta' , time()+60000, '/');
+                        echo '<a href ="../../php/altera.php">Alterar</a>';
+                        echo '</div>';
+                        $flag = false;
+                        break 2;
+                    }
                 }
                 else{
                     $flag = true;

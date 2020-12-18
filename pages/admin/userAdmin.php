@@ -47,7 +47,7 @@ $logado = $_SESSION['username'];
         <li><a href='cadastro.php' data-item='Cadastro'>Cadastro</a></li>
         <li><a href='consultaMedico.php' data-item='Médico'>Médicos</a></li>
         <li><a href='consultaLaboratorio.php' data-item='Laboratório'>Laboratório</a></li>
-        <li><a href='consultaPaciente .php' data-item='Paciente'>Paciente</a></li>
+        <li><a href='consultaPaciente.php' data-item='Paciente'>Paciente</a></li>
         <!-- <li><a href='consultas.php' data-item='Consultas'>Consultas</a></li>
         <li><a href='exames.php' data-item='Exames'>Exames</a></li> -->
         </ul>

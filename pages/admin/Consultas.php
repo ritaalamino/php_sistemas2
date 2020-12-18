@@ -44,26 +44,26 @@ $logado = $_SESSION['username'];
             $xml = simplexml_load_file($file);
 
             foreach ($xml->children() as $consulta) {
-              $id = $consulta->id;
-              $paciente= $consulta->paciente;
-              $medico = $consulta->medico;
-              $data= $consulta->data;
-              $lab= $consulta->lab;
-              $diagnostico = $consulta->diagnostico;
-              $exames = $consulta->exames;
-              $resultados = $consulta->resultados;
-              echo '<div id="container">';
-              echo '<p>Paciente: ' .$paciente .'<br>';
-              echo 'Médico: ' .$medico .'<br>';
-              echo 'Data: ' .$data .'<br>';
-              echo 'Laboratório: ' .$lab .'<br>';
-              echo 'Diagnóstico: ' .$diagnostico .'<br>';
-              echo 'Exames: ' .$exames .'<br>';
-              echo 'Resultados: ' .$resultados .'<br>';
-              setcookie("id", $id , time()+60000, '/');
-              setcookie("tipo", 'consulta' , time()+60000, '/');
-              echo '<a href ="../../php/altera.php">Alterar</a>';
-              echo '</div>';
+                $id = $consulta->id;
+                $paciente= $consulta->paciente;
+                $medico= $consulta->medico;
+                $data= $consulta->data;
+                $lab= $consulta->lab;
+                $diagnostico = $consulta->diagnostico;
+                $exames = $consulta->exames;
+                $resultados = $consulta->resultados;
+                echo '<div id="container">';
+                echo '<p>Paciente: ' .$paciente .'<br>';
+                echo 'Médico: ' .$medico .'<br>';
+                echo 'Data: ' .$data .'<br>';
+                echo 'Laboratório: ' .$lab .'<br>';
+                echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                echo 'Exames: ' .$exames .'<br>';
+                echo 'Resultados: ' .$resultados .'<br>';
+                setcookie("id", $id , time()+60000, '/');
+                setcookie("tipo", 'consulta' , time()+60000, '/');
+                echo '<a href ="../../php/altera.php">Alterar</a>';
+                echo '</div>';
             }
           ?>
     </div>

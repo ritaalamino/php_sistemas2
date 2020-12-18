@@ -38,6 +38,7 @@
               setcookie('paciente',$xml->consulta[$i]->paciente, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('data',$xml->consulta[$i]->data, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('lab',$xml->consulta[$i]->lab, time()+600, '/pages/medico/alteraConsultas.php');
+              setcookie('medico',$xml->consulta[$i]->medico, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('diagnostico',$xml->consulta[$i]->diagnostico, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('exames',$xml->consulta[$i]->exames, time()+600, '/pages/medico/alteraConsultas.php');
               setcookie('resultados',$xml->consulta[$i]->resultados, time()+600, '/pages/medico/alteraConsultas.php');

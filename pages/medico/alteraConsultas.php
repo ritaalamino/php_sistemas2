@@ -10,16 +10,15 @@
       session_start();
   }
   if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
-      unset($_SESSION['username']);
-      $_SESSION['valid'] = false;
-      unset($_SESSION['tipo']);
-      header('location:../../index.php');
+    if($_SESSION['tipo'] != 'admin'){
+        unset($_SESSION['username']);
+        $_SESSION['valid'] = false;
+        unset($_SESSION['tipo']);
+        header('location:../../index.php');
+        }
       }
-
   $logado = $_SESSION['username'];
-
-
-  session_start();
+      
 
   /////////////////////////////////////////////
 
