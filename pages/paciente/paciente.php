@@ -28,7 +28,7 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Seguros</title>
+    <title>Saúde</title>
 </head>
 <body>
     <div id="container">
