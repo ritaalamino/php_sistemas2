@@ -1,53 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labs>
   <lab>
-    <id>1</id>
-    <nome>Lab 1</nome>
-    <email>ids@ids.com</email>
-    <telefone>15999999999</telefone>
-    <cnpj>12345678906</cnpj>
-    <endereco>Rua eduardo frire</endereco>
-    <tipoExame>Sangue</tipoExame>
-    <infos>Só sangue</infos>
-  </lab>
-  <lab>
     <id>2</id>
-    <nome>Lab 2</nome>
-    <email>lab@lab.com</email>
-    <telefone>15999999999</telefone>
-    <cnpj>234759987364</cnpj>
-    <endereco>Rua eduardo frire</endereco>
+    <nome>Jonipe</nome>
+    <email>jonipe@lab.com.br</email>
+    <telefone>11925898855</telefone>
+    <cnpj>38370445000125</cnpj>
+    <endereco>Rua dos Laboratórios, 123</endereco>
     <tipoExame>Ultrasom</tipoExame>
-    <infos>Clinica de exames</infos>
-  </lab>
-  <lab>
-    <id>3</id>
-    <nome>Marta ROCHA</nome>
-    <email>marta@rocha.com</email>
-    <telefone>1764651561</telefone>
-    <cnpj>167441161000125</cnpj>
-    <endereco>Rua 25468165</endereco>
-    <tipoExame>Ultrasom</tipoExame>
-    <infos>TESTE</infos>
-  </lab>
-  <lab>
-    <id>5</id>
-    <nome>Lab Teste</nome>
-    <email>labteste@email.com</email>
-    <telefone>15996049483</telefone>
-    <cnpj>12345678901234</cnpj>
-    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
-    <tipoExame>Ultrasom</tipoExame>
-    <infos>bio</infos>
-  </lab>
-  <lab>
-    <id>6</id>
-    <nome>lunav</nome>
-    <email>lunav@gmail.com</email>
-    <telefone>15996049483</telefone>
-    <cnpj>12345678901234</cnpj>
-    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
-    <tipoExame>Geral</tipoExame>
-    <infos>Lunav</infos>
+    <infos>laboratório de tudo</infos>
   </lab>
 </labs>

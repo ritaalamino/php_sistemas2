@@ -1,51 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<medicos>
-  <medico>
-    <id>1</id>
-    <nome>joão silva</nome>
-    <email>joao@email.com</email>
-    <idade>45</idade>
-    <telefone>15996049483</telefone>
-    <crm>12.346.90</crm>
-    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
-    <especialidade>Ortopedista</especialidade>
-    <genero>Masculino</genero>
-    <infos>Clinico geral</infos>
-  </medico>
-  <medico>
-    <id>2</id>
-    <nome>Joana Silva</nome>
-    <email>joana@joana.com</email>
-    <idade>25</idade>
-    <telefone>2564165165</telefone>
-    <crm>25161</crm>
-    <endereco>Rua TAL x abc</endereco>
-    <especialidade>VACINADORA</especialidade>
-    <genero>Feminino</genero>
-    <infos>SIMPLES</infos>
-  </medico>
+<users>
   <medico>
     <id>3</id>
-    <nome>Thales de Oliveira</nome>
-    <email>thales@gmail.com</email>
-    <idade>21</idade>
-    <telefone>15996049483</telefone>
+    <nome>Joana da Silva</nome>
+    <email>joana@medico.com</email>
+    <idade>25</idade>
+    <telefone>11321456788</telefone>
     <crm>123456</crm>
-    <endereco>Rua fernando osorio, 278. Cassino, Rio grande - RS</endereco>
-    <especialidade>Ortopedista</especialidade>
-    <genero>Masculino</genero>
-    <infos>Bio</infos>
+    <endereco>Rua Das Graças, 123</endereco>
+    <especialidade>Ornitorrinco</especialidade>
+    <genero>Feminino</genero>
+    <infos>Médica do consultório x</infos>
   </medico>
   <medico>
-    <id>4</id>
-    <nome>Suely Augusto</nome>
-    <email>suely@gmail.com</email>
+    <id>6</id>
+    <nome>Maria Madalena</nome>
+    <email>maria@medico.com</email>
     <idade>58</idade>
-    <telefone>17996049483</telefone>
-    <crm>765429</crm>
-    <endereco>Rua eduardo frire</endereco>
-    <especialidade>Pediátra</especialidade>
+    <telefone>11968589898</telefone>
+    <crm>123456</crm>
+    <endereco>Rua Ponte 123</endereco>
+    <especialidade>Endocrino</especialidade>
     <genero>Feminino</genero>
-    <infos>Especialista</infos>
+    <infos>adaasd</infos>
   </medico>
-</medicos>
+</users>

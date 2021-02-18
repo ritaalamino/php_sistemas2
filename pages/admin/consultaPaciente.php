@@ -64,6 +64,7 @@ $logado = $_SESSION['username'];
                     echo 'Endereço: ' .$endereco .'<br>';
                     echo 'Genero: ' .$genero .'<br>';
                     echo 'Info: ' .$info .'<br>';
+                    echo '</div>';
             }                
           ?>
             

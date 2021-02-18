@@ -1,58 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pacientes>
   <paciente>
-    <id>1</id>
-    <nome>joão borges</nome>
-    <email>joaoBorges@email.com</email>
-    <idade>35</idade>
-    <telefone>15999999988</telefone>
-    <cpf>12345678909</cpf>
-    <endereco>Rua jose, 360</endereco>
-    <genero>Masculino</genero>
-    <infos>Com diabetes</infos>
+    <id>5</id>
+    <nome>José Fina</nome>
+    <email>josefina@paciente.com</email>
+    <idade>25</idade>
+    <telefone>11985858585</telefone>
+    <cpf>12345568799</cpf>
+    <endereco>Rua 123, Bairro tal</endereco>
+    <genero>Feminino</genero>
+    <infos>fadsadsa</infos>
   </paciente>
   <paciente>
-    <id>2</id>
-    <nome>Rita CArolina Alamino borges da costa</nome>
+    <id>7</id>
+    <nome>Rita Carolina Alamino Borges da Costa</nome>
     <email>ritaalamino@gmail.com</email>
-    <idade>20</idade>
+    <idade>26</idade>
     <telefone>11968325598</telefone>
     <cpf>12544831790</cpf>
-    <endereco>Rua tal tal tal</endereco>
+    <endereco>Rua Ponte Pensa, 183</endereco>
     <genero>Feminino</genero>
-    <infos>tal tal tal</infos>
-  </paciente>
-  <paciente>
-    <id>3</id>
-    <nome>Maria joana libertina</nome>
-    <email>maria@joana.com</email>
-    <idade>34</idade>
-    <telefone>1121231456</telefone>
-    <cpf>12308766123</cpf>
-    <endereco>rua barata tatata</endereco>
-    <genero>Feminino</genero>
-    <infos>afsdsadasdas</infos>
-  </paciente>
-  <paciente>
-    <id>4</id>
-    <nome>Maria Madalena</nome>
-    <email>maria@maria.com</email>
-    <idade>25</idade>
-    <telefone>11968258215</telefone>
-    <cpf>11234546874</cpf>
-    <endereco>Rua de jesus 123</endereco>
-    <genero>Feminino</genero>
-    <infos>teset</infos>
-  </paciente>
-  <paciente>
-    <id>6</id>
-    <nome>Prícilla Karen</nome>
-    <email>pri@furg.br</email>
-    <idade>23</idade>
-    <telefone>15996049418</telefone>
-    <cpf>12345678556</cpf>
-    <endereco>Rua João Machado, 467</endereco>
-    <genero>Feminino</genero>
-    <infos>Diabética</infos>
+    <infos>adsadsadas</infos>
   </paciente>
 </pacientes>

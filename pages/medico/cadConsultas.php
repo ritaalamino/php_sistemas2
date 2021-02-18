@@ -38,7 +38,6 @@
     $resultados = verifica($_POST["resultados"]);
 
     $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
-
     $id = count($xml) +1;
 
     $node = $xml->addChild('consulta');

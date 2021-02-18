@@ -1,68 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
   <user>
+    <id>1</id>
     <tipo>admin</tipo>
     <login>wanderson@furg.br</login>
-    <senha>wan123@</senha>
+    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
   </user>
   <user>
+    <id>2</id>
     <tipo>admin</tipo>
     <login>rita@furg.br</login>
-    <senha>teste123@</senha>
+    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
   </user>
   <user>
+    <id>3</id>
     <tipo>medico</tipo>
-    <login>joao@email.com</login>
-    <senha>joao123@</senha>
+    <login>joana@medico.com</login>
+    <senha>12347c4a8d09ca3762af61e59520943dc26494f8941b56</senha>
   </user>
   <user>
+    <id>2</id>
     <tipo>lab</tipo>
-    <login>ids@ids.com</login>
-    <senha>ids123@</senha>
+    <login>jonipe@lab.com.br</login>
+    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
   </user>
   <user>
+    <id>5</id>
     <tipo>paciente</tipo>
-    <login>joaoBorges@email.com</login>
-    <senha>borges123</senha>
+    <login>josefina@paciente.com</login>
+    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
   </user>
   <user>
-    <tipo>lab</tipo>
-    <login>biolabor@email.com</login>
-    <senha>bio123@</senha>
-  </user>
-  <user>
-    <tipo>paciente</tipo>
-    <login>maria@maria.com</login>
-    <senha>teste123</senha>
-  </user>
-  <user>
-    <tipo>paciente</tipo>
-    <login>aaaaaaaaaaaaa</login>
-    <senha>aaaaaaaaaaaa</senha>
-  </user>
-  <user>
+    <id>6</id>
     <tipo>medico</tipo>
-    <login>joana@joana.com</login>
-    <senha>joana123</senha>
+    <login>maria@medico.com</login>
+    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
   </user>
   <user>
-    <tipo>lab</tipo>
-    <login>marta@rocha.com</login>
-    <senha>123456</senha>
-  </user>
-  <user>
-    <tipo>paciente</tipo>
-    <login>lana@almeida</login>
-    <senha>123548</senha>
-  </user>
-  <user>
-    <tipo>lab</tipo>
-    <login>labteste@gmail.com</login>
-    <senha>lab123@</senha>
-  </user>
-  <user>
-    <tipo>lab</tipo>
-    <login>lab@lab.com</login>
-    <senha>lab123@</senha>
+    <id>7</id>
+    <tipo>admin</tipo>
+    <login>ritaalamino@gmail.com</login>
+    <senha>83068cf225c626ae0bc6092c2f3a5305c6b0255c</senha>
   </user>
 </users>

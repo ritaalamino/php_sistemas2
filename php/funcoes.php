@@ -56,8 +56,8 @@ function jaExiste($id, $caminho){
 function cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $endereco, $especialidade, $genero, $infos){
     //Carregando xml
     $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
-
-    $id = count($xml)+1;
+    $xml2 = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
+    $id = count($xml2)+1;
 
     //Adicionando medico
     $node = $xml->addChild('medico');
@@ -84,10 +84,10 @@ function cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $enderec
 
     //Adicionando novo usuario medico
     $node = $xml->addChild('user');
-
+    $node->addChild('id',$id);
     $node->addChild('tipo','medico');
     $node->addChild('login', $email);
-    $node->addChild('senha', $senha);
+    $node->addChild('senha', sha1($senha));
 
     //Salvando no xml
     $dom = dom_import_simplexml($xml)->ownerDocument;
@@ -103,9 +103,12 @@ function cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $ender
     //Carregando xml
     $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
+    $xml2 = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
+    $id = count($xml2)+1;
+
     //Adicionando paciente
     $node = $xml->addChild('paciente');
-    $id = count($xml)+1;
+
 
     $node->addChild('id',$id);
     $node->addChild('nome',$nome);
@@ -129,10 +132,10 @@ function cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $ender
 
     //Adicionando novo usuario paciente
     $node = $xml->addChild('user');
-
+    $node->addChild('id',$id);
     $node->addChild('tipo','paciente');
     $node->addChild('login', $email);
-    $node->addChild('senha', $senha);
+    $node->addChild('senha', sha1($senha));
 
     //Salvando no xml
     $dom = dom_import_simplexml($xml)->ownerDocument;
@@ -148,11 +151,12 @@ function cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoEx
 
     //Carregando xml
     $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+  
+    $xml2 = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
+    $id = count($xml2)+1;
 
     //Carregando laboratório
     $node = $xml->addChild('lab');
-
-    $id = count($xml)+1;
 
     $node->addChild('id',$id);
     $node->addChild('nome', $nome);
@@ -175,10 +179,10 @@ function cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoEx
 
     //Adicionando novo usuario medico
     $node = $xml->addChild('user');
-
+    $node->addChild('id',$id);
     $node->addChild('tipo','lab');
     $node->addChild('login', $email);
-    $node->addChild('senha', $senha);
+    $node->addChild('senha', sha1($senha));
 
     //Salvando no xml
     $dom = dom_import_simplexml($xml)->ownerDocument;

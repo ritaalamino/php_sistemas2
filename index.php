@@ -19,7 +19,7 @@ function verificaAcesso($user,$password){
       $xmlcadastro = $xml->user[$i]->login;
 
       if($user == $xmlcadastro){
-          if($password == $xml->user[$i]->senha) {
+          if(sha1($password) == $xml->user[$i]->senha) {
               alerta("Acesso realizado com sucesso");
               $_SESSION["username"] = $xml->user[$i]->login;
               $_SESSION["tipo"]= $xml->user[$i]->tipo;             

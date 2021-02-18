@@ -26,12 +26,11 @@ $pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não f
 ///////////////////////////////////////////////
 
 $data = $medico = $paciente = $diagnostico = $receita = "";
-$exames = $infos = $email = $lab ="";
+$exames = $infos = $email = $lab = $id = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-
-  
+  $id = verifica($_POST["id"]);  
   $data = verifica($_POST["data"]);
   $medico = verifica($_POST["medico"]);
   $lab = verifica($_POST["lab"]);
@@ -44,10 +43,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   //Carregando xml
   $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
+  $id = count($xml)+1;
 
   //Carregando exame
   $node = $xml->addChild('exame');
-
+  $node->addChild('id', $id);
   $node->addChild('data', $data);
   $node->addChild('medico',$medico);
   $node->addChild('paciente',$paciente);
@@ -65,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $dom->loadXML($dom->saveXML());
   $dom->save("../../xml/exames.xml");
 
-  alerta("Cadastro efetuado");
+  alerta("Cadastro efetuado.");
   redireciona("userLab.php");
 
 }

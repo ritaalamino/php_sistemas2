@@ -2,59 +2,12 @@
 <consultas>
   <consulta>
     <id>1</id>
-    <paciente>luana maria da silva</paciente>
-    <medico>Joana Silva 2</medico>
-    <data>20/20/2020</data>
-    <lab>Laboratório 2</lab>
-    <diagnostico>bla bla bla</diagnostico>
-    <exames>teste 123</exames>
-    <resultados>adsddedasdad</resultados>
-  </consulta>
-  <consulta>
-    <id>2</id>
-    <paciente>luana maria da silva2</paciente>
-    <medico>Joana Silva 2</medico>
-    <data>20/20/2020</data>
-    <lab>Laboratório 2</lab>
-    <diagnostico>bla bla bla</diagnostico>
-    <exames>teste 123</exames>
-    <resultados>Os resultados vão aqui</resultados>
-    <nome>Lab 2</nome>
-    <email>lab@lab.com</email>
-    <telefone>15999999999</telefone>
-    <cnpj>234759987364</cnpj>
-    <endereco>Rua eduardo frire</endereco>
-    <tipoExame>Ultrasom</tipoExame>
-    <infos>Clinica de exames</infos>
-  </consulta>
-  <consulta>
-    <id>3</id>
-    <paciente>joana silva santos</paciente>
-    <medico>Joana Silva 2</medico>
-    <data>20/20/2021</data>
+    <paciente>José Fina</paciente>
+    <medico>Maria Madalena</medico>
+    <data>24/10/1994</data>
     <lab>Laboratório 1</lab>
-    <diagnostico>bla bla bla</diagnostico>
-    <exames>teste 123</exames>
-    <resultados>adsddedasdad</resultados>
-  </consulta>
-  <consulta>
-    <id>4</id>
-    <paciente>Luana maria da silva</paciente>
-    <medico>Joana Silva</medico>
-    <data>10/10/2020</data>
-    <lab>Laboratório 1</lab>
-    <diagnostico>santa</diagnostico>
-    <exames>sangue</exames>
-    <resultados>teste</resultados>
-  </consulta>
-  <consulta>
-    <id>5</id>
-    <paciente>Maria Madalena</paciente>
-    <medico>Joana Silva</medico>
-    <data>20/20/2020</data>
-    <lab>Laboratório 2</lab>
-    <diagnostico>Santa</diagnostico>
-    <exames>Amém</exames>
-    <resultados>asdsadsa</resultados>
+    <diagnostico>Sangramento</diagnostico>
+    <exames>Sangue</exames>
+    <resultados>A+</resultados>
   </consulta>
 </consultas>
