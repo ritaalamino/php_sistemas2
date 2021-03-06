@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <exames>
+  <exame>
+    <id>1</id>
+    <data>2020-02-20</data>
+    <medico>Joana da Silva</medico>
+    <paciente>Rita Carolina Alamino Borges da Costa</paciente>
+    <lab>Jonipe</lab>
+    <email>ritaalamino@gmail.com</email>
+    <diagnostico>Santa</diagnostico>
+    <receita>fsdadasdas</receita>
+    <exames>adsdasasd</exames>
+    <infos>adsfdsfdsf</infos>
+  </exame>
+  <exame>
+    <id>2</id>
+    <data>2020-01-02</data>
+    <medico>Joana da Silva</medico>
+    <paciente>Rita Carolina Alamino Borges da Costa</paciente>
+    <lab>Jonipe</lab>
+    <email>ritaalamino@gmail.com</email>
+    <diagnostico>dadsa64das53</diagnostico>
+    <receita>da31sad1as3</receita>
+    <exames>fasdadfasdasd</exames>
+    <infos>fasfdasa</infos>
+  </exame>
 </exames>

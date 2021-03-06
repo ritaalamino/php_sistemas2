@@ -89,9 +89,8 @@
           <div class="subject">
             <label for="laboratorio"></label>
             <select placeholder="Laboratório" name="laboratorio" id="laboratorio" required>
-              <option disabled hidden selected>Laboratório</option>
-              <option>Laboratório 1</option>
-              <option>Laboratório 2</option>
+            <option disabled hidden selected>Laboratório</option>
+              <?php foreach($labs as $lab){ echo "<option >".$lab->nome."</option>";}?>
             </select>
           </div>
           <div class="paciente">
@@ -99,8 +98,14 @@
             <input type="text" placeholder="Paciente" name="paciente" id="paciente" required>
           </div>
           <div class="medico">
-            <label for="medico"></label>
-            <input type="text" placeholder="Médico" name="medico" id="medico" required>
+            <<select placeholder="Médico" name="medico" id="medico" required>
+              <option disabled hidden selected>Médico</option>
+              <?php foreach($medicos as $medico){
+                if($medico->email == $_SESSION['username']){
+                  echo "<option>".$medico->nome."</option>";
+                }
+              } ?>
+            </select>
           </div>
           <div class="diagnostico">
             <label for="diagnostico"></label>

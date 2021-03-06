@@ -105,9 +105,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="lab"></label>
-            <select placeholder="Laboratório" name="Lab" id="lab" required>
-              <option disabled hidden selected>Laboratório</option>
-              <?php foreach($labs as $lab){echo "<option>".$lab->nome."</option>";} ?>
+            <select placeholder="Laboratório" name="lab" id="lab" required>
+              <option disabled hidden >Laboratório</option>
+              <?php foreach($labs as $lab){
+                if($lab->email = $_SESSION['username']){
+                    echo "<option selected>".$lab->nome."</option>";
+                  }
+                } ?>
+                
             </select>
           </div>
           <div>
