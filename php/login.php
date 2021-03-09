@@ -20,24 +20,20 @@
       }
       
       function verificaAcesso($user,$password){
-        $file = "xml/user.xml";
-        $xml = simplexml_load_file($file);
-      
-        for($i = 0; $i < $xml->count(); $i++){
-            $xmlcadastro = $xml->user[$i]->login;
-      
-            if($user == $xmlcadastro){
-                if($password == $xml->user[$i]->senha) {
-                    alerta("Acesso realizado com sucesso");              
-                    return $xml->user[$i]->tipo;
-                } else {
-                    alerta("Senha inválida");
-                    return "";
-                }
-            }
+        
+        $sql = mysql_query("SELECT username, pass FROM users WHERE username = '".$user."' AND pass = '".$password."'");
+
+        if(mysqli_num_rows($sql) > 0)
+        {
+            alerta("Acesso realizado com sucesso");
+            $_SESSION["username"] = $xml->user[$i]->login;
+            //revisar
+            $_SESSION["tipo"]= mysql_query("SELECT tipo FROM users WHERE login ;");             
+            return $xml->user[$i]->tipo;
+        } else {
+            alerta("Usuário ou senha inválido.");
+            break;
         }
-        alerta("Usuário inválido.");
-        return "";
       }
       
       function verifica($data){

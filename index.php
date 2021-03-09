@@ -1,5 +1,7 @@
 <?php
 
+//include("../../db/db.php");
+
 //funções
 function alerta($texto){
   echo "<script>alert('${texto}');</script>";
