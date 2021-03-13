@@ -33,8 +33,8 @@ $logado = $_SESSION['username'];
     <nav style="margin: 15px;">
         <ul class="menuItems">
             <li><a data-item='UserLab'>UserLab</a></li>
-            <li><a href='../../index.php' data-item='Log Out'>Log Out</a></li>
             <li><a href='consultaLaboratorio.php' data-item='<?php echo $logado;?>'><?php echo $logado;?></a></li>
+            <li><a href='../../index.php' data-item='Log Out'>Log Out</a></li>
         </ul>
     </nav>
     <br><br>
@@ -48,6 +48,7 @@ $logado = $_SESSION['username'];
         <ul class="menuItems">
         <li><a href='cadExames.php' data-item='Cadastra Exames'>Cadastra Exames</a></li>
         <li><a href='consultaExame.php' data-item='Histórico Exames'>Histórico Exames</a></li>
+        <li><a href='alteraHome.php' data-item='Altera Exame'>Altera exame</a></li>
         </ul>
     </nav>
 

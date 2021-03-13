@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <consultas>
   <consulta>
-    <id>1</id>
-    <paciente>José Fina</paciente>
-    <medico>Maria Madalena</medico>
-    <data>24/10/1994</data>
-    <lab>Laboratório 1</lab>
-    <diagnostico>Sangramento</diagnostico>
-    <exames>Sangue</exames>
-    <resultados>A+</resultados>
+    <id>5001</id>
+    <data>2021-04-29</data>
+    <paciente>João Silva</paciente>
+    <medico>Suely Augusto Paes</medico>
+    <diagnostico>Gripe</diagnostico>
+    <receita>Aspirina</receita>
+  </consulta>
+  <consulta>
+    <id>5002</id>
+    <data>2021-03-24</data>
+    <paciente>Thales de Oliveira</paciente>
+    <medico>Suely Augusto Paes</medico>
+    <diagnostico>Resfriado</diagnostico>
+    <receita>Benegripe</receita>
+  </consulta>
+  <consulta>
+    <id>5003</id>
+    <data>2021-03-25</data>
+    <paciente>Taylor Camargo</paciente>
+    <medico>Prícilla Karen</medico>
+    <diagnostico>Consulta de rotina</diagnostico>
+    <receita>Nenhum</receita>
+  </consulta>
+  <consulta>
+    <id>5004</id>
+    <data>2021-04-07</data>
+    <paciente>Thales de Oliveira</paciente>
+    <medico>Prícilla Karen</medico>
+    <diagnostico>Alergia</diagnostico>
+    <receita>Antialérgico</receita>
   </consulta>
 </consultas>

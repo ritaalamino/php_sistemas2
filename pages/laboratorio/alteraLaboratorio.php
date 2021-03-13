@@ -1,35 +1,26 @@
 <?php
-//Funções
 
-$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
-$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
-$exames = simplexml_load_file("../../xml/tipoExames.xml") or die("ERRO: Não foi possível abrir o XML");
+//Incluindo bibliotecas
+include("../../php/funcoes.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
 if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
     session_start();
 }
-if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
-  if($_SESSION['tipo'] != 'admin'){
+if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != "lab")){
     unset($_SESSION['username']);
     $_SESSION['valid'] = false;
     unset($_SESSION['tipo']);
     header('location:../../index.php');
     }
-  }
 
 $logado = $_SESSION['username'];
 
-include("../../php/funcoes.php");
-
-
-
-///////////////////////////////////////////////
-
 $nome = $email = $senha = $telefone = $cnpj = "";
 $endereco = $tipoExame = $infos = "";
+
+$xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
@@ -42,22 +33,46 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $tipoExame = verifica($_POST["tipoExame"]);
   $infos = verifica($_POST["infos"]);
 
-  //Carregando xml
-  $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+  
+  foreach($xml as $consulta){
+    if (strval($consulta->id) == strval($_COOKIE['id'])){
+      $consulta->nome = $nome;
+      $consulta->email = $email;
+      $consulta->senha = $senha;
+      $consulta->telefone = $telefone;
+      $consulta->cnpj = $cnpj;
+      $consulta->endereco = $endereco;
+      $consulta->tipoExame = $tipoExame;
+      $consulta->infos = $infos;
+    }
+  }  
+  
+  //Salvando no xml
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("../../xml/labs.xml");
 
-  //Carregando laboratório
-  //$node = $xml->addChild('lab');
+  //Salvando dados no user.xml para login
+  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
 
-  alterarCadastro($_COOKIE['id'],'nome', $nome);
-  alterarCadastro($_COOKIE['id'],'email',$email);
-  alterarCadastro($_COOKIE['id'],'telefone',$telefone);
-  alterarCadastro($_COOKIE['id'],'cnpj',$cnpj);
-  alterarCadastro($_COOKIE['id'],'endereco',$endereco);
-  alterarCadastro($_COOKIE['id'],'tipoExame',$tipoExame);
-  alterarCadastro($_COOKIE['id'],'infos',$infos);
+  foreach($xml as $consulta){
+    if (strval($consulta->id) == strval($_COOKIE['id'])){
+      $consulta->nome = $nome;
+      $consulta->login = $email;
+      $consulta->senha = $senha;
+    }
+  }
 
+  //Salvando no xml
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("../../xml/user.xml");
 
-  alerta("Cadastro alterado");
+  alerta("Cadastro atualizado");
   redireciona("userLab.php");
 }
 
@@ -82,21 +97,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h1>&bull; Laboratório &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();" >
           <div>
             <label for="nome"></label>
+            <h6 id="demo3"></h6>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" value="<?php echo $_COOKIE['nome'] ?>" required>
+            
           </div>
           <div class="name">
             <label for="email"></label>
+            <h6 id="demo"></h6>
             <input type="text" placeholder="E-mail" name="email" id="email" value="<?php echo $_COOKIE['email'] ?>" required>
+            <h6 id="demo4"></h6>
           </div>
+          
+          <div class="email">
+            <label for="senha"></label>
+            <h6 id="demo2"></h6>
+            <input type="password" placeholder="Senha" name="senha" id="senha" required>
+          </div>
+          
           <div>
-            <label for="email"></label>
-            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj"  value="<?php echo $_COOKIE['cnpj'] ?>" required>
+            <label for="cnpj"></label>
+            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj" value="<?php echo $_COOKIE['cnpj'] ?>" required>
+      
           </div>
           <div>
             <label for="telefone"></label>
+            <h6 id="demo5"></h6>
             <input type="text" placeholder="Telefone" name="telefone" id="telefone" value="<?php echo $_COOKIE['telefone'] ?>" required>
           </div>
           <div>
@@ -105,16 +133,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="tipoExame"></label>
-            <select placeholder="Tipo Exame" name="tipoExame" id="tipoExame" required>
-              <option disabled hidden>Tipo de Exame</option>
-              <?php foreach($exames as $exame){
-                  if(strval($exame->$tipo)   == strval($_COOKIE['tipoExame'])){
-                    echo "<option selected>".$exame->tipo."</option>";
-                  }
-                  else {
-                    echo "<option>".$exame->tipo."</option>";
-                  }
-                } ?>
+            <select placeholder="Especialidade de Exame" name="tipoExame" id="tipoExame" required>
+              <option disabled hidden selected>Tipo de Exame</option>
+              <option selected><?php echo $_COOKIE['tipoExame'] ?></option>
+              <option>Geral</option>
+              <option>Sangue</option>
+              <option>Ultrasom</option>
+              <option>Endoscopia</option>
             </select>
           </div>
           <div>
@@ -122,10 +147,67 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <textarea name="infos" placeholder="Informações adicionais" id="infos" cols="30" rows="3" required><?php echo $_COOKIE['infos'] ?></textarea>
           </div>
           <div class="submit">
-            <input type="submit" value="Cadastrar" id="form_button" />
+            <input type="submit" value="Atualizar" id="form_button" />
+            <h6 id="demo7"></h6>
           </div>
         </form><!-- Fim form -->
       </div><!-- Fim #container -->
+
+    <script>
+        function checkForm(){
+          var nome = document.getElementById("nome").value
+          var email = document.getElementById("email").value
+          var cnpj = document.getElementById("cnpj").value
+          var telefone = document.getElementById("telefone").value
+          var tudoOk = true;
+          
+
+          document.getElementById("demo").innerHTML = "";
+          document.getElementById("demo2").innerHTML = "";
+          document.getElementById("demo3").innerHTML = "";
+          document.getElementById("demo4").innerHTML = "";
+          document.getElementById("demo5").innerHTML = "";
+
+          if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
+            document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
+            document.getElementById("demo2").innerHTML = ".";
+            tudoOk=false;
+            
+          }
+          if(nome.indexOf('0')!=-1 || 
+            nome.indexOf('1')!=-1 || 
+            nome.indexOf('2')!=-1 || 
+            nome.indexOf('3')!=-1 || 
+            nome.indexOf('4')!=-1 || 
+            nome.indexOf('5')!=-1 || 
+            nome.indexOf('6')!=-1 || 
+            nome.indexOf('7')!=-1 || 
+            nome.indexOf('8')!=-1 || 
+            nome.indexOf('9')!=-1){
+            
+              document.getElementById("demo3").innerHTML = "Nome não pode conter números!";
+              tudoOk=false;
+          }
+          
+          if(cnpj.length != 14){
+            document.getElementById("demo4").innerHTML = "Formato de CNPJ inválido!";
+            tudoOk=false;
+          }
+
+          if(telefone.length < 11 || telefone.length > 12){
+            document.getElementById("demo5").innerHTML = "Formato de telefone inválido!";
+            tudoOk=false;
+          }
+
+          if(tudoOk){
+            return true;
+          }else{
+            document.getElementById("demo7").innerHTML = "Campos preenchidos incorretamente!";
+            return false;
+          }
+                
+        } 
+    </script>
 </body>
 </html>
 

@@ -34,35 +34,41 @@ $logado = $_SESSION['username'];
 <body>
 
     <div id="container">
-        <h1>&bull; Consultas &bull;</h1>
+        <h1>&bull; Histórico Consulta &bull;</h1>
         <div class="underline">
         </div>  
         <?php
-            $id = $paciente = $medico = $data = $lab = $diagnostico = $exames = $dados = "";
+            //Funções
+            include("../../php/funcoes.php");
 
-            $file = "../../xml/consultas.xml";
-            $xml = simplexml_load_file($file);
+           
+            $paciente = $data = $diagnostico = $receita = "";
+            $medico = pegaNome($logado);
 
-            foreach ($xml->children() as $consulta) {
-                $id = $consulta->id;
-                $paciente= $consulta->paciente;
-                $medico= $consulta->medico;
-                $data= $consulta->data;
-                $lab= $consulta->lab;
-                $diagnostico = $consulta->diagnostico;
-                $exames = $consulta->exames;
-                $resultados = $consulta->resultados;
+            $fileConsulta = simplexml_load_file("../../xml/consultas.xml");
+            //$Nomepaciente = pegaNome($logado);
+
+            foreach ($fileConsulta->children() as $Consulta){
+            if(strval($Consulta->medico) == strval($medico)){
+                $data= $Consulta->data;
+                $paciente= $Consulta->paciente;
+                $diagnostico = $Consulta->diagnostico;
+                $receita = $Consulta->receita;
                 echo '<div id="container">';
-                echo '<p>Paciente: ' .$paciente .'<br>';
-                echo 'Médico: ' .$medico .'<br>';
                 echo 'Data: ' .$data .'<br>';
-                echo 'Laboratório: ' .$lab .'<br>';
-                echo 'Diagnóstico: ' .$diagnostico .'<br>';
-                echo 'Exames: ' .$exames .'<br>';
-                echo 'Resultados: ' .$resultados .'<br>';
+                echo 'Paciente: ' .$paciente .'<br>';
+                echo 'Diagnostico: ' .$diagnostico .'<br>';
+                echo 'Receita: ' .$receita .'<br>';
                 echo '</div>';
             }
-          ?>
-    </div>
+            }
+        ?>
+        
+        <div class="submit">
+            <button type="button" id="form_button"><a href="userMed.php">Voltar</a></button>
+        </div>
+    
+    </div> 
+
 </body>
 </html>

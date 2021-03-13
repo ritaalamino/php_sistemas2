@@ -31,8 +31,8 @@ $logado = $_SESSION['username'];
     <nav style="margin: 15px;">
         <ul class="menuItems">
             <li><a data-item='UserMed'>UserMed</a></li>
-            <li><a href='../../php/logout.php' data-item='Log Out'>Log Out</a></li>
             <li><a href='consultaMedico.php' data-item='<?php echo $logado;?>'><?php echo $logado;?></a></li>
+            <li><a href='../../php/logout.php' data-item='Log Out'>Log Out</a></li>
         </ul>
     </nav>
     <br><br>
@@ -44,8 +44,9 @@ $logado = $_SESSION['username'];
     <div>Escolha sua opção:</div>
     <nav>
         <ul class="menuItems">
-        <li><a href='Consultas.php' data-item='Consultas'>Consultas</a></li>
-        <li><a href='cadConsultas.php' data-item='Nova Consultas'>Novas Consultas</a></li>
+        <li><a href='cadConsultas.php' data-item='Nova Consulta'>Nova Consulta</a></li>
+        <li><a href='historicoConsultas.php' data-item='Histórico Consulta'>Histórico Consulta</a></li>
+        <li><a href='alteraHome.php' data-item='Altera Consulta'>Altera Consulta</a></li>
         </ul>
     </nav>
 

@@ -26,36 +26,35 @@ $pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não f
 ///////////////////////////////////////////////
 
 $data = $medico = $paciente = $diagnostico = $receita = "";
-$exames = $infos = $email = $lab = $id = "";
+$exames = $infos = $email = $lab ="";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-  $id = verifica($_POST["id"]);  
+
+  
   $data = verifica($_POST["data"]);
   $medico = verifica($_POST["medico"]);
-  $lab = verifica($_POST["lab"]);
   $paciente = verifica($_POST["paciente"]);
   $email = verifica($_POST["email"]);
-  $diagnostico = verifica($_POST["diagnostico"]);
-  $receita = verifica($_POST["receita"]);
-  $exames = verifica($_POST["exames"]);
+  $exames = verifica($_POST["exame"]);
   $infos = verifica($_POST["message"]);
 
   //Carregando xml
   $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
-  $id = count($xml)+1;
+
+  //Pegando o id
+  $novoId = $xml->count()+4001;
 
   //Carregando exame
   $node = $xml->addChild('exame');
-  $node->addChild('id', $id);
+
+  $node->addChild('id', $novoId);
   $node->addChild('data', $data);
   $node->addChild('medico',$medico);
   $node->addChild('paciente',$paciente);
-  $node->addChild('lab',$lab);
+  $node->addChild('lab',pegaNome($logado));
   $node->addChild('email',$email);
-  $node->addChild('diagnostico',$diagnostico);
-  $node->addChild('receita',$receita);
-  $node->addChild('exames',$exames);
+  $node->addChild('exame',$exames);
   $node->addChild('infos',$infos);
 
   //Salvando no xml
@@ -65,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $dom->loadXML($dom->saveXML());
   $dom->save("../../xml/exames.xml");
 
-  alerta("Cadastro efetuado.");
+  alerta("Cadastro efetuado");
   redireciona("userLab.php");
 
 }
@@ -105,18 +104,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="lab"></label>
-            <select placeholder="Laboratório" name="lab" id="lab" required>
-              <option disabled hidden >Laboratório</option>
-              <?php foreach($labs as $lab){
-                if($lab->email = $_SESSION['username']){
-                    echo "<option selected>".$lab->nome."</option>";
-                  }
-                } ?>
-                
-            </select>
-          </div>
-          <div>
-            <label for="lab"></label>
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Pacientes</option>
               <?php foreach($pacientes as $paciente){echo "<option>".$paciente->nome."</option>";} ?>
@@ -128,16 +115,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="text" placeholder="E-mail" name="email" id="email" required>
           </div>
           <div>
-            <label for="diagnostico"></label>
-            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" required>
-          </div>
-          <div>
-            <label for="receita"></label>
-            <input type="text" placeholder="Receita" name="receita" id="receita" required>
-          </div>
-          <div>
-            <label for="exames"></label>
-            <input type="text" placeholder="Exames" name="exames" id="exames" required>
+            <label for="exame"></label>
+            <input type="text" placeholder="Exame" name="exame" id="exame" required>
           </div>
           <div>
             <label for="message"></label>

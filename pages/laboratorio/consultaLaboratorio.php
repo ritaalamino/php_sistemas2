@@ -37,44 +37,54 @@ $logado = $_SESSION['username'];
 </head>
 <body>
 
-    <div id="container">
-        <h1>&bull; Laboratório &bull;</h1>
+<div id="container">
+        <h1>&bull; Exames &bull;</h1>
         <div class="underline">
         </div>  
+        
         <?php
-            $id = $nome = $lab = $email = $telefone = '';
-            $cnpj = $endereco = $tipoExame = $infos = '';
-
-            $file = "../../xml/labs.xml" or die('XML não acessado.'); 
-            $xml = simplexml_load_file($file);
-
+            $nome = $email = $senha = $telefone = $cnpj = "";
+            $endereco = $tipoExame = $infos = "";
             
-            foreach ($xml->children() as $lab) {
-              if(strval($_SESSION['username']) == strval($lab->email)){
-                $id = $lab->id;
-                $nome= $lab->nome;
-                $email= $lab->email;
-                $telefone = $lab->telefone;
-                $cnpj = $lab->cnpj;
-                $endereco = $lab->endereco;
-                $tipoExame = $lab->tipoExame;
-                $infos = $lab->infos;
-                echo '<div id="container">';
-                echo '<p>ID: ' .$id .'<br>';
-                echo 'Nome: ' .$nome .'<br>';
-                echo 'Email: ' .$email .'<br>';
-                echo 'Telefone: ' .$telefone .'<br>';
-                echo 'CNPJ: ' .$cnpj .'<br>';
-                echo 'Endereço: ' .$endereco .'<br>';
-                echo 'Tipo de Exame: ' .$tipoExame .'<br>';
-                echo 'Infos: ' .$infos .'<br>';
-                setcookie("id", $id , time()+60000, '/');
-                setcookie("tipo", 'lab' , time()+60000, '/');
-                echo '<a href ="../../php/altera.php">Alterar</a>';
-                echo '</div>';
+            $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+            
+            foreach($xml as $Labs){
+              if(strval($Labs->email) == strval($logado)){
+                setcookie("id",strval($Labs->id),time()+60,"/");
+                setcookie("nome",strval($Labs->nome),time()+60,"/");
+                setcookie("email",strval($Labs->email),time()+60,"/");
+                setcookie("telefone",strval($Labs->telefone),time()+60,"/");
+                setcookie("cnpj",strval($Labs->cnpj),time()+60,"/");
+                setcookie("endereco",strval($Labs->endereco),time()+60,"/");
+                setcookie("tipoExame",strval($Labs->tipoExame),time()+60,"/");
+                setcookie("infos",strval($Labs->infos),time()+60,"/");
+
+                $nome = $Labs->nome;
+                $email = $Labs->email;
+                $telefone = $Labs->telefone;
+                $cnpj = $Labs->cnpj;
+                $endereco = $Labs->endereco;
+                $tipoExame = $Labs->tipoExame;
+                $infos = $Labs->infos;
               }
             }
+
+            echo '<div id="container">';
+            echo 'Nome: ' .$nome .'<br>';
+            echo 'Email: ' .$email .'<br>';
+            echo 'Telefone: ' .$telefone .'<br>';
+            echo 'CNPJ: ' .$cnpj .'<br>';
+            echo 'Endereço: ' .$endereco .'<br>';
+            echo 'Tipo de Exame: ' .$tipoExame .'<br>';
+            echo 'Infos: ' .$infos .'<br>';
+            echo '</div>';
+            
           ?>
+      
+        <div class="submit">
+          <button type="button" id="form_button"><a href="alteraLaboratorio.php">Alterar</a></button>
+        </div>
+ 
     </div>
 </body>
 </html>

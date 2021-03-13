@@ -5,5 +5,3 @@ Health system using PHP and XML. Besides HTML and CSS as front-end. Also uses Ja
 
 Para executar digite
 php -S localhost:PORT
-
-Testando 1
