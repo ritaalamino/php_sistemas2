@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <?php
-  include("../../php/funcoes.php");
+  include("../../php/cadastraDB.php");
 
   ini_set( 'error_reporting', E_ALL );
   ini_set( 'display_errors', true );
@@ -18,30 +16,69 @@
   }
 
   $logado = $_SESSION['username'];
+  $conteudo = "";
 
-  $fileExames = simplexml_load_file("../../xml/exames.xml");
+  $server = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "CLINICA_PW";
 
-  $data="";
-  $laboratorio = pegaNome($logado);
+  try {
+      $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+      $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $idLab = pegaID('laboratorios', pegaNome($logado));
+
+      $sql = "SELECT id_paciente FROM exames WHERE id_laboratorio=:i";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':i',$idLab);
+      $resposta->execute();
+      $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
+      //print_r($conteudo);
+      
+  }catch (PDOEXception $e){
+      echo "Erro: " . "<br>" . $e->getMessage();
+  }
+
+  $conn = null;
 
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     $nomePaciente = $_POST["paciente"];
 
-    foreach($fileExames as $Exame){
-      if(strval($Exame->paciente) == strval($nomePaciente)){
-        setcookie("id",strval($Exame->id),time()+60,"/");
-        setcookie("data",strval($Exame->data),time()+60,"/");
-        setcookie("medico",strval($Exame->medico),time()+60,"/");
-        setcookie("paciente",strval($Exame->paciente),time()+60,"/");
-        setcookie("lab",strval($Exame->lab),time()+60,"/");
-        setcookie("email",strval($Exame->email),time()+60,"/");
-        setcookie("exame",strval($Exame->exame),time()+60,"/");
-        setcookie("infos",strval($Exame->infos),time()+60,"/");
-      }
+    $server = "localhost";
+    $user = "root";
+    $pass = "";
+    $db = "CLINICA_PW";
+
+    try {
+      $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+      $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $idPac = pegaID('pacientes', $nomePaciente);
+
+      $sql = "SELECT * FROM exames WHERE id_paciente=:i";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':i',$idPac);
+      $resposta->execute();
+      $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
+      //print_r($conteudo);
+
+      setcookie("id",strval($conteudo['id']),time()+60,"/");
+      setcookie("data",strval($conteudo['data']),time()+60,"/");
+      setcookie("medico",strval(pegaNomeID($conteudo['id_medico'])),time()+60,"/");
+      setcookie("paciente",strval(pegaNomeID($conteudo['id_paciente'])),time()+60,"/");
+      setcookie("lab",strval(pegaNomeID($conteudo['id_laboratorio'])),time()+60,"/");
+      //setcookie("email",strval($conteudo->email),time()+60,"/");
+      setcookie("exame",strval($conteudo['exame']),time()+60,"/");
+      setcookie("infos",strval($conteudo['infos']),time()+60,"/");
+
+      redireciona("alteraExames.php");
+      
+    }catch (PDOEXception $e){
+        echo "Erro: " . "<br>" . $e->getMessage();
     }
-    
-    redireciona("alteraExames.php");
+
   }
 
 ?>
@@ -74,10 +111,8 @@
             <label for="paciente"></label>
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Paciente</option>
-              <?php foreach($fileExames as $Exame){
-                if(strval($Exame->lab) == strval($laboratorio)){
-                  echo "<option>".$Exame->paciente."</option>";
-                }
+              <?php foreach($conteudo as $nomeP){
+                echo "<option>".pegaNomeID($nomeP['id_paciente'])."</option>";
               } ?>
             </select>
           </div>

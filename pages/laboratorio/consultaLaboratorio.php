@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <?php
 
-include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -32,52 +30,71 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Saúde</title>
+    <title><?php echo pegaNome($logado) ?></title>
 
 </head>
 <body>
 
 <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+        <h1>&bull; <?php echo pegaNome($logado) ?> &bull;</h1>
         <div class="underline">
         </div>  
         
         <?php
             $nome = $email = $senha = $telefone = $cnpj = "";
             $endereco = $tipoExame = $infos = "";
-            
-            $xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-            
-            foreach($xml as $Labs){
-              if(strval($Labs->email) == strval($logado)){
-                setcookie("id",strval($Labs->id),time()+60,"/");
-                setcookie("nome",strval($Labs->nome),time()+60,"/");
-                setcookie("email",strval($Labs->email),time()+60,"/");
-                setcookie("telefone",strval($Labs->telefone),time()+60,"/");
-                setcookie("cnpj",strval($Labs->cnpj),time()+60,"/");
-                setcookie("endereco",strval($Labs->endereco),time()+60,"/");
-                setcookie("tipoExame",strval($Labs->tipoExame),time()+60,"/");
-                setcookie("infos",strval($Labs->infos),time()+60,"/");
 
-                $nome = $Labs->nome;
-                $email = $Labs->email;
-                $telefone = $Labs->telefone;
-                $cnpj = $Labs->cnpj;
-                $endereco = $Labs->endereco;
-                $tipoExame = $Labs->tipoExame;
-                $infos = $Labs->infos;
-              }
+            $idLab = pegaID('laboratorios', pegaNome($logado));
+            
+            $server = "localhost";
+            $user = "root";
+            $pass = "";
+            $db = "CLINICA_PW";
+
+            try {
+                $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+                $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+                $sql = "SELECT * FROM laboratorios WHERE id=:i";
+                $resposta = $conn->prepare($sql);
+                $resposta->bindParam(':i',$idLab);
+                $resposta->execute();
+                $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
+                //print_r($conteudo);
+             
+                setcookie("id",strval($conteudo['id']),time()+60,"/");
+                setcookie("nome",strval($conteudo['nome']),time()+60,"/");
+                setcookie("email",strval($conteudo['email']),time()+60,"/");
+                setcookie("telefone",strval($conteudo['telefone']),time()+60,"/");
+                setcookie("cnpj",strval($conteudo['cnpj']),time()+60,"/");
+                setcookie("endereco",strval($conteudo['endereco']),time()+60,"/");
+                setcookie("tipoExame",strval($conteudo['tipoExame']),time()+60,"/");
+                setcookie("infos",strval($conteudo['infos']),time()+60,"/");
+
+                $nome = $conteudo['nome'];
+                $email = $conteudo['email'];
+                $telefone = $conteudo['telefone'];
+                $cnpj = $conteudo['cnpj'];
+                $endereco = $conteudo['endereco'];
+                $tipoExame = $conteudo['tipoExame'];
+                $infos = $conteudo['infos'];
+
+                echo '<div id="container">';
+                echo 'Nome: ' .$nome .'<br>';
+                echo 'Email: ' .$email .'<br>';
+                echo 'Telefone: ' .$telefone .'<br>';
+                echo 'CNPJ: ' .$cnpj .'<br>';
+                echo 'Endereço: ' .$endereco .'<br>';
+                echo 'Tipo de Exame: ' .$tipoExame .'<br>';
+                echo 'Infos: ' .$infos .'<br>';
+                echo '</div>';
+                
+                
+            }catch (PDOEXception $e){
+                echo "Erro: " . "<br>" . $e->getMessage();
             }
-
-            echo '<div id="container">';
-            echo 'Nome: ' .$nome .'<br>';
-            echo 'Email: ' .$email .'<br>';
-            echo 'Telefone: ' .$telefone .'<br>';
-            echo 'CNPJ: ' .$cnpj .'<br>';
-            echo 'Endereço: ' .$endereco .'<br>';
-            echo 'Tipo de Exame: ' .$tipoExame .'<br>';
-            echo 'Infos: ' .$infos .'<br>';
-            echo '</div>';
+        
+            $conn = null;            
             
           ?>
       

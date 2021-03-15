@@ -1,38 +1,7 @@
 <?php
-
-//funções
-function alerta($texto){
-  echo "<script>alert('${texto}');</script>";
-}
-
-function redireciona($url){
-  echo "<script> window.location.href = '{$url}'; </script>";
-}
-
-function verificaAcesso($user,$password){
-  $file = "xml/user.xml"; 
-  $xml = simplexml_load_file($file) or die("Não foi possível abrir o XML");
-  //ini_set( 'error_reporting', E_ALL );
-  //ini_set( 'display_errors', true );
-
-  for($i = 0; $i < $xml->count(); $i++){
-      $xmlcadastro = $xml->user[$i]->login;
-
-      if($user == $xmlcadastro){
-          if($password == $xml->user[$i]->senha) {
-              alerta("Acesso realizado com sucesso");
-              $_SESSION["username"] = $xml->user[$i]->login;
-              $_SESSION["tipo"]= $xml->user[$i]->tipo;                         
-              return $xml->user[$i]->tipo;
-          } else {
-              alerta("Senha inválida");
-              return "";
-          }
-      }
-  }
-  alerta("Usuário inválido.");
-  return "";
-}
+  //Incluindo bibliotecas
+  //include("php/funcoes.php");
+  include("php/cadastraDB.php");
 
 function verificaS($data){
   $data = trim($data);
@@ -72,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 if($user===true && $sen===true){
-  $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
+  $verifica = verificaAcessoDB($_POST["username"],$_POST["senha"]);
   setcookie("username", $_POST["username"], time() + 30 );
   if ($verifica == "admin"){
     session_start();
@@ -80,32 +49,31 @@ if($user===true && $sen===true){
     $_SESSION['timeout'] = time();
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'admin';
-    header('location:/pages/admin/userAdmin.php');   
+    header('location:pages/admin/userAdmin.php');   
   }elseif($verifica == "medico"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'medico'; 
-    header('location:/pages/medico/userMed.php');
+    header('location:pages/medico/userMed.php');
   }elseif($verifica == "paciente"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'paciente'; 
-    header("location:/pages/paciente/userPac.php");
+    header("location:pages/paciente/userPac.php");
   }elseif($verifica == "lab"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time()+1000;
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'lab'; 
-    header("location:/pages/laboratorio/userLab.php");
-  }
-  /*else{
+    header("location:pages/laboratorio/userLab.php");
+  }else{
     alerta("Acesso inválido.");
-  }*/
+  }
 }
   
 

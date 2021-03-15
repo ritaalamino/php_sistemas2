@@ -1,7 +1,8 @@
 <?php
 
 //Incluindo bibliotecas
-include("../../php/funcoes.php");
+//include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -32,11 +33,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
-  if(jaExiste($email, "../../xml/pacientes.xml")){
+  if(jaExisteDB('pacientes',$email, $cpf)){
     alerta("Usuário já existe!");
     redireciona("userAdmin.php");
   }else{
-    cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos);
+    cadastraPacienteDB($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos);
     alerta("Cadastro efetuado");
     redireciona("userAdmin.php");
   }

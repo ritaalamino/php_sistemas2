@@ -1,7 +1,7 @@
 <?php
 
 //Incluindo bibliotecas
-include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -20,8 +20,6 @@ $logado = $_SESSION['username'];
 $nome = $email = $senha = $telefone = $cnpj = "";
 $endereco = $tipoExame = $infos = "";
 
-$xml = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
   $nome = verifica($_POST["nome"]);
@@ -33,47 +31,58 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $tipoExame = verifica($_POST["tipoExame"]);
   $infos = verifica($_POST["infos"]);
 
-  
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->nome = $nome;
-      $consulta->email = $email;
-      $consulta->senha = $senha;
-      $consulta->telefone = $telefone;
-      $consulta->cnpj = $cnpj;
-      $consulta->endereco = $endereco;
-      $consulta->tipoExame = $tipoExame;
-      $consulta->infos = $infos;
-    }
-  }  
-  
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/labs.xml");
+  $indice = strval($_COOKIE['id']);
 
-  //Salvando dados no user.xml para login
-  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
+  $server = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "CLINICA_PW";
 
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->nome = $nome;
-      $consulta->login = $email;
-      $consulta->senha = $senha;
-    }
-  }
+  try {
+    $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+    $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/user.xml");
+    $sql = "UPDATE laboratorios SET nome = :n WHERE id = :id;
+            UPDATE laboratorios SET email = :e WHERE id = :id;
+            UPDATE laboratorios SET senha = :s WHERE id = :id;
+            UPDATE laboratorios SET telefone = :t WHERE id = :id;
+            UPDATE laboratorios SET cnpj = :c WHERE id = :id;
+            UPDATE laboratorios SET endereco = :en WHERE id = :id;
+            UPDATE laboratorios SET tipoExame = :te WHERE id = :id;
+            UPDATE laboratorios SET infos = :ifu WHERE id = :id;
+    ";
+    $resposta = $conn->prepare($sql);
+    $resposta->bindParam(':id',$indice);
+    $resposta->bindParam(':n',$nome);
+    $resposta->bindParam(':e',$email);
+    $resposta->bindParam(':s',$senha);
+    $resposta->bindParam(':t',$telefone);
+    $resposta->bindParam(':c',$cnpj);
+    $resposta->bindParam(':en',$endereco);
+    $resposta->bindParam(':te',$tipoExame);
+    $resposta->bindParam(':ifu',$infos);
+    $resposta->execute();
 
-  alerta("Cadastro atualizado");
-  redireciona("userLab.php");
+    $sql = "UPDATE usuarios SET nome = :n WHERE id = :id;
+            UPDATE usuarios SET email = :e WHERE id = :id;
+            UPDATE usuarios SET senha = :s WHERE id = :id;
+    ";
+    $resposta = $conn->prepare($sql);
+    $resposta->bindParam(':id',$indice);
+    $resposta->bindParam(':n',$nome);
+    $resposta->bindParam(':e',$email);
+    $resposta->bindParam(':s',$senha);
+    $resposta->execute();
+    
+    alerta("Cadastro atualizado");
+    redireciona("userLab.php");
+    
+}catch (PDOEXception $e){
+    echo "Erro: " . "<br>" . $e->getMessage();
+}
+
+$conn = null;
+
 }
 
 ?>

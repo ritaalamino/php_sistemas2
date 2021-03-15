@@ -1,6 +1,6 @@
 <?php
 //Funções
-include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -17,9 +17,8 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
 
 $logado = $_SESSION['username'];
 
-$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
-$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+$medicos = pegandoNomes('medicos');
+$pacientes = pegandoNomes('pacientes');
 
 ///////////////////////////////////////////////
 
@@ -33,33 +32,50 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $data = verifica($_POST["data"]);
   $medico = verifica($_POST["medico"]);
   $paciente = verifica($_POST["paciente"]);
-  $email = verifica($_POST["email"]);
+  //$email = verifica($_POST["email"]);
   $exames = verifica($_POST["exame"]);
   $infos = verifica($_POST["message"]);
 
-  //Carregando xml
-  $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
+  $indice = strval($_COOKIE['id']);
+  $idLab = pegaID('laboratorios', strval($_COOKIE['lab']));
+  $idMedico = pegaID('medicos', $medico);
+  $idPaciente = pegaID('pacientes', $paciente);
 
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->data = $data;
-      $consulta->medico = $medico;
-      $consulta->paciente = $paciente;
-      $consulta->email = $email;
-      $consulta->exame = $exames;
-      $consulta->infos = $infos;
-    }
+  $server = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "CLINICA_PW";
+
+  try {
+      $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+      $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $sql = "UPDATE exames SET data = :dt WHERE id = :id;
+              UPDATE exames SET id_paciente = :idp WHERE id = :id;
+              UPDATE exames SET id_medico = :idm WHERE id = :id;
+              UPDATE exames SET id_laboratorio = :idl WHERE id = :id;
+              UPDATE exames SET exame = :ex WHERE id = :id;
+              UPDATE exames SET infos = :ifu WHERE id = :id;
+      ";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':id',$indice);
+      $resposta->bindParam(':dt',$data);
+      $resposta->bindParam(':idp',$idPaciente);
+      $resposta->bindParam(':idm',$idMedico);
+      $resposta->bindParam(':idl',$idLab);
+      $resposta->bindParam(':ex',$exames);
+      $resposta->bindParam(':ifu',$infos);
+      $resposta->execute();
+
+      alerta("Exame alterado");
+      redireciona("userLab.php");
+      
+      
+  }catch (PDOEXception $e){
+      echo "Erro: " . "<br>" . $e->getMessage();
   }
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/exames.xml");
-
-  alerta("Exame alterado");
-  redireciona("userLab.php");
+  $conn = null;
 
 }
 
@@ -84,7 +100,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" >
           <div>
             <label for="data"></label>
             <input type="date" placeholder="Data" name="data" id="data" value="<?php echo $_COOKIE['data'] ?>" required>
@@ -94,9 +110,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <select placeholder="Médico" name="medico" id="medico" value="<?php echo $_COOKIE['medico'] ?>" required>
               <option disabled hidden selected>Médico</option>
               <option selected><?php echo strval($_COOKIE['medico']) ?></option>
-              <?php foreach($medicos as $medico){
-                if(strval($_COOKIE['medico']) != strval($medico->nome))
-                echo "<option>".$medico->nome."</option>";} ?>
+              <?php foreach($medicos as $medico){echo "<option>".$medico['nome']."</option>";} ?>
             </select>
           </div>
           <div>
@@ -104,16 +118,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Pacientes</option>
               <option selected><?php echo strval($_COOKIE['paciente']) ?></option>
-              <?php foreach($pacientes as $paciente){
-                if(strval($_COOKIE['paciente']) != strval($paciente->nome))
-                echo "<option>".$paciente->nome."</option>";} ?>
+              <?php foreach($pacientes as $paciente){echo "<option>".$paciente['nome']."</option>";} ?>
             </select>
           </div>
-          <div>
-            <label for="email"></label>
-            <h6 id="demo"></h6>
-            <input type="text" placeholder="E-mail" name="email" id="email" value="<?php echo $_COOKIE['email'] ?>" required>
-          </div>
+          
           <div>
             <label for="exame"></label>
             <input type="text" placeholder="Exame" name="exame" id="exame" value="<?php echo $_COOKIE['exame'] ?>" required>
@@ -128,32 +136,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
         </form><!-- // End form -->
       </div><!-- // End #container -->
-
-      <script>
-        function checkForm(){
-          //e.preventDefault();
-          var paciente = document.getElementById("paciente").value
-          var email = document.getElementById("email").value
-          var tudoOk = true;       
-
-          document.getElementById("demo").innerHTML = "";
-          
-
-          if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
-            document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
-            tudoOk=false;
-            
-          }
-
-          if(tudoOk){
-            return true;
-          }else{
-            document.getElementById("demo7").innerHTML = "Campos preenchidos incorretamente!";
-            return false;
-          }
-                
-        } 
-    </script>
 
 </body>
 </html>
