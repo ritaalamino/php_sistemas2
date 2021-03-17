@@ -1,53 +1,10 @@
 <?php
 
-//include("../../db/db.php");
-
-//funções
-function alerta($texto){
-  echo "<script>alert('${texto}');</script>";
-}
-
-function redireciona($url){
-  echo "<script> window.location.href = '{$url}'; </script>";
-}
-
-function verificaAcesso($user,$password){
-  $file = "xml/user.xml"; 
-  $xml = simplexml_load_file($file) or die("Não foi possível abrir o XML");
-  //ini_set( 'error_reporting', E_ALL );
-  //ini_set( 'display_errors', true );
-
-  for($i = 0; $i < $xml->count(); $i++){
-      $xmlcadastro = $xml->user[$i]->login;
-
-      if($user == $xmlcadastro){
-          if(sha1($password) == $xml->user[$i]->senha) {
-              alerta("Acesso realizado com sucesso");
-              $_SESSION["username"] = $xml->user[$i]->login;
-              $_SESSION["tipo"]= $xml->user[$i]->tipo;             
-              return $xml->user[$i]->tipo;
-          } else {
-              alerta("Senha inválida");
-              return "";
-          }
-      }
-  }
-  alerta("Usuário inválido.");
-  return "";
-}
-
-function verificaS($data){
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-
-///////////////////// 
+include("db/db.php");
+include("php/login.php");
 
 $username = $senha = "";
 $user = $sen = $verifica;
-
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $user = $sen = true;
@@ -56,14 +13,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $userErr = "Nome é Obrigatório!";
       alerta($userErr);
       $user=false;
-  }else{
+  }/*else{
       $username = verificaS($_POST["username"]);
       if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
           $username = "Formato de e-mail inválido!";
           alerta($username);
           $user=false;
       }
-  }
+  }*/
 
   if(empty($_POST["senha"])){
       $senhaErr = "Senha é Obrigatória!";
