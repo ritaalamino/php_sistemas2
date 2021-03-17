@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <?php
 ini_set( 'error_reporting', E_ALL );
@@ -17,60 +16,6 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')
 
 $logado = $_SESSION['username'];
 
-  function getConsultas(){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      $vetor[$consulta->id] = array(
-        'paciente' => strval($consulta->paciente),
-        'data' => strval($consulta->data),
-        'lab' => strval($consulta->lab),
-        'diagnostico' => strval($consulta->diagnostico),
-        'exames' => strval($consulta->exames),
-        'resultados' => strval($consulta->resultados)
-      );
-    }
-    return $vetor;
-  }
-
-  function getConsulta($consultaID){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file);
-    $vetor = array();
-    foreach ($xml->children() as $consulta) {
-      if(strval($xml->id) == strval($consultaID)){
-        $vetor['id'] = strval($consulta->id);
-        $vetor['paciente'] = strval($consulta->paciente);
-        $vetor['data'] = strval($consulta->data);
-        $vetor['lab'] = strval($consulta->lab);
-        $vetor['diagnostico'] = strval($consulta->diagnostico);
-        $vetor['exames'] = strval($consulta->exames);
-        $vetor['resultados'] = strval($consulta->resultados);
-      }
-    }
-    return $vetor;
-  }
-
-
-  function alterarCadastro($consultaID,$parametro,$valor){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file) or die("XML não acessado.");
-
-    for($i = 0; $i < $xml->count(); $i++){
-      if ($xml->consulta[$i]->id == $consultaID){
-        $xml->consulta[$i]->$parametro = $valor;
-      }
-    }
-  
-    //Salvando no xml
-    $dom = dom_import_simplexml($xml)->ownerDocument;
-    $dom->formatOutput = true;
-    $dom->preserveWhiteSpace = false;
-    $dom->loadXML($dom->saveXML());
-    $dom->save("../../xml/consultas.xml");
-  }
-
 ?>
 
 <head>
@@ -83,60 +28,53 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Saúde</title>
+    <title>Histórico de Exames</title>
 
 </head>
 <body>
 
-    <div id="container">
+<div id="container">
         <h1>&bull; Exames &bull;</h1>
         <div class="underline">
         </div>  
         <?php
-            $id = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
-            $receita = $exames = $infos = '';
-            $flag = false;
+          //Funções
+          include("../../php/funcoes.php");
 
-            $file = "../../xml/exames.xml";
-            $xml = simplexml_load_file($file);
-            foreach ($xml->children() as $exame) {
-              if ($exame->email == $_SESSION['username']){
-                $id = $exame->id;
-                $data= $exame->data;
-                $medico= $exame->medico;
-                $paciente= $exame->paciente;
-                $email = $exame->email;
-                $diagnostico = $exame->diagnostico;
-                $receita = $exame->receita;
-                $exames = $exame->exames;
-                $infos = $exame->infos;
-                echo '<div id="container">';
-                echo '<p>ID: ' .$id .'<br>';
-                echo 'Paciente: ' .$paciente .'<br>';
-                echo 'Data: ' .$data .'<br>';
-                echo 'Médico: ' .$medico .'<br>';
-                echo 'Email: ' .$email .'<br>';
-                echo 'Diagnóstico: ' .$diagnostico .'<br>';
-                echo 'Receita: ' .$receita .'<br>';
-                echo 'Exames: ' .$exames .'<br>';
-                echo 'Infos: ' .$infos .'<br>';
-                setcookie("id", $id , time()+60000, '/');
-                setcookie("tipo", 'exame' , time()+60000, '/');
-                echo '<a href ="../../php/altera.php">Alterar</a>';
-                echo '</div>';
-                $flag = false;
-                break;
-              }
-              else{
-                $flag = true;
-              }
+          $data = $medico = $paciente = $email = "";
+          $lab = $exames = $infos = '';
+
+          $fileExames = simplexml_load_file("../../xml/exames.xml");
+          //$Nomepaciente = pegaNome($logado);
+
+          foreach ($fileExames->children() as $Exame){
+            if(strval($Exame->email) == strval($logado)){
+              $data= $Exame->data;
+              $medico= $Exame->medico;
+              $paciente= $Exame->paciente;
+              $lab = $Exame->lab;
+              $email = $Exame->email;
+              $exames = $Exame->exame;
+              $infos = $Exame->infos;
+              echo '<div id="container">';
+              echo 'Paciente: ' .$paciente .'<br>';
+              echo 'Laboratório: ' .$lab .'<br>';
+              echo 'Data: ' .$data .'<br>';
+              echo 'Médico: ' .$medico .'<br>';
+              echo 'Email: ' .$email .'<br>';
+              echo 'Exames: ' .$exames .'<br>';
+              echo 'Infos: ' .$infos .'<br>';
+              echo '</div>';
             }
-            if ($flag == true){
-              echo '<br><p>';
-              echo 'Não existem exames para esse cadastro. </p>';
-            }
-          ?>
+          }
+        ?>
+      
+        <div class="submit">
+          <button type="button" id="form_button"><a href="userPac.php">Voltar</a></button>
+        </div>
+ 
     </div>
+
 </body>
 </html>
 

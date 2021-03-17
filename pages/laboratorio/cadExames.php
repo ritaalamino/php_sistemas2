@@ -1,6 +1,7 @@
 <?php
 //Funções
-include("../../php/funcoes.php");
+//include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -19,54 +20,67 @@ $logado = $_SESSION['username'];
 $logado = $_SESSION['username'];
 
 
-$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
-$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+$medicos = pegandoNomes('medicos');
+$pacientes = pegandoNomes('pacientes');
 
 ///////////////////////////////////////////////
 
 $data = $medico = $paciente = $diagnostico = $receita = "";
-$exames = $infos = $email = $lab = $id = "";
+$exames = $infos = $email = $lab ="";
+$idPaciente = $idMedico = $idLab = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
-  $id = verifica($_POST["id"]);  
   $data = verifica($_POST["data"]);
   $medico = verifica($_POST["medico"]);
-  $lab = verifica($_POST["lab"]);
   $paciente = verifica($_POST["paciente"]);
-  $email = verifica($_POST["email"]);
-  $diagnostico = verifica($_POST["diagnostico"]);
-  $receita = verifica($_POST["receita"]);
-  $exames = verifica($_POST["exames"]);
+  //$email = verifica($_POST["email"]);
+  $exames = verifica($_POST["exame"]);
   $infos = verifica($_POST["message"]);
 
-  //Carregando xml
-  $xml = simplexml_load_file("../../xml/exames.xml") or die("ERRO: Não foi possível abrir o XML");
-  $id = count($xml)+1;
+  //Fazendo conexão com o banco
+  $server = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "CLINICA_PW";
 
-  //Carregando exame
-  $node = $xml->addChild('exame');
-  $node->addChild('id', $id);
-  $node->addChild('data', $data);
-  $node->addChild('medico',$medico);
-  $node->addChild('paciente',$paciente);
-  $node->addChild('lab',$lab);
-  $node->addChild('email',$email);
-  $node->addChild('diagnostico',$diagnostico);
-  $node->addChild('receita',$receita);
-  $node->addChild('exames',$exames);
-  $node->addChild('infos',$infos);
+  try {
+      $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+      $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/exames.xml");
+      $sql = "SELECT COUNT(*) FROM exames;
+      ";
+      $resposta = $conn->query($sql);
+      $indice = $resposta->fetchAll(PDO::FETCH_ASSOC);
+      $indice = $indice[0]['COUNT(*)']+4001;
+      //print_r($indice);
 
-  alerta("Cadastro efetuado.");
-  redireciona("userLab.php");
+      $idPaciente = pegaID('pacientes',$paciente);
+      $idMedico = pegaID('medicos', $medico);
+      $idLab = pegaID('laboratorios', pegaNome($logado));
+      
+      $sql = "INSERT INTO exames(
+          id, data, id_paciente,
+          id_medico, id_laboratorio, 
+          exame, infos
+      ) VALUES (:i, :d, :fkp, :fkm, :fkl, :ex, :ifu);
+      ";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':i',$indice);
+      $resposta->bindParam(':d',$data);
+      $resposta->bindParam(':fkp',$idPaciente);
+      $resposta->bindParam(':fkm',$idMedico);
+      $resposta->bindParam(':fkl',$idLab);
+      $resposta->bindParam(':ex',$exames);
+      $resposta->bindParam(':ifu',$infos);
+      $resposta->execute();
+
+      alerta("Cadastro efetuado");
+      redireciona("userLab.php");
+
+  }catch (PDOEXception $e){
+      echo "Erro: " . "<br>" . $e->getMessage();
+  }
 
 }
 
@@ -100,44 +114,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <label for="medico"></label>
             <select placeholder="Médico" name="medico" id="medico" required>
               <option disabled hidden selected>Médico</option>
-              <?php foreach($medicos as $medico){echo "<option>".$medico->nome."</option>";} ?>
-            </select>
-          </div>
-          <div>
-            <label for="lab"></label>
-            <select placeholder="Laboratório" name="lab" id="lab" required>
-              <option disabled hidden >Laboratório</option>
-              <?php foreach($labs as $lab){
-                if($lab->email = $_SESSION['username']){
-                    echo "<option selected>".$lab->nome."</option>";
-                  }
-                } ?>
-                
+              <?php foreach($medicos as $medico){echo "<option>".$medico['nome']."</option>";} ?>
             </select>
           </div>
           <div>
             <label for="lab"></label>
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Pacientes</option>
-              <?php foreach($pacientes as $paciente){echo "<option>".$paciente->nome."</option>";} ?>
+              <?php foreach($pacientes as $paciente){echo "<option>".$paciente['nome']."</option>";} ?>
             </select>
           </div>
-          <div>
+          <!--<div>
             <label for="email"></label>
             <h6 id="demo"></h6>
             <input type="text" placeholder="E-mail" name="email" id="email" required>
-          </div>
+          </div>-->
           <div>
-            <label for="diagnostico"></label>
-            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" required>
-          </div>
-          <div>
-            <label for="receita"></label>
-            <input type="text" placeholder="Receita" name="receita" id="receita" required>
-          </div>
-          <div>
-            <label for="exames"></label>
-            <input type="text" placeholder="Exames" name="exames" id="exames" required>
+            <label for="exame"></label>
+            <input type="text" placeholder="Exame" name="exame" id="exame" required>
           </div>
           <div>
             <label for="message"></label>

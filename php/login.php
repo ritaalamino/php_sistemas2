@@ -39,7 +39,7 @@
             return $_SESSION["tipo"];
         } else {  
             alerta("Usuário ou senha inválido.");
-            return ;
+            
         }
       }
       

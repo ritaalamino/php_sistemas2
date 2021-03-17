@@ -1,7 +1,8 @@
 <?php
 
 //Incluindo bibliotecas
-include("../../php/funcoes.php");
+//include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -17,8 +18,8 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != "admin")){
 
 $logado = $_SESSION['username'];
 
-$nome = $email = $senha = $idade = $telefone = $cpf = "";
-$endereco = $genero = $infos = "";
+$nome = $email = $senha = $idade = $telefone = $crm = "";
+$endereco = $especialidade = $genero = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
@@ -27,21 +28,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $senha = verifica($_POST["senha"]);
   $idade = verifica($_POST["idade"]);
   $telefone = verifica($_POST["telefone"]);
-  $cpf = verifica($_POST["cpf"]);
+  $crm = verifica($_POST["crm"]);
   $endereco = verifica($_POST["endereco"]);
+  $especialidade = verifica($_POST["especialidade"]);
   $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
-  if(jaExiste($email, "../../xml/pacientes.xml")){
+  if(jaExisteMedDB('medicos', $email, $crm)){
     alerta("Usuário já existe!");
     redireciona("userAdmin.php");
   }else{
-    cadastraPaciente($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos);
+    cadastraMedicoDB($nome, $email, $senha, $idade, $telefone, $crm, $endereco, $especialidade, $genero, $infos);
     alerta("Cadastro efetuado");
     redireciona("userAdmin.php");
   }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -58,12 +59,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     <title>Clínica PW</title>
 </head>
-<body>    
+<body>
     <div id="container">
-        <h1>&bull; Pacientes &bull;</h1>
+        <h1>&bull; Médico &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();">
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();" >
           <div>
             <label for="nome"></label>
             <h6 id="demo3"></h6>
@@ -82,12 +83,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </div>
           <div>
             <label for="idade"></label>
+            
             <input type="number" placeholder="Idade" name="idade" id="idade" required>
           </div>
           <div>
-            <label for="cpf"></label>
+            <label for="crm"></label>
             <h6 id="demo4"></h6>
-            <input type="text" placeholder="CPF" name="cpf" id="cpf" required>
+            <input type="text" placeholder="CRM" name="crm" id="crm" required>
           </div>
           <div>
             <label for="telefone"></label>
@@ -99,11 +101,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="text" placeholder="Endereço" name="endereco" id="endereco" required>
           </div>
           <div>
+            <label for="especialidade"></label>
+            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" required>
+          </div>
+          <div>
             <label for="genero"></label>
             <select placeholder="Gênero" name="genero" id="genero" required>
               <option disabled hidden selected>Gênero</option>
-              <option value="Feminino"> </option>
-              <option value="Masculino"> </option>
+              <option>Feminino</option>
+              <option>Masculino</option>
+              <option>Outro</option>
             </select>
           </div>
           <div>
@@ -114,14 +121,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="submit" value="Cadastrar" id="form_button" />
             <h6 id="demo7"></h6>
           </div>
-        </form><!-- // End form -->
-      </div><!-- // End #container -->
+        </form><!-- Fim form -->
+      </div><!-- Fim #container -->
 
       <script>
         function checkForm(){
           var nome = document.getElementById("nome").value
           var email = document.getElementById("email").value
-          var cpf = document.getElementById("cpf").value
+          var crm = document.getElementById("crm").value
           var telefone = document.getElementById("telefone").value
           var idade = document.getElementById("idade").value
           var tudoOk = true;
@@ -155,8 +162,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               tudoOk=false;
           }
           
-          if(cpf.length != 11){
-            document.getElementById("demo4").innerHTML = "Formato de CPF inválido!";
+          if(crm.length != 6){
+            document.getElementById("demo4").innerHTML = "Formato de CRM inválido!";
             tudoOk=false;
           }
 
@@ -181,3 +188,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </script>
 </body>
 </html>
+
+

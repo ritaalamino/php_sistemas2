@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <?php
-ini_set( 'error_reporting', E_ALL );
-ini_set( 'display_errors', true );
-if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
-    session_start();
-}
-if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')){
-    unset($_SESSION['username']);
-    $_SESSION['valid'] = false;
-    unset($_SESSION['tipo']);
-    header('location:../../index.php');
+    ini_set( 'error_reporting', E_ALL );
+    ini_set( 'display_errors', true );
+    if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+        session_start();
     }
+    if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')){
+        unset($_SESSION['username']);
+        $_SESSION['valid'] = false;
+        unset($_SESSION['tipo']);
+        header('location:../../index.php');
+        }
 
-$logado = $_SESSION['username'];
+    $logado = $_SESSION['username'];
 
 ?>
 
@@ -28,7 +26,7 @@ $logado = $_SESSION['username'];
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Saúde</title>
+    <title>Consultas</title>
 
 </head>
 <body>
@@ -38,47 +36,35 @@ $logado = $_SESSION['username'];
         <div class="underline">
         </div>  
         <?php
-            $id = $paciente = $data = $lab = $diagnostico = $exames = $dados = "";
-            $flag = false;
-            $file = "../../xml/consultas.xml";
-            $file2 = "../../xml/pacientes.xml";
-            $xml = simplexml_load_file($file);
-            $xml2 = simplexml_load_file($file2);
+            //Funções
+            include("../../php/funcoes.php");
 
-            foreach ($xml->children() as $consulta) {
-                foreach ($xml2->children() as $paciente) {
-                if (strval($consulta->paciente) == strval($paciente->nome)){
-                    $id = $consulta->id;
-                    $paciente= $consulta->paciente;
-                    $data= $consulta->data;
-                    $lab= $consulta->lab;
-                    $diagnostico = $consulta->diagnostico;
-                    $exames = $consulta->exames;
-                    $resultados = $consulta->resultados;
-                    echo '<div id="container">';
-                    echo '<p>Paciente: ' .$paciente .'<br>';
-                    echo 'Data: ' .$data .'<br>';
-                    echo 'Laboratório: ' .$lab .'<br>';
-                    echo 'Diagnóstico: ' .$diagnostico .'<br>';
-                    echo 'Exames: ' .$exames .'<br>';
-                    echo 'Resultados: ' .$resultados .'<br>';
-                    setcookie("id", $id , time()+60000, '/');
-                    setcookie("tipo", 'consulta' , time()+60000, '/');
-                    echo '<a href ="../../php/altera.php">Alterar</a>';
-                    echo '</div>';
-                    $flag = false;
-                    break;
-                }
-                else{
-                    $flag = true;
-                  }
-                }
+           
+            $medico = $data = $diagnostico = $receita = "";
+            $paciente = pegaNome($logado);
+
+            $fileConsulta = simplexml_load_file("../../xml/consultas.xml");
+            //$Nomepaciente = pegaNome($logado);
+
+            foreach ($fileConsulta->children() as $Consulta){
+            if(strval($Consulta->paciente) == strval($paciente)){
+                $data= $Consulta->data;
+                $medico= $Consulta->medico;
+                $diagnostico = $Consulta->diagnostico;
+                $receita = $Consulta->receita;
+                echo '<div id="container">';
+                echo 'Data: ' .$data .'<br>';
+                echo 'Medico: ' .$medico .'<br>';
+                echo 'Diagnostico: ' .$diagnostico .'<br>';
+                echo 'Receita: ' .$receita .'<br>';
+                echo '</div>';
             }
-                if ($flag == true){
-                  echo '<br><p>';
-                  echo 'Não existem consultas para esse cadastro. </p>';
-                }
-          ?>
+            }
+        ?>
+        
+        <div class="submit">
+            <button type="button" id="form_button"><a href="userPac.php">Voltar</a></button>
+        </div>
     </div>
 </body>
 </html>

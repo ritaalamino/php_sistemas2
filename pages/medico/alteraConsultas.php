@@ -1,12 +1,6 @@
 <?php
-
   //Incluindo bibliotecas
   include("../../php/funcoes.php");
-
-  $medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
-  $labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-  $pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
-
 
   ini_set( 'error_reporting', E_ALL );
   ini_set( 'display_errors', true );
@@ -22,37 +16,40 @@
         }
       }
   $logado = $_SESSION['username'];
-      
 
-  /////////////////////////////////////////////
+$data = $medico = $paciente = $diagnostico = $receita = "";
+$Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
-  $data = $id = $laboratorio = $medico = $paciente = $diagnostico = $exames = $resultados = "";
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  //Pegando os dados fornecidos pelo formulario
+  $data = verifica($_POST["data"]);
+  $paciente = verifica($_POST["paciente"]);
+  $medico = pegaNome($logado);
+  $diagnostico = verifica($_POST["diagnostico"]);
+  $receita = verifica($_POST["receita"]);
 
-  ///////////////////////////////////////////
-  if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $data = verifica($_POST["data"]);
-    $laboratorio = verifica($_POST["laboratorio"]);
-    $paciente = verifica($_POST["paciente"]);
-    $medico = verifica($_POST["medico"]);
-    $diagnostico = verifica($_POST["diagnostico"]);
-    $exames = verifica($_POST["exames"]);
-    $resultados = verifica($_POST["resultados"]);
+  $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
 
-    $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
-
-    alterarCadastro($_COOKIE['id'],'data',$data);
-    alterarCadastro($_COOKIE['id'],'lab',$laboratorio);
-    alterarCadastro($_COOKIE['id'],'paciente',$paciente);
-    alterarCadastro($_COOKIE['id'],'medico',$medico);
-    alterarCadastro($_COOKIE['id'],'diagnostico',$diagnostico);
-    alterarCadastro($_COOKIE['id'],'exames',$exames);
-    alterarCadastro($_COOKIE['id'],'resultados',$resultados);
-
-    alerta("Consulta alterada.");
-    redireciona("Consultas.php");
+  foreach($xml as $consulta){
+    if (strval($consulta->id) == strval($_COOKIE['id'])){
+      $consulta->data = $data;
+      $consulta->medico = $medico;
+      $consulta->paciente = $paciente;
+      $consulta->diagnostico = $diagnostico;
+      $consulta->receita = $receita;
+    }
   }
 
-  
+  //Salvando no xml
+  $dom = dom_import_simplexml($xml)->ownerDocument;
+  $dom->formatOutput = true;
+  $dom->preserveWhiteSpace = false;
+  $dom->loadXML($dom->saveXML());
+  $dom->save("../../xml/consultas.xml");
+
+  alerta("Consulta alterada");
+  redireciona("userMed.php");
+} 
 ?>
 
 <!DOCTYPE html>
@@ -67,54 +64,38 @@
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Saúde</title>
+    <title>Altera Consulta</title>
 </head>
 <body>
-    <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+<div id="container">
+        <h1>&bull; Altera Consulta &bull;</h1>
         <div class="underline">
         </div>
         <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
-          <div class="id">
-            <label for="id"></label>
-            <input type="text" placeholder="ID" name="id" id="id" value="<?php echo $_COOKIE['id'] ?>" required>
-          </div>
-          <div class="data">
+          <div>
             <label for="data"></label>
-            <input type="text" placeholder="Data" name="data" id="data" value="<?php echo $_COOKIE['data'] ?>" required>
+            <input type="date" placeholder="Data" name="data" id="data" value="<?php echo $_COOKIE['data'] ?>" required>
           </div>
-          <div class="subject">
-            <label for="laboratorio"></label>
-            <select placeholder="Laboratório" name="laboratorio" id="laboratorio" required>
-              <option disabled hidden>Laboratório</option>
-              <?php foreach($labs as $lab){
-                if($lab->nome == $_COOKIE['lab']){
-                  echo "<option selected>".$lab->nome."</option>";
-                } else { echo "<option>".$lab->nome."</option>";}} ?>}
+          <div>
+            <label for="paciente"></label>
+            <select placeholder="Paciente" name="paciente" id="paciente" value="<?php echo $_COOKIE['paciente'] ?>" required>
+              <option disabled hidden selected>Paciente</option>
+              <option selected><?php echo strval($_COOKIE['paciente']) ?></option>
+              <?php foreach($Pacientes as $Paciente){
+                if(strval($_COOKIE['paciente']) != strval($Paciente->nome))
+                echo "<option>".$Paciente->nome."</option>";} ?>
             </select>
           </div>
-          <div class="paciente">
-            <label for="paciente"></label>
-            <input type="text" placeholder="Paciente" name="paciente" id="paciente"  value="<?php echo $_COOKIE['paciente'] ?>" required>
-          </div>
-          <div class="medico">
-            <label for="medico"></label>
-            <input type="text" placeholder="Médico" name="medico" id="medico"  value="<?php echo $_COOKIE['medico'] ?>" required>
-          </div>
-          <div class="diagnostico">
+          <div>
             <label for="diagnostico"></label>
-            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" value="<?php echo $_COOKIE['diagnostico'] ?>"  required>
+            <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" value="<?php echo $_COOKIE['diagnostico'] ?>" required>
           </div>
-          <div class="exames">
-            <label for="exames"></label>
-            <input type="text" placeholder="Exames" name="exames" id="exames" value="<?php echo $_COOKIE['exames'] ?>"  required>
-          </div>
-          <div class="resultados">
-            <label for="resultados"></label>
-            <input type="text" placeholder="Resultados" name="resultados" id="resultados" value="<?php echo $_COOKIE['resultados'] ?>" required>
+          <div>
+            <label for="receita"></label>
+            <input type="text" placeholder="Receita" name="receita" id="receita" value="<?php echo $_COOKIE['receita'] ?>" required>
           </div>
           <div class="submit">
-            <input type="submit" value="Enviar" id="form_button" />
+            <input type="submit" value="Alterar" id="form_button" />
           </div>
         </form><!-- // End form -->
       </div><!-- // End #container -->

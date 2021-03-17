@@ -1,7 +1,4 @@
 <?php
-
-
-
   ini_set( 'error_reporting', E_ALL );
   ini_set( 'display_errors', true );
   if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
@@ -16,39 +13,30 @@
 
   $logado = $_SESSION['username'];
 
+  $Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
   include("../../php/funcoes.php");
+  $data = $medico = $paciente = $diagnostico = $receita = "";
 
-
-  //session_start();
-
-  /////////////////////////////////////////////
-
-  $nome = $laboratorio = $paciente = $medico = $diagnostico = $exames = $resultados = "";
-
-  ///////////////////////////////////////////
   if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+    $medico = pegaNome($logado);
     $data = verifica($_POST["data"]);
-    $laboratorio = verifica($_POST["laboratorio"]);
-    $medico = verifica($_POST["medico"]);
     $paciente = verifica($_POST["paciente"]);
     $diagnostico = verifica($_POST["diagnostico"]);
-    $exames = verifica($_POST["exames"]);
-    $resultados = verifica($_POST["resultados"]);
+    $receita = verifica($_POST["receita"]);
 
     $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
-    $id = count($xml) +1;
+
+    $id = count($xml) +5001;
 
     $node = $xml->addChild('consulta');
     $node->addChild('id',$id);
+    $node->addChild('data',$data);
     $node->addChild('paciente',$paciente);
     $node->addChild('medico',$medico);
-    $node->addChild('data',$data);
-    $node->addChild('lab',$laboratorio);
     $node->addChild('diagnostico',$diagnostico);
-    $node->addChild('exames',$exames);
-    $node->addChild('resultados',$resultados);
+    $node->addChild('receita',$receita);
 
     $dom = dom_import_simplexml($xml)->ownerDocument;
     $dom->formatOutput = true;
@@ -56,8 +44,8 @@
     $dom->loadXML($dom->saveXML());
     $dom->save("../../xml/consultas.xml");
 
-    alerta("Consulta cadastrada.");
-    redireciona("Consultas.php");
+    alerta("Consulta cadastrada");
+    redireciona("userMed.php");
   }
 
 ?>
@@ -74,50 +62,32 @@
 
     <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
-    <title>Saúde</title>
+    <title>Nova Consulta</title>
 </head>
 <body>
     <div id="container">
-        <h1>&bull; Exames &bull;</h1>
+        <h1>&bull; Nova Consulta &bull;</h1>
         <div class="underline">
         </div>
         <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>">
-          <div class="data">
+          <div>
             <label for="data"></label>
-            <input type="text" placeholder="Data" name="data" id="data" required>
+            <input type="date" placeholder="Data" name="data" id="data" required>
           </div>
-          <div class="subject">
-            <label for="laboratorio"></label>
-            <select placeholder="Laboratório" name="laboratorio" id="laboratorio" required>
-            <option disabled hidden selected>Laboratório</option>
-              <?php foreach($labs as $lab){ echo "<option >".$lab->nome."</option>";}?>
+          <div>
+            <label></label>
+            <select placeholder="Paciente" name="paciente" id="paciente" required>
+              <option disabled hidden selected>Pacientes</option>
+              <?php foreach($Pacientes as $Paciente){echo "<option>".$Paciente->nome."</option>";} ?>
             </select>
           </div>
-          <div class="paciente">
-            <label for="paciente"></label>
-            <input type="text" placeholder="Paciente" name="paciente" id="paciente" required>
-          </div>
-          <div class="medico">
-            <<select placeholder="Médico" name="medico" id="medico" required>
-              <option disabled hidden selected>Médico</option>
-              <?php foreach($medicos as $medico){
-                if($medico->email == $_SESSION['username']){
-                  echo "<option>".$medico->nome."</option>";
-                }
-              } ?>
-            </select>
-          </div>
-          <div class="diagnostico">
+          <div>
             <label for="diagnostico"></label>
             <input type="text" placeholder="Diagnóstico" name="diagnostico" id="diagnostico" required>
           </div>
-          <div class="exames">
-            <label for="exames"></label>
-            <input type="text" placeholder="Exames" name="exames" id="exames" required>
-          </div>
-          <div class="resultados">
-            <label for="resultados"></label>
-            <input type="text" placeholder="Resultados" name="resultados" id="resultados" required>
+          <div>
+            <label for="receita"></label>
+            <input type="text" placeholder="Receita" name="receita" id="receita" required>
           </div>
           <div class="submit">
             <input type="submit" value="Enviar" id="form_button" />

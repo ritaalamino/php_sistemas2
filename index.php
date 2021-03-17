@@ -1,7 +1,16 @@
 <?php
+  //Incluindo bibliotecas
+  //include("php/funcoes.php");
+  include("php/cadastraDB.php");
 
-include("db/db.php");
-include("php/login.php");
+function verificaS($data){
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+///////////////////// 
 
 $username = $senha = "";
 $user = $sen = $verifica;
@@ -31,40 +40,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 if($user===true && $sen===true){
-  $verifica = verificaAcesso($_POST["username"],$_POST["senha"]);
+  $verifica = verificaAcessoDB($_POST["username"],$_POST["senha"]);
   setcookie("username", $_POST["username"], time() + 30 );
   if ($verifica == "admin"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
     $_SESSION['username'] = $username; 
-    $_SESSION['tipo'] = 'admin'; 
-    header('location:/pages/admin/userAdmin.php');   
+    $_SESSION['tipo'] = 'admin';
+    header('location:pages/admin/userAdmin.php');   
   }elseif($verifica == "medico"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'medico'; 
-    header('location:/pages/medico/userMed.php');
+    header('location:pages/medico/userMed.php');
   }elseif($verifica == "paciente"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'paciente'; 
-    header("location:/pages/paciente/userPac.php");
+    header("location:pages/paciente/userPac.php");
   }elseif($verifica == "lab"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time()+1000;
     $_SESSION['username'] = $username; 
     $_SESSION['tipo'] = 'lab'; 
-    header("location:/pages/laboratorio/userLab.php");
-  }
-  /*else{
+    header("location:pages/laboratorio/userLab.php");
+  }else{
     alerta("Acesso inválido.");
-  }*/
+  }
 }
   
 

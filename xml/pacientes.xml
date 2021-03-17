@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pacientes>
   <paciente>
-    <id>5</id>
-    <nome>José Fina</nome>
-    <email>josefina@paciente.com</email>
-    <idade>25</idade>
-    <telefone>11985858585</telefone>
-    <cpf>12345568799</cpf>
-    <endereco>Rua 123, Bairro tal</endereco>
-    <genero>Feminino</genero>
-    <infos>fadsadsa</infos>
+    <id>1001</id>
+    <nome>João Silva</nome>
+    <email>joao@email.com</email>
+    <idade>29</idade>
+    <telefone>15999999999</telefone>
+    <cpf>12345678904</cpf>
+    <endereco>Rua Augusto Freire, 980</endereco>
+    <genero>Masculino</genero>
+    <infos>Hipertenso</infos>
+    <senha>joao1234</senha>
   </paciente>
   <paciente>
-    <id>7</id>
-    <nome>Rita Carolina Alamino Borges da Costa</nome>
-    <email>ritaalamino@gmail.com</email>
-    <idade>26</idade>
-    <telefone>11968325598</telefone>
-    <cpf>12544831790</cpf>
-    <endereco>Rua Ponte Pensa, 183</endereco>
-    <genero>Feminino</genero>
-    <infos>adsadsadas</infos>
+    <id>1003</id>
+    <nome>Thales de Oliveira</nome>
+    <email>thales@gmail.com</email>
+    <idade>23</idade>
+    <telefone>15999999666</telefone>
+    <cpf>12378145611</cpf>
+    <endereco>Rua José Rico, 240</endereco>
+    <genero>Masculino</genero>
+    <infos>Nenhuma</infos>
+    <senha>thales</senha>
+  </paciente>
+  <paciente>
+    <id>1004</id>
+    <nome>Taylor Camargo</nome>
+    <email>taylor@email.com</email>
+    <idade>24</idade>
+    <telefone>53999999999</telefone>
+    <cpf>83028163825</cpf>
+    <endereco>Rua Rosa Park, 1010</endereco>
+    <genero>Masculino</genero>
+    <infos>Sem comorbidades</infos>
+    <senha>taylor1234</senha>
   </paciente>
 </pacientes>

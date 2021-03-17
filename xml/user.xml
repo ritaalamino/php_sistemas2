@@ -3,43 +3,64 @@
   <user>
     <id>1</id>
     <tipo>admin</tipo>
+    <nome>Wanderson Paes</nome>
     <login>wanderson@furg.br</login>
-    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
+    <senha>wan1234</senha>
   </user>
   <user>
-    <id>2</id>
-    <tipo>admin</tipo>
-    <login>rita@furg.br</login>
-    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
-  </user>
-  <user>
-    <id>3</id>
-    <tipo>medico</tipo>
-    <login>joana@medico.com</login>
-    <senha>12347c4a8d09ca3762af61e59520943dc26494f8941b56</senha>
-  </user>
-  <user>
-    <id>2</id>
+    <id>3001</id>
     <tipo>lab</tipo>
-    <login>jonipe@lab.com</login>
-    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
+    <nome>Laboratório IDS</nome>
+    <login>ids@ids.com</login>
+    <senha>ids1234</senha>
   </user>
   <user>
-    <id>5</id>
-    <tipo>paciente</tipo>
-    <login>josefina@paciente.com</login>
-    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
-  </user>
-  <user>
-    <id>6</id>
+    <id>2001</id>
     <tipo>medico</tipo>
-    <login>maria@medico.com</login>
-    <senha>7c4a8d09ca3762af61e59520943dc26494f8941b</senha>
+    <nome>Suely Augusto Paes</nome>
+    <login>suely@gmail.com</login>
+    <senha>suely1234</senha>
   </user>
   <user>
-    <id>7</id>
-    <tipo>admin</tipo>
-    <login>ritaalamino@gmail.com</login>
-    <senha>83068cf225c626ae0bc6092c2f3a5305c6b0255c</senha>
+    <id>1001</id>
+    <tipo>paciente</tipo>
+    <nome>João Silva</nome>
+    <login>joao@email.com</login>
+    <senha>joao1234</senha>
+  </user>
+  <user>
+    <id>1003</id>
+    <tipo>paciente</tipo>
+    <nome>Thales de Oliveira</nome>
+    <login>thales@gmail.com</login>
+    <senha>thales</senha>
+  </user>
+  <user>
+    <id>2002</id>
+    <tipo>medico</tipo>
+    <nome>Luana Borges</nome>
+    <login>luana@gmail.com</login>
+    <senha>luana1234</senha>
+  </user>
+  <user>
+    <id>2003</id>
+    <tipo>medico</tipo>
+    <nome>Prícilla Karen</nome>
+    <login>pri@furg.br</login>
+    <senha>pri1234</senha>
+  </user>
+  <user>
+    <id>3003</id>
+    <tipo>lab</tipo>
+    <nome>Laboratório Biolabor</nome>
+    <login>biolabor@email.com</login>
+    <senha>biolabor1234</senha>
+  </user>
+  <user>
+    <id>1004</id>
+    <tipo>paciente</tipo>
+    <nome>Taylor Camargo</nome>
+    <login>taylor@email.com</login>
+    <senha>taylor1234</senha>
   </user>
 </users>

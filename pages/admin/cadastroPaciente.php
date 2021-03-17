@@ -1,7 +1,8 @@
 <?php
 
 //Incluindo bibliotecas
-include("../../php/funcoes.php");
+//include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -17,25 +18,26 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != "admin")){
 
 $logado = $_SESSION['username'];
 
-$nome = $email = $senha = $telefone = $cnpj = "";
-$endereco = $tipoExame = $infos = "";
+$nome = $email = $senha = $idade = $telefone = $cpf = "";
+$endereco = $genero = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
   $nome = verifica($_POST["nome"]);
   $email = verifica($_POST["email"]);
   $senha = verifica($_POST["senha"]);
+  $idade = verifica($_POST["idade"]);
   $telefone = verifica($_POST["telefone"]);
-  $cnpj = verifica($_POST["cnpj"]);
+  $cpf = verifica($_POST["cpf"]);
   $endereco = verifica($_POST["endereco"]);
-  $tipoExame = verifica($_POST["tipoExame"]);
+  $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
-  if(jaExiste($email, "../../xml/labs.xml")){
+  if(jaExisteDB('pacientes',$email, $cpf)){
     alerta("Usuário já existe!");
     redireciona("userAdmin.php");
   }else{
-    cadastraLab($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
+    cadastraPacienteDB($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos);
     alerta("Cadastro efetuado");
     redireciona("userAdmin.php");
   }
@@ -57,35 +59,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     <title>Clínica PW</title>
 </head>
-<body>
+<body>    
     <div id="container">
-        <h1>&bull; Laboratório &bull;</h1>
+        <h1>&bull; Pacientes &bull;</h1>
         <div class="underline">
         </div>
-        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();" >
+        <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();">
           <div>
             <label for="nome"></label>
             <h6 id="demo3"></h6>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
-            
           </div>
           <div class="name">
             <label for="email"></label>
             <h6 id="demo"></h6>
             <input type="text" placeholder="E-mail" name="email" id="email" required>
-            <h6 id="demo4"></h6>
+            <h6 id="demo6"></h6>
           </div>
-          
           <div class="email">
             <label for="senha"></label>
             <h6 id="demo2"></h6>
             <input type="password" placeholder="Senha" name="senha" id="senha" required>
           </div>
-          
           <div>
-            <label for="cnpj"></label>
-            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj" required>
-      
+            <label for="idade"></label>
+            <input type="number" placeholder="Idade" name="idade" id="idade" required>
+          </div>
+          <div>
+            <label for="cpf"></label>
+            <h6 id="demo4"></h6>
+            <input type="text" placeholder="CPF" name="cpf" id="cpf" required>
           </div>
           <div>
             <label for="telefone"></label>
@@ -97,13 +100,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="text" placeholder="Endereço" name="endereco" id="endereco" required>
           </div>
           <div>
-            <label for="tipoExame"></label>
-            <select placeholder="Especialidade de Exame" name="tipoExame" id="tipoExame" required>
-              <option disabled hidden selected>Tipo de Exame</option>
-              <option>Geral</option>
-              <option>Sangue</option>
-              <option>Ultrasom</option>
-              <option>Endoscopia</option>
+            <label for="genero"></label>
+            <select placeholder="Gênero" name="genero" id="genero" required>
+              <option disabled hidden selected>Gênero</option>
+              <option>Feminino</option>
+              <option>Masculino</option>
+              <option>Outro</option>
             </select>
           </div>
           <div>
@@ -114,15 +116,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="submit" value="Cadastrar" id="form_button" />
             <h6 id="demo7"></h6>
           </div>
-        </form><!-- Fim form -->
-      </div><!-- Fim #container -->
+        </form><!-- // End form -->
+      </div><!-- // End #container -->
 
-    <script>
+      <script>
         function checkForm(){
           var nome = document.getElementById("nome").value
           var email = document.getElementById("email").value
-          var cnpj = document.getElementById("cnpj").value
+          var cpf = document.getElementById("cpf").value
           var telefone = document.getElementById("telefone").value
+          var idade = document.getElementById("idade").value
           var tudoOk = true;
           
 
@@ -131,6 +134,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           document.getElementById("demo3").innerHTML = "";
           document.getElementById("demo4").innerHTML = "";
           document.getElementById("demo5").innerHTML = "";
+          document.getElementById("demo6").innerHTML = "";
 
           if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
             document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
@@ -153,13 +157,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               tudoOk=false;
           }
           
-          if(cnpj.length != 14){
-            document.getElementById("demo4").innerHTML = "Formato de CNPJ inválido!";
+          if(cpf.length != 11){
+            document.getElementById("demo4").innerHTML = "Formato de CPF inválido!";
             tudoOk=false;
           }
 
           if(telefone.length < 11 || telefone.length > 12){
             document.getElementById("demo5").innerHTML = "Formato de telefone inválido!";
+            tudoOk=false;
+          }
+
+          if(idade < 0 || idade > 120){
+            document.getElementById("demo6").innerHTML = "Idade inválida!";
             tudoOk=false;
           }
 
@@ -174,5 +183,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </script>
 </body>
 </html>
-
-

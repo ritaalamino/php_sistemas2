@@ -32,7 +32,7 @@ $logado = $_SESSION['username'];
 </head>
 <body>
     <div id="container">
-        <h1>&bull; Medico &bull;</h1>
+        <h1>&bull; Dados Médico &bull;</h1>
         <div class="underline">
         </div>
         <?php
@@ -43,33 +43,44 @@ $logado = $_SESSION['username'];
 
             foreach ($xml->children() as $medico) {
                 if($_SESSION['username'] == $medico->email){
-                $id = $medico->id;
-                $nome = $medico->nome;
-                $email = $medico->email;
-                $idade = $medico->idade;
-                $telefone = $medico->telefone;
-                $crm = $medico->crm;
-                $endereco = $medico->endereco;
-                $especialidade = $medico->especialidade;
-                $genero = $medico->genero;
-                $info = $medico->infos;
-                echo '<div id="container">';
-                echo '<p>Nome: ' .$nome .'<br>';
-                echo 'E-mail: ' .$email .'<br>';
-                echo 'Idade: ' .$idade .'<br>';
-                echo 'Telefone: ' .$telefone .'<br>';
-                echo 'CRM: ' .$crm .'<br>';
-                echo 'Endereço: ' .$endereco .'<br>';
-                echo 'Especialidade: ' .$especialidade .'<br>';
-                echo 'Genero: ' .$genero .'<br>';
-                echo 'Info: ' .$info .'<br>';
-                setcookie("id", $id , time()+60000, '/');
-                setcookie("tipo", 'medico' , time()+60000, '/');
-                echo '<a href ="../../php/altera.php">Alterar</a>';
-                echo '</div>';
+                    $id = $medico->id;
+                    $nome = $medico->nome;
+                    $email = $medico->email;
+                    $idade = $medico->idade;
+                    $telefone = $medico->telefone;
+                    $crm = $medico->crm;
+                    $endereco = $medico->endereco;
+                    $especialidade = $medico->especialidade;
+                    $genero = $medico->genero;
+                    $info = $medico->infos;
+                    setcookie("id",strval($medico->id),time()+60,"/");
+                    setcookie("nome",strval($medico->nome),time()+60,"/");
+                    setcookie("email",strval($medico->email),time()+60,"/");
+                    setcookie("idade",strval($medico->idade),time()+60,"/");
+                    setcookie("telefone",strval($medico->telefone),time()+60,"/");
+                    setcookie("crm",strval($medico->crm),time()+60,"/");
+                    setcookie("endereco",strval($medico->endereco),time()+60,"/");
+                    setcookie("especialidade",strval($medico->especialidade),time()+60,"/");
+                    setcookie("genero",strval($medico->genero),time()+60,"/");
+                    setcookie("infos",strval($medico->infos),time()+60,"/");
+
+                    echo '<div id="container">';
+                    echo 'Nome: ' .$nome .'<br>';
+                    echo 'E-mail: ' .$email .'<br>';
+                    echo 'Idade: ' .$idade .'<br>';
+                    echo 'Telefone: ' .$telefone .'<br>';
+                    echo 'CRM: ' .$crm .'<br>';
+                    echo 'Endereço: ' .$endereco .'<br>';
+                    echo 'Especialidade: ' .$especialidade .'<br>';
+                    echo 'Genero: ' .$genero .'<br>';
+                    echo 'Info: ' .$info .'<br>';
+                    echo '</div>';
                 }
             }
           ?>
+            <div class="submit">
+                <button type="button" id="form_button"><a href="alteraMedicos.php">Alterar</a></button>
+            </div>
       </div><!-- // End #container -->
 </body>
 </html>

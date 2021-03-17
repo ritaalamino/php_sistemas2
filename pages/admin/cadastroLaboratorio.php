@@ -1,7 +1,8 @@
 <?php
 
 //Incluindo bibliotecas
-include("../../php/funcoes.php");
+//include("../../php/funcoes.php");
+include("../../php/cadastraDB.php");
 
 ini_set( 'error_reporting', E_ALL );
 ini_set( 'display_errors', true );
@@ -17,31 +18,30 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != "admin")){
 
 $logado = $_SESSION['username'];
 
-$nome = $email = $senha = $idade = $telefone = $crm = "";
-$endereco = $especialidade = $genero = $infos = "";
+$nome = $email = $senha = $telefone = $cnpj = "";
+$endereco = $tipoExame = $infos = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //Pegando os dados fornecidos pelo formulario
   $nome = verifica($_POST["nome"]);
   $email = verifica($_POST["email"]);
   $senha = verifica($_POST["senha"]);
-  $idade = verifica($_POST["idade"]);
   $telefone = verifica($_POST["telefone"]);
-  $crm = verifica($_POST["crm"]);
+  $cnpj = verifica($_POST["cnpj"]);
   $endereco = verifica($_POST["endereco"]);
-  $especialidade = verifica($_POST["especialidade"]);
-  $genero = verifica($_POST["genero"]);
+  $tipoExame = verifica($_POST["tipoExame"]);
   $infos = verifica($_POST["infos"]);
 
-  if(jaExiste($email, "../../xml/medicos.xml")){
+  if(jaExisteLabDB('laboratorios', $email, $cnpj)){
     alerta("Usuário já existe!");
     redireciona("userAdmin.php");
   }else{
-    cadastraMedico($nome, $email, $senha, $idade, $telefone, $crm, $endereco, $especialidade, $genero, $infos);
+    cadastraLabDB($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos);
     alerta("Cadastro efetuado");
     redireciona("userAdmin.php");
   }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +60,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <div id="container">
-        <h1>&bull; Médico &bull;</h1>
+        <h1>&bull; Laboratório &bull;</h1>
         <div class="underline">
         </div>
         <form class='form' method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" onsubmit="return checkForm();" >
@@ -68,27 +68,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <label for="nome"></label>
             <h6 id="demo3"></h6>
             <input type="text" placeholder="Nome completo" name="nome" id="nome" required>
+            
           </div>
           <div class="name">
             <label for="email"></label>
             <h6 id="demo"></h6>
             <input type="text" placeholder="E-mail" name="email" id="email" required>
-            <h6 id="demo6"></h6>
+            <h6 id="demo4"></h6>
           </div>
+          
           <div class="email">
             <label for="senha"></label>
             <h6 id="demo2"></h6>
             <input type="password" placeholder="Senha" name="senha" id="senha" required>
           </div>
+          
           <div>
-            <label for="idade"></label>
-            
-            <input type="number" placeholder="Idade" name="idade" id="idade" required>
-          </div>
-          <div>
-            <label for="crm"></label>
-            <h6 id="demo4"></h6>
-            <input type="text" placeholder="CRM" name="crm" id="crm" required>
+            <label for="cnpj"></label>
+            <input type="text" placeholder="CNPJ" name="cnpj" id="cnpj" required>
+      
           </div>
           <div>
             <label for="telefone"></label>
@@ -100,16 +98,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="text" placeholder="Endereço" name="endereco" id="endereco" required>
           </div>
           <div>
-            <label for="especialidade"></label>
-            <input type="text" placeholder="Especialidade" name="especialidade" id="especialidade" required>
-          </div>
-          <div>
-            <label for="genero"></label>
-            <select placeholder="Gênero" name="genero" id="genero" required>
-              <option disabled hidden selected>Gênero</option>
-              <option>Feminino</option>
-              <option>Masculino</option>
-              <option>Outro</option>
+            <label for="tipoExame"></label>
+            <select placeholder="Especialidade de Exame" name="tipoExame" id="tipoExame" required>
+              <option disabled hidden selected>Tipo de Exame</option>
+              <option>Geral</option>
+              <option>Sangue</option>
+              <option>Ultrasom</option>
+              <option>Endoscopia</option>
             </select>
           </div>
           <div>
@@ -123,13 +118,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </form><!-- Fim form -->
       </div><!-- Fim #container -->
 
-      <script>
+    <script>
         function checkForm(){
           var nome = document.getElementById("nome").value
           var email = document.getElementById("email").value
-          var crm = document.getElementById("crm").value
+          var cnpj = document.getElementById("cnpj").value
           var telefone = document.getElementById("telefone").value
-          var idade = document.getElementById("idade").value
           var tudoOk = true;
           
 
@@ -138,7 +132,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           document.getElementById("demo3").innerHTML = "";
           document.getElementById("demo4").innerHTML = "";
           document.getElementById("demo5").innerHTML = "";
-          document.getElementById("demo6").innerHTML = "";
 
           if(email.indexOf('@')==-1 || email.indexOf('.')==-1){
             document.getElementById("demo").innerHTML = "Formato de e-mail inválido!";
@@ -161,18 +154,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               tudoOk=false;
           }
           
-          if(crm.length != 6){
-            document.getElementById("demo4").innerHTML = "Formato de CRM inválido!";
+          if(cnpj.length != 14){
+            document.getElementById("demo4").innerHTML = "Formato de CNPJ inválido!";
             tudoOk=false;
           }
 
           if(telefone.length < 11 || telefone.length > 12){
             document.getElementById("demo5").innerHTML = "Formato de telefone inválido!";
-            tudoOk=false;
-          }
-
-          if(idade < 0 || idade > 120){
-            document.getElementById("demo6").innerHTML = "Idade inválida!";
             tudoOk=false;
           }
 

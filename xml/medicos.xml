@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<users>
+<medicos>
   <medico>
-    <id>3</id>
-    <nome>Joana da Silva</nome>
-    <email>joana@medico.com</email>
+    <id>2001</id>
+    <nome>Suely Augusto Paes</nome>
+    <email>suely@gmail.com</email>
+    <idade>50</idade>
+    <telefone>15999999998</telefone>
+    <crm>123456</crm>
+    <endereco>Rua Augusto Freire, 980</endereco>
+    <especialidade>Pediátra</especialidade>
+    <genero>Feminino</genero>
+    <infos>Médica renomada</infos>
+    <senha>suely1234</senha>
+  </medico>
+  <medico>
+    <id>2002</id>
+    <nome>Luana Borges</nome>
+    <email>luana@gmail.com</email>
     <idade>25</idade>
-    <telefone>11321456788</telefone>
-    <crm>123456</crm>
-    <endereco>Rua Das Graças, 123</endereco>
-    <especialidade>Ornitorrinco</especialidade>
+    <telefone>15996048765</telefone>
+    <crm>123986</crm>
+    <endereco>Rua São Paulo, 23</endereco>
+    <especialidade>Ortopedista</especialidade>
     <genero>Feminino</genero>
-    <infos>Médica do consultório x</infos>
+    <infos>Especialista Internacional</infos>
   </medico>
   <medico>
-    <id>6</id>
-    <nome>Maria Madalena</nome>
-    <email>maria@medico.com</email>
-    <idade>58</idade>
-    <telefone>11968589898</telefone>
-    <crm>123456</crm>
-    <endereco>Rua Ponte 123</endereco>
-    <especialidade>Endocrino</especialidade>
+    <id>2003</id>
+    <nome>Prícilla Karen</nome>
+    <email>pri@furg.br</email>
+    <idade>23</idade>
+    <telefone>53996044883</telefone>
+    <crm>986302</crm>
+    <endereco>Rua João Costa, 45</endereco>
+    <especialidade>Cardiologista</especialidade>
     <genero>Feminino</genero>
-    <infos>adaasd</infos>
+    <infos>Em residência</infos>
+    <senha>pri1234</senha>
   </medico>
-</users>
+</medicos>

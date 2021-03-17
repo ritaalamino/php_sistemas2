@@ -42,14 +42,12 @@ $logado = $_SESSION['username'];
     <p data-item='Clínica RW'>Clínica RW</p>
 
     <section>
+    <div>Opções de cadastro de novo usuário:</div>
     <nav>
         <ul class="menuItems">
-        <li><a href='cadastro.php' data-item='Cadastro'>Cadastro</a></li>
-        <li><a href='consultaMedico.php' data-item='Médico'>Médicos</a></li>
-        <li><a href='consultaLaboratorio.php' data-item='Laboratório'>Laboratório</a></li>
-        <li><a href='consultaPaciente.php' data-item='Paciente'>Paciente</a></li>
-        <!-- <li><a href='consultas.php' data-item='Consultas'>Consultas</a></li>
-        <li><a href='exames.php' data-item='Exames'>Exames</a></li> -->
+        <li><a href='cadastroMedico.php' data-item='Médico'>Médicos</a></li>
+        <li><a href='cadastroLaboratorio.php' data-item='Laboratório'>Laboratório</a></li>
+        <li><a href='cadastroPaciente.php' data-item='Paciente'>Paciente</a></li>
         </ul>
     </nav>
 

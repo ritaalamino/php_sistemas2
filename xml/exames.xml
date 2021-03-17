@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <exames>
   <exame>
-    <id>1</id>
-    <data>2020-02-20</data>
-    <medico>Joana da Silva</medico>
-    <paciente>Rita Carolina Alamino Borges da Costa</paciente>
-    <lab>Jonipe</lab>
-    <email>ritaalamino@gmail.com</email>
-    <diagnostico>Santa</diagnostico>
-    <receita>fsdadasdas</receita>
-    <exames>adsdasasd</exames>
-    <infos>adsfdsfdsf</infos>
+    <id>4001</id>
+    <data>2021-03-26</data>
+    <medico>Suely Augusto Paes</medico>
+    <paciente>João Silva</paciente>
+    <lab>Laboratório IDS</lab>
+    <email>joao@email.com</email>
+    <exame>Ultrassom do pé</exame>
+    <infos>Paciente Normal</infos>
   </exame>
   <exame>
-    <id>2</id>
-    <data>2020-01-02</data>
-    <medico>Joana da Silva</medico>
-    <paciente>Rita Carolina Alamino Borges da Costa</paciente>
-    <lab>Jonipe</lab>
-    <email>ritaalamino@gmail.com</email>
-    <diagnostico>dadsa64das53</diagnostico>
-    <receita>da31sad1as3</receita>
-    <exames>fasdadfasdasd</exames>
-    <infos>fasfdasa</infos>
+    <id>4002</id>
+    <data>2021-03-24</data>
+    <medico>Prícilla Karen</medico>
+    <paciente>Taylor Camargo</paciente>
+    <lab>Laboratório Biolabor</lab>
+    <email>taylor@email.com</email>
+    <exame>Colesterol Total</exame>
+    <infos>Com urgência</infos>
   </exame>
 </exames>

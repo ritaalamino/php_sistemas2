@@ -1,40 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <?php
-ini_set( 'error_reporting', E_ALL );
-ini_set( 'display_errors', true );
-if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
-    session_start();
-}
-
-if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
-    unset($_SESSION['username']);
-    $_SESSION['valid'] = false;
-    unset($_SESSION['tipo']);
-    header('location:../../index.php');
-    }
-
-$logado = $_SESSION['username'];
-
-
-  function alterarCadastro($consultaID,$parametro,$valor){
-    $file = "../../xml/consultas.xml";
-    $xml = simplexml_load_file($file) or die("XML não acessado.");
-
-    for($i = 0; $i < $xml->count(); $i++){
-      if ($xml->consulta[$i]->id == $consultaID){
-        $xml->consulta[$i]->$parametro = $valor;
-      }
-    }
-  
-    //Salvando no xml
-    $dom = dom_import_simplexml($xml)->ownerDocument;
-    $dom->formatOutput = true;
-    $dom->preserveWhiteSpace = false;
-    $dom->loadXML($dom->saveXML());
-    $dom->save("../../xml/consultas.xml");
+  ini_set( 'error_reporting', E_ALL );
+  ini_set( 'display_errors', true );
+  if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+      session_start();
   }
+
+  if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
+      unset($_SESSION['username']);
+      $_SESSION['valid'] = false;
+      unset($_SESSION['tipo']);
+      header('location:../../index.php');
+  }
+
+  $logado = $_SESSION['username'];
 
 ?>
 
@@ -58,58 +37,61 @@ $logado = $_SESSION['username'];
         <div class="underline">
         </div>  
         <?php
-            $id = $lab = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
-            $receita = $exames = $infos = '';
+          //Funções
+          include("../../php/cadastraDB.php");
 
-            $flag = false;
-            $file = "../../xml/exames.xml";
-            $file2 = "../../xml/labs.xml";
-            $xml = simplexml_load_file($file);
-            $xml2 = simplexml_load_file($file2);
+          $id = $lab = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
+          $receita = $exames = $infos = '';
 
-            foreach ($xml->children() as $exame) {
-                foreach ($xml2->children() as $lab) {
-                  if(strval($lab->email) == strval($_SESSION['username'])){
-                    if (strval($exame->lab) == strval($lab->nome)){
-                      $id = $exame->id;
-                      $data= $exame->data;
-                      $medico= $exame->medico;
-                      $paciente= $exame->paciente;
-                      $lab = $exame->lab;
-                      $email = $exame->email;
-                      $diagnostico = $exame->diagnostico;
-                      $receita = $exame->receita;
-                      $exames = $exame->exames;
-                      $infos = $exame->infos;
-                      echo '<div id="container">';
-                      echo '<p>ID: ' .$id .'<br>';
-                      echo 'Paciente: ' .$paciente .'<br>';
-                      echo 'Laboratório: ' .$lab .'<br>';
-                      echo 'Data: ' .$data .'<br>';
-                      echo 'Médico: ' .$medico .'<br>';
-                      echo 'Email: ' .$email .'<br>';
-                      echo 'Diagnóstico: ' .$diagnostico .'<br>';
-                      echo 'Receita: ' .$receita .'<br>';
-                      echo 'Exames: ' .$exames .'<br>';
-                      echo 'Infos: ' .$infos .'<br>';
-                      setcookie("id", $id , time()+60000, '/');
-                      setcookie("tipo", 'exame' , time()+60000, '/');
-                      echo '<a href ="../../php/altera.php">Alterar</a>';
-                      echo '</div>';
-                      $flag = false;
-                      break 2;
-                    }
-                    else{
-                      $flag = true;
-                    }
-                  }
+          $idLab = pegaID('laboratorios', pegaNome($logado));
+
+          $server = "localhost";
+          $user = "root";
+          $pass = "";
+          $db = "CLINICA_PW";
+
+          try {
+              $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+              $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+              $sql = "SELECT * FROM exames WHERE id_laboratorio=:i";
+              $resposta = $conn->prepare($sql);
+              $resposta->bindParam(':i',$idLab);
+              $resposta->execute();
+              $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
+              //print_r($conteudo);
+
+              foreach ($conteudo as $Exame){
+                $data= $Exame['data'];
+                $medico= pegaNomeID($Exame['id_medico']);
+                $paciente= pegaNomeID($Exame['id_paciente']);
+                $lab = pegaNomeID($Exame['id_laboratorio']);
+                //$email = $Exame['email'];
+                $exames = $Exame['exame'];
+                $infos = $Exame['infos'];
+                echo '<div id="container">';
+                echo 'Data: ' .$data .'<br>';
+                echo 'Paciente: ' .$paciente .'<br>';
+                echo 'Médico: ' .$medico .'<br>';
+                echo 'Laboratório: ' .$lab .'<br>';
+                //echo 'Email: ' .$email .'<br>';
+                echo 'Exames: ' .$exames .'<br>';
+                echo 'Infos: ' .$infos .'<br>';
+                echo '</div>';
               }
+              
+          }catch (PDOEXception $e){
+              echo "Erro: " . "<br>" . $e->getMessage();
           }
-              if ($flag == true){
-                echo '<br><p>';
-                echo 'Não existem consultas para esse cadastro. </p>';
-              }
-          ?>
+      
+          $conn = null;
+          
+        ?>
+      
+        <div class="submit">
+          <button type="button" id="form_button"><a href="userLab.php">Voltar</a></button>
+        </div>
+ 
     </div>
 </body>
 </html>
