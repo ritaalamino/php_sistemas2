@@ -47,9 +47,9 @@ $logado = $_SESSION['username'];
             $medico = pegaNome($logado);
             $idMed = pegaID('medicos', $medico);
 
-            $server = "localhost";
+            $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
             $user = "root";
-            $pass = "";
+            $pass = "Oitona66.";
             $db = "CLINICA_PW";
 
             //$fileConsulta = simplexml_load_file("../../xml/consultas.xml");

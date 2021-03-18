@@ -4,6 +4,9 @@
   if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
       session_start();
   }
+
+  include("../../php/cadastraDB.php");
+  
   if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
       unset($_SESSION['username']);
       $_SESSION['valid'] = false;

@@ -37,9 +37,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $infos = verifica($_POST["message"]);
 
   //Fazendo conexão com o banco
-  $server = "localhost";
+  $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
   $user = "root";
-  $pass = "";
+  $pass = "Oitona66.";
   $db = "CLINICA_PW";
 
   try {
