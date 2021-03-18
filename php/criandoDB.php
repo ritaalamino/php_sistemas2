@@ -1,9 +1,9 @@
 <?php 
 
     function criandoDB(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -23,9 +23,9 @@
     }
 
     function criandoUserAdmin(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -54,9 +54,9 @@
     }
 
     function criandoTabelaMedico(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -89,9 +89,9 @@
     }
 
     function criandoTabelaPaciente(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -123,9 +123,9 @@
     }
 
     function criandoTabelaLaboratorio(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -156,9 +156,9 @@
     }
 
     function criandoTabelaExame(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -190,9 +190,9 @@
     }
 
     function criandoTabelaConsulta(){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -221,7 +221,7 @@
         $conn = null;
     }
 
-    criandoDB();
+    //criandoDB();
     //criandoUserAdmin();
     //criandoTabelaMedico();
     //criandoTabelaPaciente();
