@@ -13,40 +13,68 @@
 
   $logado = $_SESSION['username'];
 
-  $Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+  $medico = pegaNome($logado);
+  $pacientes = pegandoNomes('pacientes');
 
-  include("../../php/funcoes.php");
+  //$Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+
+  //include("../../php/funcoes.php");
   $data = $medico = $paciente = $diagnostico = $receita = "";
 
   if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    $medico = pegaNome($logado);
+    
     $data = verifica($_POST["data"]);
     $paciente = verifica($_POST["paciente"]);
     $diagnostico = verifica($_POST["diagnostico"]);
     $receita = verifica($_POST["receita"]);
 
-    $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
+    //$xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
 
-    $id = count($xml) +5001;
+    $server = "localhost";
+    $user = "root";
+    $pass = "";
+    $db = "CLINICA_PW";
+    //$id = count($xml) +5001;
 
-    $node = $xml->addChild('consulta');
-    $node->addChild('id',$id);
-    $node->addChild('data',$data);
-    $node->addChild('paciente',$paciente);
-    $node->addChild('medico',$medico);
-    $node->addChild('diagnostico',$diagnostico);
-    $node->addChild('receita',$receita);
+    try {
+        $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+        $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $dom = dom_import_simplexml($xml)->ownerDocument;
-    $dom->formatOutput = true;
-    $dom->preserveWhiteSpace = false;
-    $dom->loadXML($dom->saveXML());
-    $dom->save("../../xml/consultas.xml");
+        $sql = "SELECT COUNT(*) FROM exames;
+        ";
+        $resposta = $conn->query($sql);
+        $indice = $resposta->fetchAll(PDO::FETCH_ASSOC);
+        $indice = $indice[0]['COUNT(*)']+4001;
+        //print_r($indice);
 
-    alerta("Consulta cadastrada");
-    redireciona("userMed.php");
-  }
+        $idPaciente = pegaID('pacientes',$paciente);
+        $idMedico = pegaID('medicos', $medico);
+        $idLab = pegaID('laboratorios', pegaNome($logado));
+        
+        $sql = "INSERT INTO exames(
+            id, data, id_paciente,
+            id_medico, id_laboratorio, 
+            exame, infos
+        ) VALUES (:i, :d, :fkp, :fkm, :fkl, :diag, :re);
+        ";
+        $resposta = $conn->prepare($sql);
+        $resposta->bindParam(':i',$indice);
+        $resposta->bindParam(':d',$data);
+        $resposta->bindParam(':fkp',$idPaciente);
+        $resposta->bindParam(':fkm',$idMedico);
+        $resposta->bindParam(':diag',$diagnostico);
+        $resposta->bindParam(':re',$receita);
+        $resposta->execute();
+
+        alerta("Consulta Cadastrada.");
+        redireciona("userMed.php");
+
+        }catch (PDOEXception $e){
+            echo "Erro: " . "<br>" . $e->getMessage();
+        }
+      
+      }
 
 ?>
 

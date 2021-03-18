@@ -221,12 +221,12 @@
         $conn = null;
     }
 
-    //criandoDB();
+    criandoDB();
     //criandoUserAdmin();
     //criandoTabelaMedico();
     //criandoTabelaPaciente();
     //criandoTabelaLaboratorio();
     //criandoTabelaExame();
-    criandoTabelaConsulta();
+    //criandoTabelaConsulta();
 
 ?>

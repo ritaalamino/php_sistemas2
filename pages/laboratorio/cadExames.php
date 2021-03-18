@@ -17,8 +17,6 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
     }
 
 $logado = $_SESSION['username'];
-$logado = $_SESSION['username'];
-
 
 $medicos = pegandoNomes('medicos');
 $pacientes = pegandoNomes('pacientes');

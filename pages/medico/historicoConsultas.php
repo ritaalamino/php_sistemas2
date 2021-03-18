@@ -39,29 +39,57 @@ $logado = $_SESSION['username'];
         </div>  
         <?php
             //Funções
-            include("../../php/funcoes.php");
+            include("../../php/cadastraDB.php");
 
            
             $paciente = $data = $diagnostico = $receita = "";
+            
             $medico = pegaNome($logado);
+            $idMed = pegaID('medicos', $medico);
 
-            $fileConsulta = simplexml_load_file("../../xml/consultas.xml");
+            $server = "localhost";
+            $user = "root";
+            $pass = "";
+            $db = "CLINICA_PW";
+
+            //$fileConsulta = simplexml_load_file("../../xml/consultas.xml");
             //$Nomepaciente = pegaNome($logado);
 
-            foreach ($fileConsulta->children() as $Consulta){
-            if(strval($Consulta->medico) == strval($medico)){
-                $data= $Consulta->data;
-                $paciente= $Consulta->paciente;
-                $diagnostico = $Consulta->diagnostico;
-                $receita = $Consulta->receita;
-                echo '<div id="container">';
-                echo 'Data: ' .$data .'<br>';
-                echo 'Paciente: ' .$paciente .'<br>';
-                echo 'Diagnostico: ' .$diagnostico .'<br>';
-                echo 'Receita: ' .$receita .'<br>';
-                echo '</div>';
+            try {
+                $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+                $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+                $sql = "SELECT * FROM consultas WHERE id_medico=:i";
+                $resposta = $conn->prepare($sql);
+                $resposta->bindParam(':i',$idMed);
+                $resposta->execute();
+                $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
+                //print_r($conteudo);
+  
+                foreach ($conteudo as $consulta){
+                  $data= $consulta['data'];
+                  $medico= pegaNomeID($consulta['id_medico']);
+                  $paciente= pegaNomeID($consulta['id_paciente']);
+                  $lab = pegaNomeID($consulta['id_laboratorio']);
+                  //$email = $consulta['email'];
+                  $consultas = $consulta['exame'];
+                  $infos = $consulta['infos'];
+                  echo '<div id="container">';
+                  echo 'Data: ' .$data .'<br>';
+                  echo 'Paciente: ' .$paciente .'<br>';
+                  echo 'Médico: ' .$medico .'<br>';
+                  echo 'Laboratório: ' .$lab .'<br>';
+                  //echo 'Email: ' .$email .'<br>';
+                  echo 'Exames: ' .$consultas .'<br>';
+                  echo 'Infos: ' .$infos .'<br>';
+                  echo '</div>';
+                }
+                
+            }catch (PDOEXception $e){
+                echo "Erro: " . "<br>" . $e->getMessage();
             }
-            }
+        
+            $conn = null;
         ?>
         
         <div class="submit">

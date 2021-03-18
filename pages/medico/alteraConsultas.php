@@ -28,28 +28,44 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $diagnostico = verifica($_POST["diagnostico"]);
   $receita = verifica($_POST["receita"]);
 
-  $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
+  $indice = strval($_COOKIE['id']);
 
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->data = $data;
-      $consulta->medico = $medico;
-      $consulta->paciente = $paciente;
-      $consulta->diagnostico = $diagnostico;
-      $consulta->receita = $receita;
-    }
-  }
+  $server = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "CLINICA_PW";
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/consultas.xml");
+  try {
+    $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+    $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  alerta("Consulta alterada");
-  redireciona("userMed.php");
-} 
+    $sql = "UPDATE consultas SET data = :dt WHERE id = :id;
+            UPDATE consultas SET id_paciente = :idp WHERE id = :id;
+            UPDATE consultas SET id_medico = :idm WHERE id = :id;
+            UPDATE consultas SET diagnostico = :ex WHERE id = :id;
+            UPDATE consultas SET infos = :ifu WHERE id = :id;
+    ";
+    $resposta = $conn->prepare($sql);
+    $resposta->bindParam(':id',$indice);
+    $resposta->bindParam(':dt',$data);
+    $resposta->bindParam(':idp',$idPaciente);
+    $resposta->bindParam(':idm',$idMedico);
+    $resposta->bindParam(':ex',$diagnostico);
+    $resposta->bindParam(':ifu',$infos);
+    $resposta->execute();
+
+    alerta("Consulta alterada");
+    redireciona("userMed.php");
+    
+    
+}catch (PDOEXception $e){
+    echo "Erro: " . "<br>" . $e->getMessage();
+}
+
+$conn = null;
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -77,13 +93,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="date" placeholder="Data" name="data" id="data" value="<?php echo $_COOKIE['data'] ?>" required>
           </div>
           <div>
-            <label for="paciente"></label>
-            <select placeholder="Paciente" name="paciente" id="paciente" value="<?php echo $_COOKIE['paciente'] ?>" required>
-              <option disabled hidden selected>Paciente</option>
+            <label for="medico"></label>
+            <select placeholder="Médico" name="medico" id="medico" value="<?php echo $_COOKIE['medico'] ?>" required>
+              <option disabled hidden selected>Médico</option>
+              <option selected><?php echo strval($_COOKIE['medico']) ?></option>
+              <?php foreach($medicos as $medico){echo "<option>".$medico['nome']."</option>";} ?>
+            </select>
+          </div>
+          <div>
+            <label for="lab"></label>
+            <select placeholder="Paciente" name="paciente" id="paciente" required>
+              <option disabled hidden selected>Pacientes</option>
               <option selected><?php echo strval($_COOKIE['paciente']) ?></option>
-              <?php foreach($Pacientes as $Paciente){
-                if(strval($_COOKIE['paciente']) != strval($Paciente->nome))
-                echo "<option>".$Paciente->nome."</option>";} ?>
+              <?php foreach($pacientes as $paciente){echo "<option>".$paciente['nome']."</option>";} ?>
             </select>
           </div>
           <div>
