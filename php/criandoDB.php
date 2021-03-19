@@ -227,6 +227,6 @@
     //criandoTabelaPaciente();
     //criandoTabelaLaboratorio();
     //criandoTabelaExame();
-    criandoTabelaConsulta();
+    //criandoTabelaConsulta();
 
 ?>
