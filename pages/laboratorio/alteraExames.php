@@ -16,6 +16,7 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
 }
 
 $logado = $_SESSION['username'];
+
 $laboratorio = pegaNome($logado);
 $medicos = pegandoNomes('medicos');
 $pacientes = pegandoNomes('pacientes');
