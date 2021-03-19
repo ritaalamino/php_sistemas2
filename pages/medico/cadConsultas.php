@@ -15,8 +15,7 @@
       }
 
   $logado = $_SESSION['username'];
-
-  $medico = pegaNome($logado);
+//$medico = pegaNome($logado);
   $pacientes = pegandoNomes('pacientes');
 
   //$Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
@@ -32,19 +31,16 @@
     $diagnostico = verifica($_POST["diagnostico"]);
     $receita = verifica($_POST["receita"]);
 
-    //$xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
-
-    $server = "localhost";
+    $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
     $user = "root";
-    $pass = "";
+    $pass = "Oitona66.";
     $db = "CLINICA_PW";
-    //$id = count($xml) +5001;
 
     try {
         $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
         $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = "SELECT COUNT(*) FROM exames;
+        $sql = "SELECT COUNT(*) FROM consultas;
         ";
         $resposta = $conn->query($sql);
         $indice = $resposta->fetchAll(PDO::FETCH_ASSOC);
@@ -52,14 +48,12 @@
         //print_r($indice);
 
         $idPaciente = pegaID('pacientes',$paciente);
-        $idMedico = pegaID('medicos', $medico);
-        $idLab = pegaID('laboratorios', pegaNome($logado));
+        $idMedico = pegaID('medicos', pegaNome($logado));
         
-        $sql = "INSERT INTO exames(
+        $sql = "INSERT INTO consultas(
             id, data, id_paciente,
-            id_medico, id_laboratorio, 
-            exame, infos
-        ) VALUES (:i, :d, :fkp, :fkm, :fkl, :diag, :re);
+            id_medico, diagnostico, receita
+        ) VALUES (:i, :d, :fkp, :fkm, :diag, :re);
         ";
         $resposta = $conn->prepare($sql);
         $resposta->bindParam(':i',$indice);
@@ -105,11 +99,12 @@
             <label for="data"></label>
             <input type="date" placeholder="Data" name="data" id="data" required>
           </div>
+
           <div>
-            <label></label>
+          <label for="pac"></label>
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Pacientes</option>
-              <?php foreach($Pacientes as $Paciente){echo "<option>".$Paciente->nome."</option>";} ?>
+              <?php foreach($pacientes as $paciente){echo "<option>".$paciente['nome']."</option>";} ?>
             </select>
           </div>
           <div>

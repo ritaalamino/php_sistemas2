@@ -44,7 +44,7 @@ $logado = $_SESSION['username'];
           $id = $lab = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
           $receita = $exames = $infos = '';
 
-          $idLab = pegaID('laboratorios', pegaNome($logado));
+          $idPac = pegaID('pacientes', pegaNome($logado));
 
           $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
           $user = "root";
@@ -55,21 +55,20 @@ $logado = $_SESSION['username'];
               $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
               $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       
-              $sql = "SELECT * FROM exames";
+              $sql = "SELECT * FROM exames WHERE id_paciente = :idPac";
               $resposta = $conn->prepare($sql);
-              //$resposta->bindParam(':i',$idLab);
+              $resposta->bindParam(':idPac',$idPac);
               $resposta->execute();
               $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
-              //print_r($conteudo);
 
               foreach ($conteudo as $Exame){
                 $data= $Exame['data'];
                 $medico= pegaNomeID($Exame['id_medico']);
                 $paciente= pegaNomeID($Exame['id_paciente']);
                 $lab = pegaNomeID($Exame['id_laboratorio']);
-                //$email = $Exame['email'];
                 $exames = $Exame['exame'];
                 $infos = $Exame['infos'];
+
                 echo '<div id="container">';
                 echo 'Data: ' .$data .'<br>';
                 echo 'Paciente: ' .$paciente .'<br>';

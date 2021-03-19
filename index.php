@@ -22,14 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $userErr = "Nome é Obrigatório!";
       alerta($userErr);
       $user=false;
-  }/*else{
-      $username = verificaS($_POST["username"]);
-      if(!filter_var($username,FILTER_VALIDATE_EMAIL)){
-          $username = "Formato de e-mail inválido!";
-          alerta($username);
-          $user=false;
-      }
-  }*/
+  }
 
   if(empty($_POST["senha"])){
       $senhaErr = "Senha é Obrigatória!";
@@ -46,28 +39,28 @@ if($user===true && $sen===true){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
-    $_SESSION['username'] = $username; 
+    $_SESSION['username'] = $_POST["username"]; 
     $_SESSION['tipo'] = 'admin';
     header('location:pages/admin/userAdmin.php');   
   }elseif($verifica == "medico"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
-    $_SESSION['username'] = $username; 
+    $_SESSION['username'] = $_POST["username"]; 
     $_SESSION['tipo'] = 'medico'; 
     header('location:pages/medico/userMed.php');
   }elseif($verifica == "paciente"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time();
-    $_SESSION['username'] = $username; 
+    $_SESSION['username'] = $_POST["username"]; 
     $_SESSION['tipo'] = 'paciente'; 
     header("location:pages/paciente/userPac.php");
   }elseif($verifica == "lab"){
     session_start();
     $_SESSION['valid'] = true;
     $_SESSION['timeout'] = time()+1000;
-    $_SESSION['username'] = $username; 
+    $_SESSION['username'] = $_POST["username"]; 
     $_SESSION['tipo'] = 'lab'; 
     header("location:pages/laboratorio/userLab.php");
   }else{

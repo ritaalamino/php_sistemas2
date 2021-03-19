@@ -15,6 +15,8 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')
 
 $logado = $_SESSION['username'];
 
+include("../../php/cadastraDB.php");
+
 
 ?>
 

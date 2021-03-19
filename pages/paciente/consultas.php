@@ -42,45 +42,37 @@
            
             $paciente = $data = $diagnostico = $receita = "";
             
-            $medico = pegaNome($logado);
-            $idMed = pegaID('medicos', $medico);
+            $paciente = pegaNome($logado);
+            $idPac = pegaID('pacientes', $paciente);
 
             $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
             $user = "root";
             $pass = "Oitona66.";
             $db = "CLINICA_PW";
 
-            //$fileConsulta = simplexml_load_file("../../xml/consultas.xml");
-            //$Nomepaciente = pegaNome($logado);
-
             try {
                 $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
                 $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-                $sql = "SELECT * FROM consultas";
+                $sql = "SELECT * FROM consultas WHERE id_paciente = :idPac";
                 $resposta = $conn->prepare($sql);
-                //o que esse bind param faz?
-                //$resposta->bindParam(':i',$idMed);
+                $resposta->bindParam(':idPac',$idPac);
                 $resposta->execute();
                 $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
-                //print_r($conteudo);
   
                 foreach ($conteudo as $consulta){
                   $data= $consulta['data'];
                   $medico= pegaNomeID($consulta['id_medico']);
                   $paciente= pegaNomeID($consulta['id_paciente']);
-                  $lab = pegaNomeID($consulta['id_laboratorio']);
-                  //$email = $consulta['email'];
-                  $consultas = $consulta['exame'];
-                  $infos = $consulta['infos'];
+                  $diagnostico = $consulta['diagnostico'];
+                  $receita = $consulta['receita'];
+                  
                   echo '<div id="container">';
                   echo 'Data: ' .$data .'<br>';
                   echo 'Paciente: ' .$paciente .'<br>';
                   echo 'Médico: ' .$medico .'<br>';
-                  echo 'Laboratório: ' .$lab .'<br>';
-                  //echo 'Email: ' .$email .'<br>';
-                  echo 'Exames: ' .$consultas .'<br>';
-                  echo 'Infos: ' .$infos .'<br>';
+                  echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                  echo 'Receita: ' .$receita .'<br>';
                   echo '</div>';
                 }
                 

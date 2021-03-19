@@ -16,7 +16,7 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'lab')){
 }
 
 $logado = $_SESSION['username'];
-
+$laboratorio = pegaNome($logado);
 $medicos = pegandoNomes('medicos');
 $pacientes = pegandoNomes('pacientes');
 
@@ -32,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $data = verifica($_POST["data"]);
   $medico = verifica($_POST["medico"]);
   $paciente = verifica($_POST["paciente"]);
-  //$email = verifica($_POST["email"]);
+  $lab = verifica($_POST["laboratorio"]);
   $exames = verifica($_POST["exame"]);
   $infos = verifica($_POST["message"]);
 

@@ -28,31 +28,23 @@
             $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
             $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-            $sql = "SELECT * FROM usuarios WHERE email = :email";
+            $sql = "SELECT * FROM usuarios WHERE email = :email AND senha=:pass";
             $resposta = $conn->prepare($sql);
+
             $resposta->bindParam(':email',$email);
+            $resposta->bindParam(':pass',$password);
             $resposta->execute();
+            
             $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
-            //alerta($conteudo['email']);
-            if($conteudo['email'] == $email){
-                $sql = "SELECT * FROM usuarios WHERE senha=:pass";
-                $resposta = $conn->prepare($sql);
-                $resposta->bindParam(':pass',$password);
-                $resposta->execute();
-                $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
-                if($conteudo['senha'] == $password){
-                    alerta("deu");
-                    //$_SESSION["username"] = $email;
-                    return $conteudo['tipo'];
-                }else{
-                    alerta("Senha inválida!");
-                    return "";
-                }
-            }else{
-                alerta("E-mail inválido!");
-                return "";
-            };
-    
+
+            if ($conteudo['email'] == $email AND $conteudo['senha'] == $password){
+                alerta("Conectado!");
+                return $conteudo['tipo'];
+            } else {
+                alerta('Usuário ou senha inválidos.');
+                return ;
+            }
+
         }catch (PDOEXception $e){
             echo "Erro: " . "<br>" . $e->getMessage();
         }
@@ -76,7 +68,6 @@
             $resposta->bindParam(':i',$id);
             $resposta->execute();
             $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
-            //print_r($conteudo['nome']);
             return $conteudo['nome'];
             
         }catch (PDOEXception $e){

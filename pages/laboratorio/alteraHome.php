@@ -41,7 +41,7 @@
   }
 
   $conn = null;
-
+/*
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     $nomePaciente = $_POST["paciente"];
@@ -79,7 +79,7 @@
         echo "Erro: " . "<br>" . $e->getMessage();
     }
 
-  }
+  }*/
 
 ?>
 

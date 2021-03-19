@@ -70,18 +70,14 @@ $logado = $_SESSION['username'];
                   $data= $consulta['data'];
                   $medico= pegaNomeID($consulta['id_medico']);
                   $paciente= pegaNomeID($consulta['id_paciente']);
-                  $lab = pegaNomeID($consulta['id_laboratorio']);
-                  //$email = $consulta['email'];
-                  $consultas = $consulta['exame'];
-                  $infos = $consulta['infos'];
+                  $diagnostico = $consulta['diagnostico'];
+                  $receita = $consulta['receita'];
                   echo '<div id="container">';
                   echo 'Data: ' .$data .'<br>';
                   echo 'Paciente: ' .$paciente .'<br>';
                   echo 'Médico: ' .$medico .'<br>';
-                  echo 'Laboratório: ' .$lab .'<br>';
-                  //echo 'Email: ' .$email .'<br>';
-                  echo 'Exames: ' .$consultas .'<br>';
-                  echo 'Infos: ' .$infos .'<br>';
+                  echo 'Diagnóstico: ' .$diagnostico .'<br>';
+                  echo 'Receita: ' .$receita .'<br>';
                   echo '</div>';
                 }
                 
