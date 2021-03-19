@@ -46,6 +46,8 @@ $logado = $_SESSION['username'];
         <ul class="menuItems">
         <li><a href='consultas.php' data-item='Consultas'>Consultas</a></li>
         <li><a href='exames.php' data-item='Exames'>Exames</a></li>
+        <li><a href='relatorioExames.php' data-item='Relatório exames'>Relatório exames</a></li>
+        <li><a href='relatorioConsultas.php' data-item='Relatório consultas'>Relatório consultas</a></li>
         </ul>
     </nav>
 

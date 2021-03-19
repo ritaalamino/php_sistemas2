@@ -1,17 +1,36 @@
-<?php 
-  
+
+
+<?php
+    ini_set( 'error_reporting', E_ALL );
+    ini_set( 'display_errors', true );
+    if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
+        session_start();
+    }
+    if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')){
+        unset($_SESSION['username']);
+        $_SESSION['valid'] = false;
+        unset($_SESSION['tipo']);
+        header('location:../../index.php');
+        }
+
+    $logado = $_SESSION['username'];
+
+    include("../../php/cadastraDB.php");
+
+
   //$vetor = ['2021-04-29','2021-03-24','2021-03-25'];
   $anoAtual = date("Y");
   $numConsultas=0;
   $numMeses=0;
   
+
   $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
   $user = "root";
   $pass = "Oitona66.";
   $db = "CLINICA_PW";
 
-  //$idPac = pegaID('pacientes', pegaNome($logado));
-  $idPac = '1001';
+  $idPac = pegaID('pacientes', pegaNome($logado));
+  //$idPac = '1001';
 
   try {
       $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
@@ -22,11 +41,6 @@
       $resposta->bindParam(':i',$idPac);
       $resposta->execute();
       $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
-      //print_r($conteudo[0]['data']);
-
-      /*foreach ($conteudo as $elem){
-          print_r ($elem['data']);
-      }*/
 
         $vetorMeses = array(
             '01'=>0, '02'=>0, '03'=>0, '04'=>0,
@@ -64,7 +78,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <link href="../css/formulario.css" rel="stylesheet" media="all">
+    <link href="../../css/formulario.css" rel="stylesheet" media="all">
 
     <title>Contadores</title>
 
@@ -72,7 +86,7 @@
 <body>
 
     <div id="container">
-        <h1>&bull; Contadores &bull;</h1>
+        <h1>&bull; Relatório Exames &bull;</h1>
         <div class="underline">
         </div>  
         
@@ -93,8 +107,8 @@
                 <li>DEZ: <?php echo $vetorMeses['12']?></li>
             </ul>
 
-            <p>Média mensal de consultas: <?php echo $media?></p>
-            <p>Número de consultas no Ano de <?php echo $anoAtual." é: ".$numConsultas?></p>
+            <p>Média mensal de exames: <?php echo $media?></p>
+            <p>Número de exames no Ano de <?php echo $anoAtual." é: ".$numConsultas?></p>
 
         </div>
         

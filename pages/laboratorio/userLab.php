@@ -49,6 +49,7 @@ $logado = $_SESSION['username'];
         <li><a href='cadExames.php' data-item='Cadastra Exames'>Cadastra Exames</a></li>
         <li><a href='consultaExame.php' data-item='Histórico Exames'>Histórico Exames</a></li>
         <li><a href='alteraHome.php' data-item='Altera Exame'>Altera exame</a></li>
+        <li><a href='relatorioExames.php' data-item='Relatório exames'>Relatório exames</a></li>
         </ul>
     </nav>
 
