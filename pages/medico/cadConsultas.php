@@ -4,6 +4,9 @@
   if (session_status() == PHP_SESSION_NONE  || session_id() == '') {
       session_start();
   }
+
+  include("../../php/cadastraDB.php");
+  
   if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'medico')){
       unset($_SESSION['username']);
       $_SESSION['valid'] = false;
@@ -12,41 +15,63 @@
       }
 
   $logado = $_SESSION['username'];
+//$medico = pegaNome($logado);
+  $pacientes = pegandoNomes('pacientes');
 
-  $Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+  //$Pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
 
-  include("../../php/funcoes.php");
+  //include("../../php/funcoes.php");
   $data = $medico = $paciente = $diagnostico = $receita = "";
 
   if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    $medico = pegaNome($logado);
+    
     $data = verifica($_POST["data"]);
     $paciente = verifica($_POST["paciente"]);
     $diagnostico = verifica($_POST["diagnostico"]);
     $receita = verifica($_POST["receita"]);
 
-    $xml = simplexml_load_file("../../xml/consultas.xml") or die("ERRO: Não foi possível abrir o XML");
+    $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
+    $user = "root";
+    $pass = "Oitona66.";
+    $db = "CLINICA_PW";
 
-    $id = count($xml) +5001;
+    try {
+        $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+        $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $node = $xml->addChild('consulta');
-    $node->addChild('id',$id);
-    $node->addChild('data',$data);
-    $node->addChild('paciente',$paciente);
-    $node->addChild('medico',$medico);
-    $node->addChild('diagnostico',$diagnostico);
-    $node->addChild('receita',$receita);
+        $sql = "SELECT COUNT(*) FROM consultas;
+        ";
+        $resposta = $conn->query($sql);
+        $indice = $resposta->fetchAll(PDO::FETCH_ASSOC);
+        $indice = $indice[0]['COUNT(*)']+4001;
+        //print_r($indice);
 
-    $dom = dom_import_simplexml($xml)->ownerDocument;
-    $dom->formatOutput = true;
-    $dom->preserveWhiteSpace = false;
-    $dom->loadXML($dom->saveXML());
-    $dom->save("../../xml/consultas.xml");
+        $idPaciente = pegaID('pacientes',$paciente);
+        $idMedico = pegaID('medicos', pegaNome($logado));
+        
+        $sql = "INSERT INTO consultas(
+            id, data, id_paciente,
+            id_medico, diagnostico, receita
+        ) VALUES (:i, :d, :fkp, :fkm, :diag, :re);
+        ";
+        $resposta = $conn->prepare($sql);
+        $resposta->bindParam(':i',$indice);
+        $resposta->bindParam(':d',$data);
+        $resposta->bindParam(':fkp',$idPaciente);
+        $resposta->bindParam(':fkm',$idMedico);
+        $resposta->bindParam(':diag',$diagnostico);
+        $resposta->bindParam(':re',$receita);
+        $resposta->execute();
 
-    alerta("Consulta cadastrada");
-    redireciona("userMed.php");
-  }
+        alerta("Consulta Cadastrada.");
+        redireciona("userMed.php");
+
+        }catch (PDOEXception $e){
+            echo "Erro: " . "<br>" . $e->getMessage();
+        }
+      
+      }
 
 ?>
 
@@ -74,11 +99,12 @@
             <label for="data"></label>
             <input type="date" placeholder="Data" name="data" id="data" required>
           </div>
+
           <div>
-            <label></label>
+          <label for="pac"></label>
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Pacientes</option>
-              <?php foreach($Pacientes as $Paciente){echo "<option>".$Paciente->nome."</option>";} ?>
+              <?php foreach($pacientes as $paciente){echo "<option>".$paciente['nome']."</option>";} ?>
             </select>
           </div>
           <div>

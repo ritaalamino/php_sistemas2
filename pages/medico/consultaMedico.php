@@ -38,45 +38,64 @@ $logado = $_SESSION['username'];
         <?php
             $id = $paciente = $data = $lab = $diagnostico = $exames = $dados = "";
 
-            $file = "../../xml/medicos.xml";
-            $xml = simplexml_load_file($file);
+            $idLab = pegaID('laboratorios', pegaNome($logado));
+            
+            $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
+            $user = "root";
+            $pass = "Oitona66.";
+            $db = "CLINICA_PW";
 
-            foreach ($xml->children() as $medico) {
-                if($_SESSION['username'] == $medico->email){
-                    $id = $medico->id;
-                    $nome = $medico->nome;
-                    $email = $medico->email;
-                    $idade = $medico->idade;
-                    $telefone = $medico->telefone;
-                    $crm = $medico->crm;
-                    $endereco = $medico->endereco;
-                    $especialidade = $medico->especialidade;
-                    $genero = $medico->genero;
-                    $info = $medico->infos;
-                    setcookie("id",strval($medico->id),time()+60,"/");
-                    setcookie("nome",strval($medico->nome),time()+60,"/");
-                    setcookie("email",strval($medico->email),time()+60,"/");
-                    setcookie("idade",strval($medico->idade),time()+60,"/");
-                    setcookie("telefone",strval($medico->telefone),time()+60,"/");
-                    setcookie("crm",strval($medico->crm),time()+60,"/");
-                    setcookie("endereco",strval($medico->endereco),time()+60,"/");
-                    setcookie("especialidade",strval($medico->especialidade),time()+60,"/");
-                    setcookie("genero",strval($medico->genero),time()+60,"/");
-                    setcookie("infos",strval($medico->infos),time()+60,"/");
+            try {
+                $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+                $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+                $sql = "SELECT * FROM medicos WHERE id=:i";
+                $resposta = $conn->prepare($sql);
+                $resposta->bindParam(':i',$idLab);
+                $resposta->execute();
+                $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
+                //print_r($conteudo);
+             
+                setcookie("id",strval($conteudo['id']),time()+60,"/");
+                setcookie("nome",strval($conteudo['nome']),time()+60,"/");
+                setcookie("email",strval($conteudo['email']),time()+60,"/");
+                setcookie("idade",strval($conteudo['idade']),time()+60,"/");
+                setcookie("telefone",strval($conteudo['telefone']),time()+60,"/");
+                setcookie("crm",strval($conteudo['crm']),time()+60,"/");
+                setcookie("endereco",strval($conteudo['endereco']),time()+60,"/");
+                setcookie("especialidade",strval($conteudo['especialidade']),time()+60,"/");
+                setcookie("genero",strval($conteudo['genero']),time()+60,"/");
+                setcookie("infos",strval($conteudo['infos']),time()+60,"/");
 
-                    echo '<div id="container">';
-                    echo 'Nome: ' .$nome .'<br>';
-                    echo 'E-mail: ' .$email .'<br>';
-                    echo 'Idade: ' .$idade .'<br>';
-                    echo 'Telefone: ' .$telefone .'<br>';
-                    echo 'CRM: ' .$crm .'<br>';
-                    echo 'Endereço: ' .$endereco .'<br>';
-                    echo 'Especialidade: ' .$especialidade .'<br>';
-                    echo 'Genero: ' .$genero .'<br>';
-                    echo 'Info: ' .$info .'<br>';
-                    echo '</div>';
-                }
+                $nome = $conteudo['nome'];
+                $email = $conteudo['email'];
+                $idade = $conteudo['idade'];
+                $telefone = $conteudo['telefone'];
+                $crm = $conteudo['crm'];
+                $endereco = $conteudo['endereco'];
+                $especialidade = $conteudo['especialidade'];
+                $genero = $conteudo['genero'];
+                $infos = $conteudo['infos'];
+
+                echo '<div id="container">';
+                echo 'Nome: ' .$nome .'<br>';
+                echo 'Email: ' .$email .'<br>';
+                echo 'Idade: ' .$idade .'<br>';
+                echo 'Telefone: ' .$telefone .'<br>';
+                echo 'CRM: ' .$crm .'<br>';
+                echo 'Endereço: ' .$endereco .'<br>';
+                echo 'Especialidade: ' .$especialidade .'<br>';
+                echo 'Genero: ' .$genero .'<br>';
+                echo 'Infos: ' .$infos .'<br>';
+                echo '</div>';
+                
+                
+            }catch (PDOEXception $e){
+                echo "Erro: " . "<br>" . $e->getMessage();
             }
+        
+            $conn = null;        
+
           ?>
             <div class="submit">
                 <button type="button" id="form_button"><a href="alteraMedicos.php">Alterar</a></button>

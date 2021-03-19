@@ -15,6 +15,8 @@ if((!isset ($_SESSION['username']) == true) or ($_SESSION['tipo'] != 'paciente')
 
 $logado = $_SESSION['username'];
 
+include("../../php/cadastraDB.php");
+
 
 ?>
 
@@ -33,49 +35,69 @@ $logado = $_SESSION['username'];
 </head>
 <body>
     <div id="container">
-        <h1>&bull; <?php echo $logado;?> &bull;</h1>
+        <h1>&bull; <?php echo pegaNome($logado);?> &bull;</h1>
         <div class="underline">
         </div>
 
         <?php
             $id = $nome = $email = $idade = $telefone = $cpf = $endereco = "";
             $genero = $infos = '';
+            
+            $paciente = pegaNome($logado);
+            $idPac = pegaID('pacientes', $paciente);
+            
+            $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
+            $user = "root";
+            $pass = "Oitona66.";
+            $db = "CLINICA_PW";
 
-            $xml = simplexml_load_file("../../xml/pacientes.xml");
+            try {
+                $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+                $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+                $sql = "SELECT * FROM pacientes WHERE id=:i";
+                $resposta = $conn->prepare($sql);
+                $resposta->bindParam(':i',$idPac);
+                $resposta->execute();
+                $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
+                //print_r($conteudo);
+             
+                setcookie("id",strval($conteudo['id']),time()+60,"/");
+                setcookie("nome",strval($conteudo['nome']),time()+60,"/");
+                setcookie("email",strval($conteudo['email']),time()+60,"/");
+                setcookie("idade",strval($conteudo['idade']),time()+60,"/");
+                setcookie("telefone",strval($conteudo['telefone']),time()+60,"/");
+                setcookie("cpf",strval($conteudo['cpf']),time()+60,"/");
+                setcookie("endereco",strval($conteudo['endereco']),time()+60,"/");
+                setcookie("genero",strval($conteudo['genero']),time()+60,"/");
+                setcookie("infos",strval($conteudo['infos']),time()+60,"/");
 
-            foreach ($xml as $paciente) {
-                //echo $_SESSION['username'] .' -> ' .$paciente->email .'<br>';
-                if($_SESSION['username'] == $paciente->email){
-                    setcookie("id",strval($paciente->id),time()+60,"/");
-                    setcookie("nome",strval($paciente->nome),time()+60,"/");
-                    setcookie("email",strval($paciente->email),time()+60,"/");
-                    setcookie("idade",strval($paciente->idade),time()+60,"/");
-                    setcookie("telefone",strval($paciente->telefone),time()+60,"/");
-                    setcookie("cpf",strval($paciente->cpf),time()+60,"/");
-                    setcookie("endereco",strval($paciente->endereco),time()+60,"/");
-                    setcookie("genero",strval($paciente->genero),time()+60,"/");
-                    setcookie("infos",strval($paciente->infos),time()+60,"/");
-                    $nome = $paciente->nome;
-                    $email = $paciente->email;
-                    $idade = $paciente->idade;
-                    $telefone = $paciente->telefone;
-                    $cpf = $paciente->cpf;
-                    $endereco = $paciente->endereco;
-                    $genero = $paciente->genero;
-                    $info = $paciente->infos;
-                }
+                $nome = $conteudo['nome'];
+                $email = $conteudo['email'];
+                $idade = $conteudo['idade'];
+                $telefone = $conteudo['telefone'];
+                $cpf = $conteudo['cpf'];
+                $endereco = $conteudo['endereco'];
+                $genero = $conteudo['genero'];
+                $infos = $conteudo['infos'];
+
+                echo '<div id="container">';
+                echo 'Nome: ' .$nome .'<br>';
+                echo 'Email: ' .$email .'<br>';
+                echo 'Idade: ' .$idade .'<br>';
+                echo 'Telefone: ' .$telefone .'<br>';
+                echo 'CPF: ' .$cpf .'<br>';
+                echo 'Endereço: ' .$endereco .'<br>';
+                echo 'Gênero: ' .$genero .'<br>';
+                echo 'Infos: ' .$infos .'<br>';
+                echo '</div>';
+                
+                
+            }catch (PDOEXception $e){
+                echo "Erro: " . "<br>" . $e->getMessage();
             }
-
-            echo '<div id="container">';
-            echo 'Nome: ' .$nome .'<br>';
-            echo 'E-mail: ' .$email .'<br>';
-            echo 'Idade: ' .$idade .'<br>';
-            echo 'Telefone: ' .$telefone .'<br>';
-            echo 'CPF: ' .$cpf .'<br>';
-            echo 'Endereço: ' .$endereco .'<br>';
-            echo 'Genero: ' .$genero .'<br>';
-            echo 'Info: ' .$info .'<br>';
-            echo '</div>';
+        
+            $conn = null;            
           ?>
 
         <div class="submit">

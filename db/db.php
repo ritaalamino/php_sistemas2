@@ -1,22 +1,31 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <?php
+    try {
+        $dbhost = 'clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com';
+        $dbport = 3306;
+        $charset = 'utf8' ;
 
-$servername = "clinicarw-1.cdvmnfrkbalc.us-east-2.rds.amazonaws.com";
-$port = 3306;
-$username = "admin";
-$password = "D15Vd6y5RyktJ2a5f6Ci";
-$db = 'clinica';
-//$dbname = "phpmyadmin";
+        $dsn = "mysql:host={$dbhost};port={$dbport};charset={$charset}";
+        $username = 'root';
+        $password = 'Oitona66.';
 
-try {
-    $conn = new PDO("mysql:host=$servername:3306;dbname=$db", $username, $password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully."; 
+        $pdo = new PDO($dsn, $username, $password);
 
-    
-}
-catch(PDOException $e)
-{
-    echo "Connection failed: " . $e->getMessage();
-}
-?>
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully."; 
+    }
+    catch(PDOException $e){
+        echo "Connection failed: " . $e->getMessage();
+    }
+
+    ?>
+</body>
+</html>

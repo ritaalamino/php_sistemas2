@@ -19,40 +19,32 @@
     }
 
     function verificaAcessoDB($email, $password){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
             $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
             $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-            $sql = "SELECT * FROM usuarios WHERE email = :email";
+            $sql = "SELECT * FROM usuarios WHERE email = :email AND senha=:pass";
             $resposta = $conn->prepare($sql);
+
             $resposta->bindParam(':email',$email);
+            $resposta->bindParam(':pass',$password);
             $resposta->execute();
+            
             $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
-            //alerta($conteudo['email']);
-            if($conteudo['email'] == $email){
-                $sql = "SELECT * FROM usuarios WHERE senha=:pass";
-                $resposta = $conn->prepare($sql);
-                $resposta->bindParam(':pass',$password);
-                $resposta->execute();
-                $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
-                if($conteudo['senha'] == $password){
-                    alerta("deu");
-                    //$_SESSION["username"] = $email;
-                    return $conteudo['tipo'];
-                }else{
-                    alerta("Senha inválida!");
-                    return "";
-                }
-            }else{
-                alerta("E-mail inválido!");
-                return "";
-            };
-    
+
+            if ($conteudo['email'] == $email AND $conteudo['senha'] == $password){
+                alerta("Conectado!");
+                return $conteudo['tipo'];
+            } else {
+                alerta('Usuário ou senha inválidos.');
+                return ;
+            }
+
         }catch (PDOEXception $e){
             echo "Erro: " . "<br>" . $e->getMessage();
         }
@@ -62,9 +54,9 @@
     }
     
     function pegaNomeID($id){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -76,7 +68,6 @@
             $resposta->bindParam(':i',$id);
             $resposta->execute();
             $conteudo = $resposta->fetch(PDO::FETCH_ASSOC);
-            //print_r($conteudo['nome']);
             return $conteudo['nome'];
             
         }catch (PDOEXception $e){
@@ -87,9 +78,9 @@
     }
 
     function pegaNome($email){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -112,9 +103,9 @@
     }
 
     function pegaID($tabela, $nome){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -137,9 +128,9 @@
     }
 
     function pegandoNomes($tabela){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -160,9 +151,9 @@
     }
 
     function jaExisteDB($tabela, $email, $cpf){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
         $tudoOk=false;
 
@@ -205,9 +196,9 @@
     }
 
     function jaExisteMedDB($tabela, $email, $crm){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
         $tudoOk=false;
 
@@ -250,9 +241,9 @@
     }
 
     function jaExisteLabDB($tabela, $email, $cnpj){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
         $tudoOk=false;
 
@@ -295,9 +286,9 @@
     }
 
     function cadastraLabDB($nome, $email, $senha, $telefone, $cnpj, $endereco, $tipoExame, $infos){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -353,9 +344,9 @@
     }
 
     function cadastraMedicoDB($nome, $email, $senha, $idade, $telefone, $crm, $endereco, $especialidade, $genero, $infos){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {
@@ -413,9 +404,9 @@
     }
 
     function cadastraPacienteDB($nome, $email, $senha, $idade, $telefone, $cpf, $endereco, $genero, $infos){
-        $server = "localhost";
+        $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
         $user = "root";
-        $pass = "";
+        $pass = "Oitona66.";
         $db = "CLINICA_PW";
 
         try {

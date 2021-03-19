@@ -46,9 +46,9 @@ $logado = $_SESSION['username'];
 
             $idLab = pegaID('laboratorios', pegaNome($logado));
             
-            $server = "localhost";
+            $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
             $user = "root";
-            $pass = "";
+            $pass = "Oitona66.";
             $db = "CLINICA_PW";
 
             try {

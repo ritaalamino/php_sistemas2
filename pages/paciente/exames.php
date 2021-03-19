@@ -39,34 +39,53 @@ $logado = $_SESSION['username'];
         </div>  
         <?php
           //Funções
-          include("../../php/funcoes.php");
+          include("../../php/cadastraDB.php");
 
-          $data = $medico = $paciente = $email = "";
-          $lab = $exames = $infos = '';
+          $id = $lab = $data = $medico = $paciente = $email = $diagnostico = $receita = "";
+          $receita = $exames = $infos = '';
 
-          $fileExames = simplexml_load_file("../../xml/exames.xml");
-          //$Nomepaciente = pegaNome($logado);
+          $idPac = pegaID('pacientes', pegaNome($logado));
 
-          foreach ($fileExames->children() as $Exame){
-            if(strval($Exame->email) == strval($logado)){
-              $data= $Exame->data;
-              $medico= $Exame->medico;
-              $paciente= $Exame->paciente;
-              $lab = $Exame->lab;
-              $email = $Exame->email;
-              $exames = $Exame->exame;
-              $infos = $Exame->infos;
-              echo '<div id="container">';
-              echo 'Paciente: ' .$paciente .'<br>';
-              echo 'Laboratório: ' .$lab .'<br>';
-              echo 'Data: ' .$data .'<br>';
-              echo 'Médico: ' .$medico .'<br>';
-              echo 'Email: ' .$email .'<br>';
-              echo 'Exames: ' .$exames .'<br>';
-              echo 'Infos: ' .$infos .'<br>';
-              echo '</div>';
-            }
+          $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
+          $user = "root";
+          $pass = "Oitona66.";
+          $db = "CLINICA_PW";
+
+          try {
+              $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+              $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+              $sql = "SELECT * FROM exames WHERE id_paciente = :idPac";
+              $resposta = $conn->prepare($sql);
+              $resposta->bindParam(':idPac',$idPac);
+              $resposta->execute();
+              $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
+
+              foreach ($conteudo as $Exame){
+                $data= $Exame['data'];
+                $medico= pegaNomeID($Exame['id_medico']);
+                $paciente= pegaNomeID($Exame['id_paciente']);
+                $lab = pegaNomeID($Exame['id_laboratorio']);
+                $exames = $Exame['exame'];
+                $infos = $Exame['infos'];
+
+                echo '<div id="container">';
+                echo 'Data: ' .$data .'<br>';
+                echo 'Paciente: ' .$paciente .'<br>';
+                echo 'Médico: ' .$medico .'<br>';
+                echo 'Laboratório: ' .$lab .'<br>';
+                //echo 'Email: ' .$email .'<br>';
+                echo 'Exames: ' .$exames .'<br>';
+                echo 'Infos: ' .$infos .'<br>';
+                echo '</div>';
+              }
+              
+          }catch (PDOEXception $e){
+              echo "Erro: " . "<br>" . $e->getMessage();
           }
+      
+          $conn = null;
+          
         ?>
       
         <div class="submit">

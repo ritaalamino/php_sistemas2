@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-  include("../../php/funcoes.php");
+  include("../../php/cadastraDB.php");
 
   ini_set( 'error_reporting', E_ALL );
   ini_set( 'display_errors', true );
@@ -17,28 +17,31 @@
 
   $logado = $_SESSION['username'];
 
-  $fileConsulta = simplexml_load_file("../../xml/consultas.xml");
+  $conteudo = "";
 
-  $data="";
-  $medico = pegaNome($logado);
+  $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
+  $user = "root";
+  $pass = "Oitona66.";
+  $db = "CLINICA_PW";
 
-  if($_SERVER["REQUEST_METHOD"] == "POST"){
+  try {
+    $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+    $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $idMed = pegaID('medicos', pegaNome($logado));
+
+    $sql = "SELECT id_paciente FROM consultas WHERE id_medico=:i";
+    $resposta = $conn->prepare($sql);
+    $resposta->bindParam(':i',$idMed);
+    $resposta->execute();
+    $conteudo = $resposta->fetchAll(PDO::FETCH_ASSOC);
+    //print_r($conteudo);
     
-    $nomePaciente = $_POST["paciente"];
+}catch (PDOEXception $e){
+    echo "Erro: " . "<br>" . $e->getMessage();
+}
 
-    foreach($fileConsulta as $Consulta){
-      if(strval($Consulta->paciente) == strval($nomePaciente)){
-        setcookie("id",strval($Consulta->id),time()+60,"/");
-        setcookie("data",strval($Consulta->data),time()+60,"/");
-        setcookie("medico",strval($Consulta->medico),time()+60,"/");
-        setcookie("paciente",strval($Consulta->paciente),time()+60,"/");
-        setcookie("diagnostico",strval($Consulta->diagnostico),time()+60,"/");
-        setcookie("receita",strval($Consulta->receita),time()+60,"/");
-      }
-    }
-    
-    redireciona("alteraConsultas.php");
-  }
+$conn = null;
 
 ?>
 
@@ -70,11 +73,9 @@
             <label for="paciente"></label>
             <select placeholder="Paciente" name="paciente" id="paciente" required>
               <option disabled hidden selected>Paciente</option>
-              <?php foreach($fileConsulta as $Consulta){
-                if(strval($medico) == strval($Consulta->medico)){
-                  echo "<option>".$Consulta->paciente."</option>";
-                }
-              }?>
+              <?php foreach($conteudo as $nomeP){
+                echo "<option>".pegaNomeID($nomeP['id_paciente'])."</option>";
+              } ?>
             </select>
           </div>
           <div class="submit">

@@ -1,9 +1,9 @@
 <?php
 
-$medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
-$labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
-$pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
-$generos = simplexml_load_file("../../xml/tipoGeneros.xml") or die("ERRO: Não foi possível abrir o XML");
+// $medicos = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+// $labs = simplexml_load_file("../../xml/labs.xml") or die("ERRO: Não foi possível abrir o XML");
+// $pacientes = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+// $generos = simplexml_load_file("../../xml/tipoGeneros.xml") or die("ERRO: Não foi possível abrir o XML");
 
 //Incluindo bibliotecas
 include("../../php/funcoes.php");
@@ -41,53 +41,64 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
-  
-  $xml = simplexml_load_file("../../xml/medicos.xml") or die("ERRO: Não foi possível abrir o XML");
+  $indice = strval($_COOKIE['id']);
 
-  foreach($xml as $medico){
-    if (strval($medico->id) == strval($_COOKIE['id'])){
-      $medico->nome = $nome;
-      $medico->email = $email;
-      $medico->senha = $senha;
-      $medico->idade = $idade;
-      $medico->telefone = $telefone;
-      $medico->crm = $crm;
-      $medico->endereco = $endereco;
-      $medico->especialidade = $especialidade;
-      $medico->genero = $genero;
-      $medico->infos = $infos;
-    }
+  $server = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "CLINICA_PW";
+
+
+  try {
+      $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+      $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $sql = "UPDATE medicos SET nome = :n WHERE id = :id;
+              UPDATE medicos SET email = :e WHERE id = :id;
+              UPDATE medicos SET senha = :s WHERE id = :id;
+              UPDATE medicos SET telefone = :t WHERE id = :id;
+              UPDATE medicos SET crm = :c WHERE id = :id;
+              UPDATE medicos SET endereco = :en WHERE id = :id;
+              UPDATE medicos SET especialidade = :es WHERE id = :id;
+              UPDATE medicos SET genero = :gen WHERE id = :id;
+              UPDATE medicos SET idade = :ide WHERE id = :id;
+              UPDATE medicos SET infos = :ifu WHERE id = :id;
+      ";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':id',$indice);
+      $resposta->bindParam(':n',$nome);
+      $resposta->bindParam(':e',$email);
+      $resposta->bindParam(':s',$senha);
+      $resposta->bindParam(':ide',$idade);
+      $resposta->bindParam(':t',$telefone);
+      $resposta->bindParam(':c',$crm);
+      $resposta->bindParam(':en',$endereco);
+      $resposta->bindParam(':es',$especialidade);
+      $resposta->bindParam(':gen',$genero);
+      $resposta->bindParam(':ifu',$infos);
+      $resposta->execute();
+
+      $sql = "UPDATE usuarios SET nome = :n WHERE id = :id;
+              UPDATE usuarios SET email = :e WHERE id = :id;
+              UPDATE usuarios SET senha = :s WHERE id = :id;
+      ";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':id',$indice);
+      $resposta->bindParam(':n',$nome);
+      $resposta->bindParam(':e',$email);
+      $resposta->bindParam(':s',$senha);
+      $resposta->execute();
+      
+      alerta("Cadastro atualizado");
+      redireciona("userMed.php");
+      
+  }catch (PDOEXception $e){
+      echo "Erro: " . "<br>" . $e->getMessage();
   }
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/medicos.xml");
+  $conn = null;
 
-  //Salvando dados no user.xml para login
-  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
-
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->nome = $nome;
-      $consulta->login = $email;
-      $consulta->senha = $senha;
-    }
   }
-
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/user.xml"); 
-
-  alerta("Cadastro alterado");
-  redireciona("userMed.php");
-
-}
 
 
 ?>

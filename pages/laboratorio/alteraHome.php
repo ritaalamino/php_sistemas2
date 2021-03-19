@@ -18,9 +18,9 @@
   $logado = $_SESSION['username'];
   $conteudo = "";
 
-  $server = "localhost";
+  $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
   $user = "root";
-  $pass = "";
+  $pass = "Oitona66.";
   $db = "CLINICA_PW";
 
   try {
@@ -41,14 +41,14 @@
   }
 
   $conn = null;
-
+/*
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     $nomePaciente = $_POST["paciente"];
 
-    $server = "localhost";
+    $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
     $user = "root";
-    $pass = "";
+    $pass = "Oitona66.";
     $db = "CLINICA_PW";
 
     try {
@@ -79,7 +79,7 @@
         echo "Erro: " . "<br>" . $e->getMessage();
     }
 
-  }
+  }*/
 
 ?>
 

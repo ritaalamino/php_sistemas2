@@ -38,52 +38,63 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $genero = verifica($_POST["genero"]);
   $infos = verifica($_POST["infos"]);
 
+  $indice = strval($_COOKIE['id']);
   
-  $xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+  $server = "clinicapw.cr3c0eja1r0m.sa-east-1.rds.amazonaws.com";
+  $user = "root";
+  $pass = "Oitona66.";
+  $db = "CLINICA_PW";
 
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->nome = $nome;
-      $consulta->email = $email;
-      $consulta->senha = $senha;
-      $consulta->idade = $idade;
-      $consulta->telefone = $telefone;
-      $consulta->cpf = $cpf;
-      $consulta->endereco = $endereco;
-      $consulta->genero = $genero;
-      $consulta->infos = $infos;
-    }
+  //$xml = simplexml_load_file("../../xml/pacientes.xml") or die("ERRO: Não foi possível abrir o XML");
+
+  try {
+      $conn = new PDO ("mysql:dbname=$db;host=$server", $user, $pass);
+      $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $sql = "UPDATE pacientes SET nome = :n WHERE id = :id;
+              UPDATE pacientes SET email = :e WHERE id = :id;
+              UPDATE pacientes SET senha = :s WHERE id = :id;
+              UPDATE pacientes SET telefone = :t WHERE id = :id;
+              UPDATE pacientes SET cpf = :c WHERE id = :id;
+              UPDATE pacientes SET endereco = :en WHERE id = :id;
+              UPDATE pacientes SET genero = :gen WHERE id = :id;
+              UPDATE pacientes SET idade = :ide WHERE id = :id;
+              UPDATE pacientes SET infos = :ifu WHERE id = :id;
+      ";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':id',$indice);
+      $resposta->bindParam(':n',$nome);
+      $resposta->bindParam(':e',$email);
+      $resposta->bindParam(':s',$senha);
+      $resposta->bindParam(':ide',$idade);
+      $resposta->bindParam(':t',$telefone);
+      $resposta->bindParam(':c',$cpf);
+      $resposta->bindParam(':en',$endereco);
+      $resposta->bindParam(':gen',$genero);
+      $resposta->bindParam(':ifu',$infos);
+      $resposta->execute();
+
+      $sql = "UPDATE usuarios SET nome = :n WHERE id = :id;
+              UPDATE usuarios SET email = :e WHERE id = :id;
+              UPDATE usuarios SET senha = :s WHERE id = :id;
+      ";
+      $resposta = $conn->prepare($sql);
+      $resposta->bindParam(':id',$indice);
+      $resposta->bindParam(':n',$nome);
+      $resposta->bindParam(':e',$email);
+      $resposta->bindParam(':s',$senha);
+      $resposta->execute();
+      
+      alerta("Cadastro atualizado.");
+      redireciona("userPac.php");
+      
+  }catch (PDOEXception $e){
+      echo "Erro: " . "<br>" . $e->getMessage();
   }
 
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/pacientes.xml");
+  $conn = null;
 
-  //Salvando dados no user.xml para login
-  $xml = simplexml_load_file("../../xml/user.xml") or die("ERRO: Não foi possível abrir o XML");
-
-  foreach($xml as $consulta){
-    if (strval($consulta->id) == strval($_COOKIE['id'])){
-      $consulta->nome = $nome;
-      $consulta->login = $email;
-      $consulta->senha = $senha;
-    }
   }
-
-  //Salvando no xml
-  $dom = dom_import_simplexml($xml)->ownerDocument;
-  $dom->formatOutput = true;
-  $dom->preserveWhiteSpace = false;
-  $dom->loadXML($dom->saveXML());
-  $dom->save("../../xml/user.xml"); 
-
-  alerta("Cadastro alterado");
-  redireciona("userPac.php");
-
-}
 
 ?>
 
